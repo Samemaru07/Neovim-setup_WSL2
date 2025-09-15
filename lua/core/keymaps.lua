@@ -72,12 +72,10 @@ end
 
 
 -- バッファを横に並べる（vertical split）
-map({ "n" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
-map("t", "<leader>bv", "<C-\\><C-n><cmd>vsplit<CR>", opts)
+map("n", "<leader>bv", "<cmd>vsplit<CR>", opts)
 
 -- バッファを縦に並べる（horizontal split）
-map({ "n" }, "<leader>bh", "<cmd>split<CR>", opts)
-map("t", "<leader>bh", "<C-\\><C-n><cmd>split<CR>", opts)
+map("n", "<leader>bh", "<cmd>split<CR>", opts)
 
 
 -- 行移動（<leader>↑↓）
@@ -148,11 +146,6 @@ map("n", "<leader>pd", "<C-f>", opts)
 map("n", "<leader>pu", "<C-b>", opts)
 map("n", "<leader>pt", "gg", opts)
 map("n", "<leader>pb", "G", opts)
-
-map("t", "<leader>pd", "<C-\\><C-n><C-f>i", opts)
-map("t", "<leader>pu", "<C-\\><C-n><C-b>i", opts)
-map("t", "<leader>pt", "<C-\\><C-n>ggi", opts)
-map("t", "<leader>pb", "<C-\\><C-n>Gi", opts)
 
 
 map({ "n", "v" }, "<leader>sq", function()
