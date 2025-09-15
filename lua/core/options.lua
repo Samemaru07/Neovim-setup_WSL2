@@ -27,3 +27,8 @@ vim.opt.shellcmdflag = "-c"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
 vim.opt.showmode = false
+
+
+-- 改行コード
+vim.opt.fileformat = "unix"
+vim.opt.fileformats = { "unix", "dos", "mac" }
