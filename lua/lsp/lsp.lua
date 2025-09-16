@@ -1,4 +1,8 @@
+-- Mason のセットアップ
+
 require("mason").setup()
+
+
 
 require("mason-lspconfig").setup({
 
@@ -14,7 +18,7 @@ require("mason-lspconfig").setup({
 
         "cssls",
 
-        "ts_ls",
+        "tsserver",
 
         "jsonls",
 
@@ -23,6 +27,8 @@ require("mason-lspconfig").setup({
 })
 
 
+
+-- 共通 on_attach
 
 local on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -38,22 +44,30 @@ end
 
 
 
--- Lua LS の設定（新方式）
+-- capabilities
 
-vim.lsp.config("lua_ls", {
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+
+
+-- lspconfig
+
+local lspconfig = require("lspconfig")
+
+
+
+-- Lua LS のみ特別設定
+
+lspconfig.lua_ls.setup({
     on_attach = on_attach,
 
-    capabilities = require("cmp_nvim_lsp").default_capabilities(),
+    capabilities = capabilities,
+
     settings = {
 
         Lua = {
 
-            runtime = {
-
-                version = "LuaJIT",
-
-            },
+            runtime = { version = "LuaJIT" },
 
             workspace = {
 
@@ -91,6 +105,18 @@ vim.lsp.config("lua_ls", {
 
 
 
--- 起動
+-- その他のサーバー
 
-vim.lsp.enable("lua_ls")
+local servers = { "clangd", "pyright", "html", "cssls", "tsserver", "jsonls" }
+
+
+
+for _, server in ipairs(servers) do
+    lspconfig[server].setup({
+
+        on_attach = on_attach,
+
+        capabilities = capabilities,
+
+    })
+end
