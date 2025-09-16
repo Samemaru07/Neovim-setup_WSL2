@@ -27,6 +27,7 @@ require("lazy").setup({
         },
     },
     { "rafamadriz/friendly-snippets" },
+    { "mattn/emmet-vim" },
 
     -- フォーマッタ / リンタ
     {
