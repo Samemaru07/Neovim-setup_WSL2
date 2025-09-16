@@ -71,13 +71,6 @@ for k, cmd in pairs(resize_maps) do
 end
 
 
--- バッファを横に並べる（vertical split）
-map("n", "<leader>bv", "<cmd>vsplit<CR>", opts)
-
--- バッファを縦に並べる（horizontal split）
-map("n", "<leader>bh", "<cmd>split<CR>", opts)
-
-
 -- 行移動（<leader>↑↓）
 map({ "n", "v" }, "<leader><Up>", "ddkP", opts)
 map({ "n", "v" }, "<leader><Down>", "ddp", opts)
@@ -103,55 +96,16 @@ map("v", "<leader>/", function() require("core.comment").toggle_visual() end, op
 
 
 -- Undo / Redo
-map({ "n", "v", "i" }, "<C-z>", function()
-    if vim.fn.mode() == "i" then
-        return "<C-o>u"
-    else
-        return "u"
-    end
-end, { expr = true, noremap = true, silent = true })
+vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
 
-map({ "n", "v", "i" }, "<C-S-z>", function()
-    if vim.fn.mode() == "i" then
-        return "<C-o><C-r>"
-    else
-        return "<C-r>"
-    end
-end, { expr = true, noremap = true, silent = true })
-
--- 前単語削除
-map("i", "<C-e>", "<C-w>", opts)
-map("n", "<C-e>", "db", opts)
-map("v", "<C-e>", "d[h", opts)
-
--- 次単語削除
-map("i", "<C-r>", "<C-o>dw", opts)
-map("n", "<C-r>", "dw", opts)
-map("v", "<C-r>", "d]w", opts)
+vim.keymap.set("n", "<C-y>", "<C-r>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-y>", "<C-o><C-r>", { noremap = true, silent = true })
 
 
--- 検索&置換
-map("n", "<leader>f", function()
-    require("spectre").open_file_search()
-end, opts)
-
-vim.keymap.set('n', '<leader>sp',
-    '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
-    { desc = "Search in current file" }
-)
-
-
--- ページ移動 (Page Down / Up / Top / Bottom)
-map("n", "<leader>pd", "<C-f>", opts)
-map("n", "<leader>pu", "<C-b>", opts)
-map("n", "<leader>pt", "gg", opts)
-map("n", "<leader>pb", "G", opts)
-
-
-map({ "n", "v" }, "<leader>sq", function()
-    format_and_save()
-    vim.cmd("bdelete")
-end, opts)
+-- 単語削除
+vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
 
 
 -- NvimTree
@@ -178,13 +132,3 @@ map("n", "<leader>m", function()
 end, opts)
 
 map("n", "<leader>q", function() require("trouble").action("jump") end, opts)
-
-
--- ToggleTerm
-map("n", "<leader>t", function() require("toggleterm").toggle(1) end, opts)
-
-for i = 2, 3 do
-    map("n", "<leader>t" .. i, function() require("toggleterm").toggle(i) end, opts)
-end
-
-map("t", "<Esc>", [[<C-\><C-n>]], opts)
