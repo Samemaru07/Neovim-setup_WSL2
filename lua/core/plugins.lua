@@ -162,10 +162,10 @@ require("lazy").setup({
                             { name = "vim-dadbod-completion" },
                         }, {
                             { name = "buffer" },
-                            { name = "path" },
+                            { name = "path" }
                         })
                     })
-                end,
+                end
             })
         end
     }
