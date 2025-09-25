@@ -147,18 +147,28 @@ require("lazy").setup({
             vim.g.db_ui_use_nerd_fonts = 1
         end
     },
-
     -- vim-dadbod-completion
     {
         "kristijanhusak/vim-dadbod-completion",
         dependencies = { "tpope/vim-dadbod" },
         config = function()
-            vim.cmd([[
-      autocmd FileType sql,mysql,psql lua require('cmp').setup.buffer {
-        sources = { { name = 'vim-dadbod-completion' } }
-      }
-    ]])
+            -- SQL系ファイルで nvim-cmp に dadbod-completion を追加
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "sql", "mysql", "psql" },
+                callback = function()
+                    local cmp = require("cmp")
+                    cmp.setup.buffer({
+                        sources = cmp.config.sources({
+                            { name = "vim-dadbod-completion" },
+                        }, {
+                            { name = "buffer" },
+                            { name = "path" },
+                        })
+                    })
+                end,
+            })
         end
     }
+
 
 })
