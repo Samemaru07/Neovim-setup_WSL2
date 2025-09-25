@@ -146,5 +146,19 @@ require("lazy").setup({
             vim.g.db_ui_save_location = "~/.config/nvim/db_ui"
             vim.g.db_ui_use_nerd_fonts = 1
         end
+    },
+
+    -- vim-dadbod-completion
+    {
+        "kristijanhusak/vim-dadbod-completion",
+        dependencies = { "tpope/vim-dadbod" },
+        config = function()
+            vim.cmd([[
+      autocmd FileType sql,mysql,psql lua require('cmp').setup.buffer {
+        sources = { { name = 'vim-dadbod-completion' } }
+      }
+    ]])
+        end
     }
+
 })
