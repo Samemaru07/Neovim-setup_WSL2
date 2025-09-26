@@ -13,6 +13,7 @@ require("ui.indent")
 require("ui.dashboard")
 
 require("lsp.lsp")
+require("lsp.null-ls")
 require("cmp.cmp")
 require("ui.trouble")
 

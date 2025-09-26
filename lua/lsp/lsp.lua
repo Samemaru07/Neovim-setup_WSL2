@@ -9,7 +9,8 @@ require("mason-lspconfig").setup({
         "html",
         "cssls",
         "ts_ls",
-        "jsonls"
+        "jsonls",
+        "sqls"
     }
 })
 
@@ -54,7 +55,7 @@ lspconfig.lua_ls.setup({
 })
 
 -- その他の言語サーバ
-local servers = { "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls" }
+local servers = { "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls", "sqls" }
 
 for _, server in ipairs(servers) do
     lspconfig[server].setup({
