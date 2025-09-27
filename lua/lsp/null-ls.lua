@@ -6,16 +6,15 @@ local update_sql_formatter = {
     filetypes = { "sql" },
     generator = {
         fn = function(params)
-            local sql = table.concat(params.content, " ")
+            local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            -- normalize 空白を最低1個にそろえる
-            sql = sql:gsub("%s+", " ")
+            -- normalize: UPDATE / SET を必ず大文字に
+            sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
+            sql = sql:gsub("[Ss][Ee][Tt]", "SET")
 
-            -- UPDATE ... SET の部分をキャプチャ
-            sql = sql:gsub("(?i)update%s+([%w_]+)%s+set", function(tbl)
-                return "UPDATE\n    " .. tbl .. "\nSET"
-            end)
+            -- UPDATE <table> SET → 改行揃え
+            sql = sql:gsub("UPDATE%s+(%w+)%s+SET", "UPDATE\n    %1\nSET")
 
             return { { text = sql } }
         end,
