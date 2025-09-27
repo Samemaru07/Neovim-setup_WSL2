@@ -1,42 +1,59 @@
 local null_ls = require("null-ls")
 
--- UPDATE 文専用フォーマッタ
 local update_formatter = {
     name = "update_sql_formatter",
     method = null_ls.methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
-            local sql = table.concat(params.content, "\n")
+            -- 入力SQLを1行にまとめてトリム
+            local sql = table.concat(params.content, " ")
+            sql = vim.trim(sql)
 
-            -- UPDATE と WHERE を分離
-            local update_part, where_part = sql:match("^(.-)%s+[Ww][Hh][Ee][Rr][Ee](.*)$")
-            local body = update_part or sql
-            local where_clause = where_part and ("WHERE " .. where_part) or ""
+            -- 小文字化で検索位置を安全に取る
+            local lower_sql = sql:lower()
 
-            -- UPDATE とテーブル名
-            body = body:gsub("^[Uu][Pp][Dd][Aa][Tt][Ee]%s+([%w_]+)", function(tbl)
-                return "UPDATE\n    " .. tbl
-            end)
+            local update_pos = lower_sql:find("update")
+            local set_pos = lower_sql:find(" set ")
+            local where_pos = lower_sql:find(" where ")
 
-            -- SET 節の整形
-            body = body:gsub("[Ss][Ee][Tt]%s+(.*)", function(set_clause)
-                local parts = {}
-                for col in set_clause:gmatch("[^,]+") do
-                    table.insert(parts, "    " .. vim.trim(col))
-                end
-                return "SET\n" .. table.concat(parts, ",\n")
-            end)
+            if not (update_pos and set_pos) then
+                return { { text = sql } }
+            end
 
-            -- WHERE 句があれば追加
-            local formatted = body
-            if where_clause ~= "" then
-                formatted = formatted .. "\n" .. where_clause
+            -- UPDATE のあとから SET の直前までがテーブル名
+            local table_name = vim.trim(sql:sub(update_pos + #"update", set_pos - 1))
+
+            local set_clause
+            local where_clause = nil
+
+            if where_pos then
+                set_clause = vim.trim(sql:sub(set_pos + #" set ", where_pos - 1))
+                where_clause = vim.trim(sql:sub(where_pos + #" where "))
+            else
+                set_clause = vim.trim(sql:sub(set_pos + #" set "))
+            end
+
+            -- SET の中をカンマで分割
+            local set_lines = {}
+            for col in set_clause:gmatch("[^,]+") do
+                table.insert(set_lines, "    " .. vim.trim(col))
+            end
+
+            -- 再構築
+            local result = {}
+            table.insert(result, "UPDATE")
+            table.insert(result, "    " .. table_name)
+            table.insert(result, "SET")
+            table.insert(result, table.concat(set_lines, ",\n"))
+            if where_clause then
+                table.insert(result, "WHERE")
+                table.insert(result, "    " .. where_clause)
             end
 
             return {
                 {
-                    text = formatted,
+                    text = table.concat(result, "\n"),
                 },
             }
         end,
