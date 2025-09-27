@@ -1,6 +1,5 @@
 local null_ls = require("null-ls")
 
--- 自作: UPDATE/SET 整形
 local update_sql_formatter = {
     name = "update_sql_formatter",
     method = null_ls.methods.FORMATTING,
@@ -10,14 +9,11 @@ local update_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            -- normalize: 大文字統一
             sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
             sql = sql:gsub("[Ss][Ee][Tt]", "SET")
 
-            -- UPDATE <table> SET → 縦揃え
             sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
 
-            -- SET の後ろを改行してインデント
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
             if before_where then
                 before_where = before_where
@@ -41,22 +37,21 @@ local update_sql_formatter = {
             end
 
             return { { text = sql } }
-        end,
-    },
+        end
+    }
 }
 
--- pgFormatter を併用
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
     extra_args = {
-        "--keyword-case", "upper",
-        "--spaces", "4",
-    },
+        "--keyword-case", "2",
+        "--spaces", "4"
+    }
 })
 
 null_ls.setup({
     sources = {
         update_sql_formatter,
-        pg_format,
-    },
+        pg_format
+    }
 })
