@@ -9,12 +9,14 @@ local update_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            -- UPDATE / SET を単語として大文字化
-            sql = sql:gsub("%f[%w][Uu][Pp][Dd][Aa][Tt][Ee]%f[%W]", "UPDATE")
-            sql = sql:gsub("%f[%w][Ss][Ee][Tt]%f[%W]", "SET")
+            -- normalize: 小文字も大文字も UPDATE/SET に統一
+            sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
+            sql = sql:gsub("[Ss][Ee][Tt]", "SET")
 
-            -- UPDATE <table> SET を縦に揃える（改行も含めてマッチ）
-            sql = sql:gsub("UPDATE[%s\n]+([%w_]+)[%s\n]+SET", "UPDATE\n    %1\nSET")
+            -- UPDATE <table> SET → 改行揃え
+            -- Lua の %s は「スペース1文字だけ」なので、複数対応に [ \t\r\n]+ を直接書けない
+            -- → 代わりに %s* で「0個以上」にする
+            sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
 
             return { { text = sql } }
         end,
