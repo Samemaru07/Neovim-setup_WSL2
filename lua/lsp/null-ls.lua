@@ -9,13 +9,12 @@ local update_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            -- UPDATE を単語境界で検知
+            -- UPDATE / SET を単語として大文字化
             sql = sql:gsub("%f[%w][Uu][Pp][Dd][Aa][Tt][Ee]%f[%W]", "UPDATE")
-            -- SET を単語境界で検知
             sql = sql:gsub("%f[%w][Ss][Ee][Tt]%f[%W]", "SET")
 
-            -- UPDATE <table> SET を縦に揃える
-            sql = sql:gsub("UPDATE%s+(%w+)%s+SET", "UPDATE\n    %1\nSET")
+            -- UPDATE <table> SET を縦に揃える（改行も含めてマッチ）
+            sql = sql:gsub("UPDATE[%s\n]+([%w_]+)[%s\n]+SET", "UPDATE\n    %1\nSET")
 
             return { { text = sql } }
         end,
