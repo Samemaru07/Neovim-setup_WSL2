@@ -1,67 +1,41 @@
 local null_ls = require("null-ls")
 
-local update_formatter = {
-    name = "update_sql_formatter",
+local simple_update_formatter = {
+    name = "simple_update_formatter",
     method = null_ls.methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
-            -- 入力SQLを1行にまとめてトリム
             local sql = table.concat(params.content, " ")
             sql = vim.trim(sql)
 
-            -- 小文字化で検索位置を安全に取る
+            -- 大文字小文字区別なしで位置を取る
             local lower_sql = sql:lower()
-
             local update_pos = lower_sql:find("update")
             local set_pos = lower_sql:find(" set ")
-            local where_pos = lower_sql:find(" where ")
 
             if not (update_pos and set_pos) then
-                return { { text = sql } }
+                return { { text = sql } } -- update or set が無ければそのまま
             end
 
-            -- UPDATE のあとから SET の直前までがテーブル名
+            -- UPDATE と SET の間をテーブル名部分として抜き出す
             local table_name = vim.trim(sql:sub(update_pos + #"update", set_pos - 1))
+            local after_set = sql:sub(set_pos + 1) -- "set" 以降そのまま
 
-            local set_clause
-            local where_clause = nil
+            -- 整形結果
+            local result = table.concat({
+                "UPDATE",
+                "    " .. table_name,
+                "SET" .. after_set:sub(4), -- "set" を削って残りを付与
+            }, "\n")
 
-            if where_pos then
-                set_clause = vim.trim(sql:sub(set_pos + #" set ", where_pos - 1))
-                where_clause = vim.trim(sql:sub(where_pos + #" where "))
-            else
-                set_clause = vim.trim(sql:sub(set_pos + #" set "))
-            end
-
-            -- SET の中をカンマで分割
-            local set_lines = {}
-            for col in set_clause:gmatch("[^,]+") do
-                table.insert(set_lines, "    " .. vim.trim(col))
-            end
-
-            -- 再構築
-            local result = {}
-            table.insert(result, "UPDATE")
-            table.insert(result, "    " .. table_name)
-            table.insert(result, "SET")
-            table.insert(result, table.concat(set_lines, ",\n"))
-            if where_clause then
-                table.insert(result, "WHERE")
-                table.insert(result, "    " .. where_clause)
-            end
-
-            return {
-                {
-                    text = table.concat(result, "\n"),
-                },
-            }
+            return { { text = result } }
         end,
     },
 }
 
 null_ls.setup({
     sources = {
-        update_formatter,
+        simple_update_formatter,
     },
 })
