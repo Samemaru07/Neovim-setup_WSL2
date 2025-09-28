@@ -61,7 +61,14 @@ local delete_sql_formatter = {
                     :gsub("FROM%s*(.-)%s*$", function(tbl)
                         return "FROM\n    " .. vim.trim(tbl)
                     end)
-                sql = before_where .. "\n" .. where_clause:gsub("WHERE%s+(.+)", "WHERE\n    %1")
+                sql = before_where .. "\n" .. where_clause
+                    :gsub("WHERE%s*(.-)$", function(condition)
+                        local parts = {}
+                        for part in condition:gmatch("[^,]+") do
+                            table.insert(parts, "    " .. vim.trim(part))
+                        end
+                        return "WHERE\n" .. table.concat(parts, "\n")
+                    end)
             else
                 sql = sql
                     :gsub("FROM%s*(.-)$", function(tbl)
