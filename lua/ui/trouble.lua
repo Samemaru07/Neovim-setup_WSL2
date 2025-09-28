@@ -23,8 +23,3 @@ vim.keymap.set("n", "<leader>m", function()
         trouble.open("diagnostics")
     end
 end, { noremap = true, silent = true, desc = "Toggle Trouble diagnostics" })
-
--- エラー箇所へジャンプ
-vim.keymap.set("n", "<leader>q", function()
-    require("trouble").action("jump")
-end, { noremap = true, silent = true, desc = "Jump to diagnostic in Trouble" })
