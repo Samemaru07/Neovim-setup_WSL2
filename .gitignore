@@ -18,3 +18,5 @@
 *.swo
 *.bak
 *.tmp
+
+/README.md
