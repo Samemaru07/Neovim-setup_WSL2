@@ -41,6 +41,34 @@ local update_sql_formatter = {
     }
 }
 
+local delete_sql_formatter = {
+    name = "delete_sql_formatter",
+    method = null_ls.methods.FORMATTING,
+    filetypes = { "sql" },
+    generator = {
+        fn = function(params)
+            local sql = table.concat(params.content, "\n")
+            sql = vim.trim(sql)
+
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
+            sql = sql:gsub("[Ff][Rr][Oo][Mm]", "FROM")
+            sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]", "WHERE")
+
+            sql = sql:gsub("DELETE%s+FROM", "DELETE\nFROM")
+
+            sql = sql:gsub("FROM%s+(%w+)", "FROM\n    %1")
+
+            sql = sql:gsub("%s+WHERE", "\nWHERE")
+
+            sql = sql:gsub("WHERE%s+(.+)", function(cond)
+                return "WHERE\n    " .. cond
+            end)
+
+            return { { text = sql } }
+        end
+    }
+}
+
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
     extra_args = {
@@ -52,6 +80,7 @@ local pg_format = null_ls.builtins.formatting.pg_format.with({
 null_ls.setup({
     sources = {
         update_sql_formatter,
+        delete_sql_formatter,
         pg_format
     }
 })
