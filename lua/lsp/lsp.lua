@@ -27,7 +27,7 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- lspconfig
-local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.lspconfig;
 
 -- Lua LS
 lspconfig.lua_ls.setup({
