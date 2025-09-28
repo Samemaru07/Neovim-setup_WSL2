@@ -17,7 +17,7 @@ require("lualine").setup({
             {
                 "branch",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.filetype ~= "alpha"
                 end,
             },
         },
