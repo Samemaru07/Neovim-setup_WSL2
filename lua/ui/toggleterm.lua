@@ -3,7 +3,7 @@ local Terminal = require("toggleterm.terminal").Terminal
 
 -- 基本設定
 toggleterm.setup({
-    size = 10,
+    size = 8,
     direction = "horizontal",
     start_in_insert = true,
     close_on_exit = false,
