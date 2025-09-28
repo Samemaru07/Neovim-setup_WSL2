@@ -108,6 +108,11 @@ vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
 
 
+-- ペイン分割
+map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
+map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
+
+
 -- NvimTree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
 
