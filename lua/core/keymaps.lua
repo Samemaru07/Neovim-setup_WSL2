@@ -102,8 +102,8 @@ map("v", "<leader>/", function() require("core.comment").toggle_visual() end, op
 vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-y>", "<C-r>", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-y>", "<C-o><C-r>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-y>", "<C-r><CR>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-y>", "<C-o><C-r><CR>", { noremap = true, silent = true })
 
 
 -- 単語削除
