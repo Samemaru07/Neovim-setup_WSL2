@@ -54,7 +54,7 @@ local delete_sql_formatter = {
             sql = sql:gsub("[Ff][Rr][Oo][Mm]", "FROM")
             sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]", "WHERE")
 
-            sql = sql:gsub("DELETE%s+FROM%s+(%w+)", "DELETE\nFROM\n    %1")
+            sql = sql:gsub("DELETE%s*FROM%s*(%w+)", "DELETE\nFROM\n    %1")
 
             sql = sql:gsub("WHERE%s+(.+)", function(condition)
                 return "WHERE\n    " .. vim.trim(condition)
