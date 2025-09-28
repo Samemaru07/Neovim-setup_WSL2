@@ -35,8 +35,11 @@ end
 map({ "n", "v" }, "<leader>s", format_and_save, opts)
 
 map({ "n", "v" }, "<leader>sq", function()
-    format_and_save(); vim.cmd("quit")
+    format_and_save()
+    vim.cmd("bdelete")
 end, opts)
+
+map("n", "<leader>q", "<cmd>bdelete!<CR>", opts)
 
 map({ "n", "i" }, "<C-S-s>", function()
     format_and_save(); vim.cmd("quit")
