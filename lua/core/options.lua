@@ -32,5 +32,3 @@ vim.opt.showmode = false
 -- 改行コード
 vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos", "mac" }
-
-vim.opt.timeoutlen = 300
