@@ -138,5 +138,3 @@ map("n", "<leader>m", function()
         trouble.open("diagnostics")
     end
 end, opts)
-
-map("n", "<leader>q", function() require("trouble").action("jump") end, opts)
