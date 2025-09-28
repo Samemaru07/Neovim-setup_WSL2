@@ -26,11 +26,10 @@ end
 -- capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- lspconfig
-local lspconfig = vim.lsp.lspconfig;
+local lspconfig = vim.lsp.config
 
 -- Lua LS
-lspconfig.lua_ls.setup({
+lspconfig("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -58,7 +57,7 @@ lspconfig.lua_ls.setup({
 local servers = { "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls", "sqls" }
 
 for _, server in ipairs(servers) do
-    lspconfig[server].setup({
+    lspconfig(server, {
         on_attach = on_attach,
         capabilities = capabilities
     })
