@@ -12,36 +12,41 @@ local sql_formatter = {
             if sql:match("^[Uu][Pp][Dd][Aa][Tt][Ee]") then
                 sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
                 sql = sql:gsub("[Ss][Ee][Tt]", "SET")
-
                 sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
 
                 local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
                 if before_where then
                     before_where = before_where
+
                         :gsub("SET%s*(.-)%s*$", function(assignments)
                             local parts = {}
+
                             for part in assignments:gmatch("[^,]+") do
                                 table.insert(parts, "    " .. vim.trim(part))
                             end
+
                             return "SET\n" .. table.concat(parts, ",\n")
                         end)
+
                     sql = before_where .. "\n" .. where_clause
                 else
                     sql = sql
+
                         :gsub("SET%s*(.-)$", function(assignments)
                             local parts = {}
+
                             for part in assignments:gmatch("[^,]+") do
                                 table.insert(parts, "    " .. vim.trim(part))
                             end
+
                             return "SET\n" .. table.concat(parts, ",\n")
                         end)
                 end
             end
 
             if sql:match("^[Dd][Ee][Ll][Ee][Tt][Ee]") then
-                sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]", "DELETE\nFROM")
+                sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s*", "DELETE\nFROM\n")
             end
-
             return { { text = sql } }
         end
     }
