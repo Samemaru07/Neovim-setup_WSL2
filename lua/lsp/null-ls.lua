@@ -53,6 +53,8 @@ local delete_sql_formatter = {
             sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
             sql = sql:gsub("[Ff][Rr][Oo][Mm]", "FROM")
 
+            sql = sql:gsub("DELETE%s*FROM%s*(%w+)", "DELETE FROM %1")
+
             sql = sql:gsub("DELETE%s+FROM%s+(%w+)", "DELETE\nFROM\n    %1")
 
             return { { text = sql } }
