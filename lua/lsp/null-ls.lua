@@ -50,7 +50,7 @@ local delete_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("([Dd][Ee][Ll][Ee][Tt][Ee])%s+([Ff][Rr][Oo][Mm])", "%1\n%2")
+            sql = sql:gsub("([Dd][Ee][Ll][Ee][Tt][Ee])%s+", "DELETE\n ")
 
             return { { text = sql } }
         end
