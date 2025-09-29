@@ -24,17 +24,12 @@ local update_sql_formatter = {
                         end
                         return "SET\n" .. table.concat(parts, ",\n")
                     end)
-                where_clause = vim.trim(where_clause):gsub("WHERE", "WHERE\n    ")
+
+                where_clause = vim.trim(where_clause)
+
+                where_clause = where_clause:gsub("^WHERE", "WHERE\n    ")
+
                 sql = before_where .. "\n" .. where_clause
-            else
-                sql = sql
-                    :gsub("SET%s*(.-)$", function(assignments)
-                        local parts = {}
-                        for part in assignments:gmatch("[^,]+") do
-                            table.insert(parts, "    " .. vim.trim(part))
-                        end
-                        return "SET\n" .. table.concat(parts, ",\n")
-                    end)
             end
 
             return { { text = sql } }
