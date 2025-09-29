@@ -50,20 +50,14 @@ local delete_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub(
-                "[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s+([^%s;]+)",
-                "DELETE\nFROM\n    %1"
-            )
-
-            sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]%s*(.-)$", function(cond)
-                return "WHERE\n    " .. vim.trim(cond)
-            end)
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
+            sql = sql:gsub("[Ff][Rr][Oo][Mm]", "FROM")
+            sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]", "WHERE")
 
             return { { text = sql } }
-        end
-    }
+        end,
+    },
 }
-
 
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
