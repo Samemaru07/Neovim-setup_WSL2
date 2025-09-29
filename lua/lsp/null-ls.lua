@@ -64,7 +64,6 @@ local delete_sql_formatter = {
     },
 }
 
-
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
     extra_args = {
