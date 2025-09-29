@@ -43,59 +43,18 @@ local update_sql_formatter = {
 
 local delete_sql_formatter = {
     name = "delete_sql_formatter",
-    method = require("null-ls").methods.FORMATTING,
+    method = null_ls.methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            if not sql:lower():match("^delete") then
-                return { { text = sql } }
-            end
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
 
-            local has_semicolon = sql:match(";%s*$")
-            sql = sql:gsub(";%s*$", "")
+            sql = sql:gsub("DELETE%s+FROM", "DELETE\nFROM")
 
-            local delete_kw, from_kw, rest = sql:match("^(%s*[Dd][Ee][Ll][Ee][Tt][Ee])%s+([Ff][Rr][Oo][Mm])%s+(.+)$")
-            if not delete_kw then
-                return { { text = sql .. (has_semicolon or "") } }
-            end
-
-            local tables_part, where_part = rest:match("^(.-)%s+([Ww][Hh][Ee][Rr][Ee].*)$")
-            if not tables_part then
-                tables_part = rest
-            end
-
-            local tables = {}
-            for t in tables_part:gmatch("([^,]+)") do
-                t = vim.trim(t)
-                if #t > 0 then
-                    table.insert(tables, "    " .. t .. ",")
-                end
-            end
-            if #tables > 0 then
-                tables[#tables] = tables[#tables]:gsub(",$", "")
-            end
-
-            local out_lines = {}
-            table.insert(out_lines, "DELETE")
-            table.insert(out_lines, "FROM")
-            for _, t in ipairs(tables) do
-                table.insert(out_lines, t)
-            end
-            if where_part then
-                table.insert(out_lines, where_part:gsub("^%s*", function()
-                    return "WHERE\n    "
-                end))
-            end
-
-            local out = table.concat(out_lines, "\n")
-            if has_semicolon then
-                out = out .. ";"
-            end
-
-            return { { text = out } }
+            return { { text = sql } }
         end
     }
 }
