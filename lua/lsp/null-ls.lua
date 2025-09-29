@@ -61,7 +61,7 @@ local delete_sql_formatter = {
                     end
                     return "FROM\n" .. table.concat(parts, ",\n")
                 end)
-                sql = before_where .. "\n" .. where_clause:gsub("WHERE", "WHERE\n    ")
+                sql = "DELETE\n" .. before_where .. "\n" .. where_clause:gsub("WHERE", "WHERE\n    ")
             else
                 sql = sql:gsub("[Ff][Rr][Oo][Mm]%s*(.-)$", function(tables)
                     local parts = {}
@@ -70,6 +70,7 @@ local delete_sql_formatter = {
                     end
                     return "FROM\n" .. table.concat(parts, ",\n")
                 end)
+                sql = "DELETE\n" .. sql
             end
 
             return { { text = sql } }
