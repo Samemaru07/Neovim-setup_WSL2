@@ -43,19 +43,19 @@ local update_sql_formatter = {
 
 local delete_sql_formatter = {
     name = "delete_sql_formatter",
-    method = null_ls.methods.FORMATTING,
+    method = require("null-ls").methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("^[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE", 1)
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
             sql = sql:gsub("[Ff][Rr][Oo][Mm]", "FROM")
             sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]", "WHERE")
 
             sql = sql:gsub(
-                "^DELETE%s+FROM%s+([%w_%.\"`]+)",
+                "DELETE%s+FROM%s+([%w_%.\"`]+)",
                 "DELETE\nFROM\n    %1"
             )
 
