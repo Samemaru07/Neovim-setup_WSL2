@@ -52,12 +52,12 @@ local delete_sql_formatter = {
 
             sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
 
-            sql = sql:gsub("DELETE%s+", "DELETE\n")
+            sql = sql:gsub("DELETE%s+(FROM)", "DELETE\n%1")
+
             return { { text = sql } }
         end
     }
 }
-
 
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
