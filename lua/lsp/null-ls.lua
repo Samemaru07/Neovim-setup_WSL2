@@ -88,7 +88,7 @@ local pg_format = null_ls.builtins.formatting.pg_format.with({
 null_ls.setup({
     sources = {
         update_sql_formatter,
-        delete_sql_formatter,
-        pg_format
+        pg_format,
+        delete_sql_formatter
     }
 })
