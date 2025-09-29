@@ -16,18 +16,15 @@ local update_sql_formatter = {
 
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
             if before_where then
-                before_where = before_where
-                    :gsub("SET%s*(.-)%s*$", function(assignments)
-                        local parts = {}
-                        for part in assignments:gmatch("[^,]+") do
-                            table.insert(parts, "    " .. vim.trim(part))
-                        end
-                        return "SET\n" .. table.concat(parts, ",\n")
-                    end)
+                before_where = vim.trim(before_where):gsub("SET%s*(.-)$", function(assignments)
+                    local parts = {}
+                    for part in assignments:gmatch("[^,]+") do
+                        table.insert(parts, "    " .. vim.trim(part))
+                    end
+                    return "SET\n" .. table.concat(parts, ",\n")
+                end)
 
-                where_clause = vim.trim(where_clause)
-
-                where_clause = where_clause:gsub("^WHERE", "WHERE\n    ")
+                where_clause = vim.trim(where_clause):gsub("^%s*WHERE%s*", "WHERE\n    ")
 
                 sql = before_where .. "\n" .. where_clause
             end
