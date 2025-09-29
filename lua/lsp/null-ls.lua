@@ -43,77 +43,51 @@ local update_sql_formatter = {
 
 local delete_sql_formatter = {
     name = "delete_sql_formatter",
-    method = null_ls.methods.FORMATTING,
+    method = require("null-ls").methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            local lower = sql:lower()
-            if not lower:match("^%s*delete") then
+            if not sql:lower():match("^delete") then
                 return { { text = sql } }
             end
 
-            local has_semicolon = false
-            if sql:match(";%s*$") then
-                has_semicolon = true
-                sql = sql:gsub(";%s*$", "")
-                sql = vim.trim(sql)
+            local has_semicolon = sql:match(";%s*$")
+            sql = sql:gsub(";%s*$", "")
+
+            local delete_kw, from_kw, rest = sql:match("^(%s*[Dd][Ee][Ll][Ee][Tt][Ee])%s+([Ff][Rr][Oo][Mm])%s+(.+)$")
+            if not delete_kw then
+                return { { text = sql .. (has_semicolon or "") } }
             end
 
-            local l = sql:lower()
-            local delete_s, delete_e = l:find("%f[%a]delete%f[%A]")
-            local from_s, from_e = l:find("%f[%a]from%f[%A]", (delete_e or 1) + 1)
-            local where_s, where_e = nil, nil
-            if from_e then
-                where_s, where_e = l:find("%f[%a]where%f[%A]", from_e + 1)
+            local tables_part, where_part = rest:match("^(.-)%s+([Ww][Hh][Ee][Rr][Ee].*)$")
+            if not tables_part then
+                tables_part = rest
             end
-
-            local tables_part
-            if from_e then
-                if where_s then
-                    tables_part = sql:sub(from_e + 1, where_s - 1)
-                else
-                    tables_part = sql:sub(from_e + 1)
-                end
-            else
-                return { { text = sql .. (has_semicolon and ";" or "") } }
-            end
-
-            tables_part = vim.trim(tables_part)
 
             local tables = {}
             for t in tables_part:gmatch("([^,]+)") do
                 t = vim.trim(t)
                 if #t > 0 then
-                    table.insert(tables, t)
+                    table.insert(tables, "    " .. t .. ",")
                 end
             end
-
-            local where_block = nil
-            if where_s then
-                where_block = sql:sub(where_s)
-                local conds = where_block:gsub("^[Ww][Hh][Ee][Rr][Ee]%s*", "")
-                conds = conds:gsub("%s+[Aa][Nn][Dd]%s+", "\nAND ")
-                conds = conds:gsub("%s+[Oo][Rr]%s+", "\nOR ")
-                local cond_lines = {}
-                for line in conds:gmatch("[^\n]+") do
-                    table.insert(cond_lines, "    " .. vim.trim(line))
-                end
-                where_block = "WHERE\n" .. table.concat(cond_lines, "\n")
+            if #tables > 0 then
+                tables[#tables] = tables[#tables]:gsub(",$", "")
             end
 
             local out_lines = {}
             table.insert(out_lines, "DELETE")
             table.insert(out_lines, "FROM")
-            for i, t in ipairs(tables) do
-                local suffix = (i < #tables) and "," or ""
-                table.insert(out_lines, "    " .. t .. suffix)
+            for _, t in ipairs(tables) do
+                table.insert(out_lines, t)
             end
-
-            if where_block then
-                table.insert(out_lines, where_block)
+            if where_part then
+                table.insert(out_lines, where_part:gsub("^%s*", function()
+                    return "WHERE\n    "
+                end))
             end
 
             local out = table.concat(out_lines, "\n")
