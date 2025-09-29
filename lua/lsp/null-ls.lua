@@ -43,30 +43,27 @@ local update_sql_formatter = {
     }
 }
 
-local delete_sql_formatter = {
+local delete_sql_formatter = helpers.formatter_factory({
     name = "delete_sql_formatter",
-    method = methods.FORMATTING,
     filetypes = { "sql" },
-    generator = helpers.formatter_factory({
-        command = "pg_format",
-        args = { "--keyword-case", "2", "--spaces", "4" },
-        to_stdin = true,
-        transform = function(text)
-            text = text:gsub("DELETE%s+FROM", "DELETE\nFROM")
-            text = text:gsub("FROM%s+([^Ww;]+)", function(tables)
-                local parts = {}
-                for part in tables:gmatch("[^,]+") do
-                    table.insert(parts, "    " .. vim.trim(part))
-                end
-                return "FROM\n" .. table.concat(parts, ",\n")
-            end)
-            text = text:gsub("[Ww][Hh][Ee][Rr][Ee]%s+(.+)", function(condition)
-                return "WHERE\n    " .. vim.trim(condition)
-            end)
-            return text
-        end
-    })
-}
+    command = "pg_format",
+    args = { "--keyword-case", "2", "--spaces", "4" },
+    to_stdin = true,
+    transform = function(text)
+        text = text:gsub("DELETE%s+FROM", "DELETE\nFROM")
+        text = text:gsub("FROM%s+([^Ww;]+)", function(tables)
+            local parts = {}
+            for part in tables:gmatch("[^,]+") do
+                table.insert(parts, "    " .. vim.trim(part))
+            end
+            return "FROM\n" .. table.concat(parts, ",\n")
+        end)
+        text = text:gsub("[Ww][Hh][Ee][Rr][Ee]%s+(.+)", function(condition)
+            return "WHERE\n    " .. vim.trim(condition)
+        end)
+        return text
+    end
+})
 
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
