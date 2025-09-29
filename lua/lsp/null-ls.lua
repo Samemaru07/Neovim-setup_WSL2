@@ -1,7 +1,7 @@
 local null_ls = require("null-ls")
 
-local sql_formatter = {
-    name = "sql_formatter",
+local update_sql_formatter = {
+    name = "update_sql_formatter",
     method = null_ls.methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
@@ -9,44 +9,49 @@ local sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            if sql:match("^[Uu][Pp][Dd][Aa][Tt][Ee]") then
-                sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
-                sql = sql:gsub("[Ss][Ee][Tt]", "SET")
-                sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
+            sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
+            sql = sql:gsub("[Ss][Ee][Tt]", "SET")
 
-                local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
-                if before_where then
-                    before_where = before_where
+            sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
 
-                        :gsub("SET%s*(.-)%s*$", function(assignments)
-                            local parts = {}
-
-                            for part in assignments:gmatch("[^,]+") do
-                                table.insert(parts, "    " .. vim.trim(part))
-                            end
-
-                            return "SET\n" .. table.concat(parts, ",\n")
-                        end)
-
-                    sql = before_where .. "\n" .. where_clause
-                else
-                    sql = sql
-
-                        :gsub("SET%s*(.-)$", function(assignments)
-                            local parts = {}
-
-                            for part in assignments:gmatch("[^,]+") do
-                                table.insert(parts, "    " .. vim.trim(part))
-                            end
-
-                            return "SET\n" .. table.concat(parts, ",\n")
-                        end)
-                end
+            local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
+            if before_where then
+                before_where = before_where
+                    :gsub("SET%s*(.-)%s*$", function(assignments)
+                        local parts = {}
+                        for part in assignments:gmatch("[^,]+") do
+                            table.insert(parts, "    " .. vim.trim(part))
+                        end
+                        return "SET\n" .. table.concat(parts, ",\n")
+                    end)
+                sql = before_where .. "\n" .. where_clause
+            else
+                sql = sql
+                    :gsub("SET%s*(.-)$", function(assignments)
+                        local parts = {}
+                        for part in assignments:gmatch("[^,]+") do
+                            table.insert(parts, "    " .. vim.trim(part))
+                        end
+                        return "SET\n" .. table.concat(parts, ",\n")
+                    end)
             end
 
-            if sql:match("^[Dd][Ee][Ll][Ee][Tt][Ee]") then
-                sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s*", "DELETE\nFROM\n")
-            end
+            return { { text = sql } }
+        end
+    }
+}
+
+local delete_sql_formatter = {
+    name = "delete_sql_formatter",
+    method = null_ls.methods.FORMATTING,
+    filetypes = { "sql" },
+    generator = {
+        fn = function(params)
+            local sql = table.concat(params.content, "\n")
+            sql = vim.trim(sql)
+
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]", "DELETE\nFROM")
+
             return { { text = sql } }
         end
     }
@@ -62,7 +67,8 @@ local pg_format = null_ls.builtins.formatting.pg_format.with({
 
 null_ls.setup({
     sources = {
-        sql_formatter,
+        update_sql_formatter,
+        delete_sql_formatter,
         pg_format
     }
 })
