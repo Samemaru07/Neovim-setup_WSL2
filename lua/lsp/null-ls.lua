@@ -41,24 +41,35 @@ local update_sql_formatter = {
     }
 }
 
-local null_ls = require("null-ls")
-
 local delete_sql_formatter = {
     name = "delete_sql_formatter",
-    method = require("null-ls").methods.FORMATTING,
+    method = null_ls.methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s*(%w+)", function(table_name)
-                return "DELETE\nFROM\n    " .. table_name
-            end)
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
 
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
-            if before_where and where_clause then
-                sql = before_where .. "\n" .. where_clause
+            if before_where then
+                before_where = before_where:gsub("[Ff][Rr][Oo][Mm]%s*(.-)%s*$", function(tables)
+                    local parts = {}
+                    for part in tables:gmatch("[^,]+") do
+                        table.insert(parts, "    " .. vim.trim(part))
+                    end
+                    return "FROM\n" .. table.concat(parts, ",\n")
+                end)
+                sql = before_where .. "\n" .. where_clause:gsub("WHERE", "\nWHERE")
+            else
+                sql = sql:gsub("[Ff][Rr][Oo][Mm]%s*(.-)$", function(tables)
+                    local parts = {}
+                    for part in tables:gmatch("[^,]+") do
+                        table.insert(parts, "    " .. vim.trim(part))
+                    end
+                    return "FROM\n" .. table.concat(parts, ",\n")
+                end)
             end
 
             return { { text = sql } }
