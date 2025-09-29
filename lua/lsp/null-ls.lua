@@ -24,7 +24,7 @@ local update_sql_formatter = {
                     return "SET\n" .. table.concat(parts, ",\n")
                 end)
 
-                where_clause = vim.trim(where_clause):gsub("^%s*WHERE%s*", "WHERE\n    ")
+                where_clause = vim.trim(where_clause):gsub("^WHERE%s*", "WHERE\n    ")
 
                 sql = before_where .. "\n" .. where_clause
             end
