@@ -50,7 +50,7 @@ local delete_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
+            sql = sql:gsub("^%s*[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
 
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
             if before_where and where_clause then
