@@ -50,7 +50,7 @@ local delete_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("^%s*[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
+            sql = sql:gsub("^%s*[Dd][Ee][Ll][Ee][Tt][Ee]%s*", "DELETE\n")
 
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
             if before_where and where_clause then
@@ -61,7 +61,8 @@ local delete_sql_formatter = {
                     end
                     return "FROM\n" .. table.concat(parts, ",\n")
                 end)
-                sql = "DELETE\n" .. before_where .. "\n" .. where_clause:gsub("WHERE", "WHERE\n    ")
+                where_clause = where_clause:gsub("WHERE", "WHERE\n    ")
+                sql = before_where .. "\n" .. where_clause
             else
                 sql = sql:gsub("[Ff][Rr][Oo][Mm]%s*(.-)$", function(tables)
                     local parts = {}
@@ -70,7 +71,6 @@ local delete_sql_formatter = {
                     end
                     return "FROM\n" .. table.concat(parts, ",\n")
                 end)
-                sql = "DELETE\n" .. sql
             end
 
             return { { text = sql } }
