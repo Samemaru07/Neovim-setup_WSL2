@@ -45,33 +45,20 @@ local null_ls = require("null-ls")
 
 local delete_sql_formatter = {
     name = "delete_sql_formatter",
-    method = null_ls.methods.FORMATTING,
+    method = require("null-ls").methods.FORMATTING,
     filetypes = { "sql" },
     generator = {
         fn = function(params)
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]", "DELETE")
+            sql = sql:gsub("[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s*(%w+)", function(table_name)
+                return "DELETE\nFROM\n    " .. table_name
+            end)
 
             local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
-            if before_where then
-                before_where = before_where:gsub("FROM%s*(.-)%s*$", function(tables)
-                    local parts = {}
-                    for part in tables:gmatch("[^,]+") do
-                        table.insert(parts, "    " .. vim.trim(part))
-                    end
-                    return "FROM\n" .. table.concat(parts, ",\n")
-                end)
+            if before_where and where_clause then
                 sql = before_where .. "\n" .. where_clause
-            else
-                sql = sql:gsub("FROM%s*(.-)$", function(tables)
-                    local parts = {}
-                    for part in tables:gmatch("[^,]+") do
-                        table.insert(parts, "    " .. vim.trim(part))
-                    end
-                    return "FROM\n" .. table.concat(parts, ",\n")
-                end)
             end
 
             return { { text = sql } }
