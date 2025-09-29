@@ -50,22 +50,15 @@ local delete_sql_formatter = {
             local sql = table.concat(params.content, "\n")
             sql = vim.trim(sql)
 
-            -- DELETE FROM 部分を整形
             sql = sql:gsub(
                 "^[Dd][Ee][Ll][Ee][Tt][Ee]%s+[Ff][Rr][Oo][Mm]%s+([%w_%.\"`]+)",
                 "DELETE\nFROM\n    %1"
             )
 
-            -- WHERE を大文字化
             sql = sql:gsub("[Ww][Hh][Ee][Rr][Ee]", "WHERE")
 
-            -- WHERE の中身をインデント整形
             sql = sql:gsub("WHERE%s*(.-)$", function(conditions)
-                local parts = {}
-                for part in conditions:gmatch("[^%s]+.*") do
-                    table.insert(parts, "    " .. vim.trim(part))
-                end
-                return "WHERE\n" .. table.concat(parts, "\n")
+                return "WHERE\n    " .. vim.trim(conditions)
             end)
 
             return { { text = sql } }
