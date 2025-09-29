@@ -24,7 +24,8 @@ local update_sql_formatter = {
                         end
                         return "SET\n" .. table.concat(parts, ",\n")
                     end)
-                sql = vim.trim(before_where) .. "\n" .. where_clause
+                where_clause = vim.trim(where_clause):gsub("WHERE", "WHERE\n    ")
+                sql = before_where .. "\n" .. where_clause
             else
                 sql = sql
                     :gsub("SET%s*(.-)$", function(assignments)
