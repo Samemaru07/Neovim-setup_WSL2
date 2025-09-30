@@ -22,11 +22,16 @@ map("t", "<Esc>", "<C-\\><C-n>", opts)
 -- 保存 + LSP整形
 local function format_and_save()
     local ok = pcall(function()
-        vim.lsp.buf.format({ async = false })
+        vim.lsp.buf.format({
+            async = false,
+            filter = function(client)
+                return client.name == "null-ls"
+            end
+        })
     end)
 
     if not ok then
-        print("LSP フォーマッタが見つかりませんでした")
+        print("フォーマッタが見つかりませんでした")
     end
 
     vim.cmd("write")

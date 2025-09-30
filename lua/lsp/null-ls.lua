@@ -1,6 +1,7 @@
 local null_ls = require("null-ls")
 
 local pg_format = null_ls.builtins.formatting.pg_format.with({
+    command = "/usr/local/bin/pg_format",
     to_stdin = true,
     filetypes = { "sql", "pgsql" },
     extra_args = {
