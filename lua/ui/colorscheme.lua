@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       highlight IndentRainbow5 guifg=#61AFEF gui=nocombine
       highlight IndentRainbow6 guifg=#C678DD gui=nocombine
     ]]
-    end,
+    end
 })
 
 vim.cmd [[

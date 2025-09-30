@@ -2,7 +2,7 @@ require("lualine").setup({
     options = {
         theme = "vscode",
         globalstatus = true,
-        disabled_filetypes = { "alpha" }, -- ← ここ追加！
+        disabled_filetypes = { "alpha" }
     },
     sections = {
         lualine_a = {
@@ -10,7 +10,7 @@ require("lualine").setup({
                 "mode",
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
-                end,
+                end
             },
         },
         lualine_b = {
@@ -18,7 +18,7 @@ require("lualine").setup({
                 "branch",
                 cond = function()
                     return vim.bo.filetype ~= "alpha"
-                end,
+                end
             },
         },
         lualine_c = {
@@ -59,8 +59,8 @@ require("lualine").setup({
                         end
                     end
                     return nil
-                end,
-            },
+                end
+            }
         },
 
         lualine_x = {},
@@ -69,16 +69,16 @@ require("lualine").setup({
                 "progress",
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
-                end,
-            },
+                end
+            }
         },
         lualine_z = {
             {
                 "location",
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
-                end,
-            },
-        },
-    },
+                end
+            }
+        }
+    }
 })

@@ -14,18 +14,18 @@ highlight Indent6 guifg=#FFB84D gui=nocombine
 ]]
 
 require("ibl").setup({
-  indent = {
-    char = "│",
-    highlight = {
-      "Indent1",
-      "Indent2",
-      "Indent3",
-      "Indent4",
-      "Indent5",
-      "Indent6",
+    indent = {
+        char = "│",
+        highlight = {
+            "Indent1",
+            "Indent2",
+            "Indent3",
+            "Indent4",
+            "Indent5",
+            "Indent6"
+        },
     },
-  },
-  scope = {
-    enabled = false,
-  },
+    scope = {
+        enabled = false
+    }
 })

@@ -1,7 +1,7 @@
 require("nvim-tree").setup({
     view = {
         side = "left",
-        width = 25,
+        width = 25
     },
     renderer = {
         icons = {
@@ -9,27 +9,26 @@ require("nvim-tree").setup({
                 file = true,
                 folder = true,
                 folder_arrow = true,
-                git = false,
-            },
+                git = false
+            }
         },
         indent_markers = {
-            enable = false,
-        },
+            enable = false
+        }
     },
     filters = {
-        dotfiles = false,
+        dotfiles = false
     },
     git = {
-        enable = false,
+        enable = false
     },
     hijack_cursor = true,
     update_cwd = true,
     update_focused_file = {
         enable = true,
-        update_cwd = true,
-    },
+        update_cwd = true
+    }
 })
-
 
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "NvimTree_*",
@@ -38,7 +37,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
             vim.cmd("stopinsert")
         end
         vim.api.nvim_buf_set_name(0, "エクスプローラ")
-    end,
+    end
 })
 
 vim.cmd [[

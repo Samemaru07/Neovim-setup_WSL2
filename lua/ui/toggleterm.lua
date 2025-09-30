@@ -10,7 +10,7 @@ toggleterm.setup({
     on_open = function(term)
         vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. term.count)
         vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
-    end,
+    end
 })
 
 -- ターミナル管理
@@ -28,7 +28,7 @@ terms[1] = Terminal:new({
     on_open = function(term)
         vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #1")
         vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
-    end,
+    end
 })
 
 -- ターミナル開閉関数
@@ -44,7 +44,7 @@ local function create_toggle_func(i)
                 on_open = function(term)
                     vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. i)
                     vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
-                end,
+                end
             })
         end
         terms[i]:toggle()
