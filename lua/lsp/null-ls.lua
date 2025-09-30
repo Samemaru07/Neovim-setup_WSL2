@@ -1,9 +1,10 @@
 local null_ls = require("null-ls")
 
 local pg_format = null_ls.builtins.formatting.pg_format.with({
+    filetypes = { "sql" },
     extra_args = {
         "--keyword-case=2",
-        "--spaces", "4"
+        "--spaces=4"
     }
 })
 
