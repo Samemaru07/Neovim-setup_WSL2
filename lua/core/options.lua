@@ -28,5 +28,5 @@ vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos", "mac" }
 
 -- キーの判定速度
-vim.o.ttimeoutlen = 10
+vim.o.ttimeoutlen = 0
 vim.o.timeoutlen = 500
