@@ -21,8 +21,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Neovim のターミナルを wslのbashに
-vim.opt.shell = "/bin/bash"
+vim.opt.shell = vim.env.SHELL or "/bin/sh"
 vim.opt.shellcmdflag = "-c"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
