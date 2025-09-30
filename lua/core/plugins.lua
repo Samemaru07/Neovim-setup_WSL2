@@ -208,7 +208,8 @@ require("lazy").setup({
                     "--no-rcfile",
                     "--keyword-case", "2",
                     "--type-case", "2",
-                    "--spaces", "4"
+                    "--spaces", "4",
+                    "--wrap-after", "1"
                 }
             })
 
