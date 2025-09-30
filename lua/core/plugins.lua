@@ -8,9 +8,9 @@ require("lazy").setup({
     {
         "neovim/nvim-lspconfig",
         config = function()
-            local lspconfig = require("lspconfig")
+            local lspconfig = vim.lsp.config
 
-            lspconfig.sqls.setup({
+            lspconfig("sqls", {
                 on_attach = function(client, bufnr)
                     client.server_capabilities.documentFormattingProvider = false
                 end
