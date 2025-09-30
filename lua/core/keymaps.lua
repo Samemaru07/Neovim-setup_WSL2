@@ -24,6 +24,7 @@ local function format_and_save()
     local ok = pcall(function()
         vim.lsp.buf.format({
             async = false,
+            timeout_ms = 5000,
             filter = function(client)
                 return client.name == "null-ls"
             end
@@ -31,13 +32,13 @@ local function format_and_save()
     end)
 
     if not ok then
-        print("フォーマッタが見つかりませんでした")
+        print("null-ls フォーマッタが見つかりませんでした")
     end
 
     vim.cmd("write")
 end
 
-map({ "n", "v" }, "<leader>s", format_and_save, opts)
+vim.keymap.set({ "n", "v" }, "<leader>s", format_and_save, { noremap = true, silent = true })
 
 map({ "n", "v" }, "<leader>sq", function()
     format_and_save()
