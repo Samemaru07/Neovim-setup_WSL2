@@ -1,75 +1,5 @@
 local null_ls = require("null-ls")
 
-local update_sql_formatter = {
-    name = "update_sql_formatter",
-    method = null_ls.methods.FORMATTING,
-    filetypes = { "sql" },
-    generator = {
-        fn = function(params)
-            local sql = table.concat(params.content, "\n")
-            sql = vim.trim(sql)
-
-            sql = sql:gsub("[Uu][Pp][Dd][Aa][Tt][Ee]", "UPDATE")
-            sql = sql:gsub("[Ss][Ee][Tt]", "SET")
-
-            sql = sql:gsub("UPDATE%s*(%w+)%s*SET", "UPDATE\n    %1\nSET")
-
-            local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
-            if before_where then
-                before_where = vim.trim(before_where):gsub("SET%s*(.-)$", function(assignments)
-                    local parts = {}
-                    for part in assignments:gmatch("[^,]+") do
-                        table.insert(parts, "    " .. vim.trim(part))
-                    end
-                    return "SET\n" .. table.concat(parts, ",\n")
-                end)
-
-                where_clause = where_clause:gsub("^WHERE%s*", "WHERE\n    ")
-                sql = before_where .. "\n" .. where_clause
-            end
-
-            return { { text = sql } }
-        end
-    }
-}
-
-local delete_sql_formatter = {
-    name = "delete_sql_formatter",
-    method = require("null-ls").methods.FORMATTING,
-    filetypes = { "sql" },
-    generator = {
-        fn = function(params)
-            local sql = table.concat(params.content, "\n")
-            sql = vim.trim(sql)
-
-            sql = sql:gsub("^%s*[Dd][Ee][Ll][Ee][Tt][Ee]%s*", "DELETE\n")
-
-            local before_where, where_clause = sql:match("^(.-)(WHERE.*)$")
-            if before_where and where_clause then
-                before_where = before_where:gsub("[Ff][Rr][Oo][Mm]%s*(.-)%s*$", function(tables)
-                    local parts = {}
-                    for part in tables:gmatch("[^,]+") do
-                        table.insert(parts, "    " .. vim.trim(part))
-                    end
-                    return "FROM\n" .. table.concat(parts, ",\n")
-                end)
-                where_clause = where_clause:gsub("WHERE", "WHERE\n    ")
-                sql = before_where .. "\n" .. where_clause
-            else
-                sql = sql:gsub("[Ff][Rr][Oo][Mm]%s*(.-)$", function(tables)
-                    local parts = {}
-                    for part in tables:gmatch("[^,]+") do
-                        table.insert(parts, "    " .. vim.trim(part))
-                    end
-                    return "FROM\n" .. table.concat(parts, ",\n")
-                end)
-            end
-
-            return { { text = sql } }
-        end
-    }
-}
-
 local pg_format = null_ls.builtins.formatting.pg_format.with({
     to_stdin = true,
     extra_args = {
@@ -80,8 +10,6 @@ local pg_format = null_ls.builtins.formatting.pg_format.with({
 
 null_ls.setup({
     sources = {
-        pg_format,
-        delete_sql_formatter,
-        update_sql_formatter
+        pg_format
     }
 })
