@@ -13,7 +13,6 @@ require("ui.indent")
 require("ui.dashboard")
 
 require("lsp.lsp")
-require("lsp.null-ls")
 require("cmp.cmp")
 require("ui.trouble")
 
@@ -50,7 +49,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "NvimTree_*",
     callback = function()
         vim.opt_local.statusline = "Explorer"
-    end,
+    end
 })
 
 -- spectreのswapファイルは作らせない
