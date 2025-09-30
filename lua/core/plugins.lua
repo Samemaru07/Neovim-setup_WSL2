@@ -5,7 +5,19 @@ require("lazy").setup({
     { "nvim-lualine/lualine.nvim" },
     { "akinsho/toggleterm.nvim" },
     { "folke/trouble.nvim" },
-    { "neovim/nvim-lspconfig" },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            local lspconfig = require("lspconfig")
+
+            lspconfig.sqls.setup({
+                on_attach = function(client, bufnr)
+                    client.server_capabilities.documentFormattingProvider = false
+                end
+            })
+        end
+    },
+
     { "williamboman/mason.nvim" },
     {
         "williamboman/mason-lspconfig.nvim",
