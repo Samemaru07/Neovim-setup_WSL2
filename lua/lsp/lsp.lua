@@ -31,10 +31,11 @@ end
 -- capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local lspconfig = require("lspconfig")
+-- Neovim 0.11+ 新API: vim.lsp.config
+local lspconfig = vim.lsp.config
 
 -- Lua LS
-lspconfig.lua_ls.setup({
+lspconfig("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -51,9 +52,7 @@ lspconfig.lua_ls.setup({
                 enable = true,
                 defaultConfig = {
                     indent_style = "space",
-
                     indent_size = "4"
-
                 }
             }
         }
@@ -61,21 +60,19 @@ lspconfig.lua_ls.setup({
 })
 
 -- その他の言語サーバ
-local servers = { "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls" }
-
-for _, server in ipairs(servers) do
-    lspconfig[server].setup({
+for _, server in ipairs({ "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls" }) do
+    lspconfig(server, {
         on_attach = on_attach,
         capabilities = capabilities
     })
 end
 
 -- sqls(フォーマット無効化)
-lspconfig.sqls.setup({
+lspconfig("sqls", {
     on_attach = function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
         on_attach(client, bufnr)
     end,
-    capabilities = capabilities,
+    capabilities = capabilities
 })
