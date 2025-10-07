@@ -35,8 +35,8 @@ require("lazy").setup({
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
+            "saadparwaiz1/cmp_luasnip"
+        }
     },
     { "rafamadriz/friendly-snippets" },
     { "mattn/emmet-vim" },
@@ -62,9 +62,9 @@ require("lazy").setup({
         config = function()
             require("nvim-treesitter.configs").setup({
                 highlight = { enable = true },
-                ensure_installed = { "html", "javascript", "typescript", "css", "lua" },
+                ensure_installed = { "html", "javascript", "typescript", "css", "lua" }
             })
-        end,
+        end
     },
 
     -- コメントアウト
@@ -79,7 +79,7 @@ require("lazy").setup({
                 sticky = true,
                 toggler = { line = "<leader>/" },
                 opleader = { line = "<leader>/" },
-                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
             })
         end
     },
