@@ -4,6 +4,7 @@
 /session/
 /db_ui/
 /pgFormatter/
+/node_modules/
 
 /lazy/
 /mason/
