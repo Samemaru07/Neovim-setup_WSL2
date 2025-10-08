@@ -5,14 +5,31 @@ local i = ls.insert_node
 
 return {
     s("myrafce", {
-        t("const "), i(1, "Component"), t(" = () => {"),
-        t({ "", "    return (" }),
-        t({ "", "        <div>" }),
-        t({ "", "            " }), i(2),
-        t({ "", "        </div>" }),
-        t({ "", "    );" }),
-        t({ "", "};" }),
-        t({ "", "", "export default " }), i(1)
+        t({
+            "import React from 'react'",
+            "",
+            "interface Props {",
+            "    ",
+        }),
+        i(2),
+        t({
+            "}",
+            "",
+            "export const ",
+        }),
+        i(1, "ComponentName"),
+        t({
+            ": React.FC<Props> = () => {",
+            "    return (",
+            "        <div>",
+            "            "
+        }),
+        i(0),
+        t({
+            "        </div>",
+            "    )",
+            "}"
+        })
     }),
 
     s("us", {
