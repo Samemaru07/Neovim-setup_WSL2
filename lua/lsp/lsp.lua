@@ -8,7 +8,7 @@ require("mason-lspconfig").setup({
         "pyright",
         "html",
         "cssls",
-        "tsserver", -- "ts_ls" から "tsserver" に変更
+        "ts_ls",
         "jsonls",
         "sqls"
     }
