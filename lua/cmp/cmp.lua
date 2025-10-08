@@ -22,11 +22,19 @@ cmp.setup({
             luasnip.lsp_expand(args.body)
         end
     },
-    mapping = cmp.mapping.preset.insert({
+    mapping = {
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-Space>"] = cmp.mapping.complete(),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -38,16 +46,14 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<CR>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
+                cmp.confirm({ select = true })
             else
                 fallback()
             end
-        end, { "i", "s" }),
-    }),
+        end, { "i", "s" })
+    },
     sources = cmp.config.sources({
         { name = "nvim_lsp", keyword_length = 1 }, -- 型補完
         { name = "luasnip",  keyword_length = 1 }, -- スニペット補完
