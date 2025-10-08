@@ -45,15 +45,8 @@ cmp.setup({
             else
                 fallback()
             end
-        end, { "i", "s" }),
-        ["<CR>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.confirm({ select = true })
-            else
-                fallback()
-            end
         end, { "i", "s" })
-    },
+   },
     sources = cmp.config.sources({
         { name = "nvim_lsp", keyword_length = 1 }, -- 型補完
         { name = "luasnip",  keyword_length = 1 }, -- スニペット補完
