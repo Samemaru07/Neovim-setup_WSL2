@@ -45,7 +45,11 @@ require("lazy").setup({
     {
         "windwp/nvim-autopairs",
         config = function()
-            require("nvim-autopairs").setup({})
+            local autopairs = require("nvim-autopairs")
+            autopairs.setup({
+                check_ts = true,
+                ts_context_for = { "jsx", "tsx" }
+            })
         end
     },
 
