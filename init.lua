@@ -43,8 +43,6 @@ vim.o.backupdir = backup_dir
 vim.o.undofile = true
 vim.o.undodir = undo_dir
 
-require("luasnip.loaders.from_lua").lazy_load({ paths = vim.fn.stdpath("config") .. "/lua/snippets" })
-
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "NvimTree_*",
     callback = function()
