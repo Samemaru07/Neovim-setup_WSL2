@@ -8,7 +8,7 @@ require("mason-lspconfig").setup({
         "pyright",
         "html",
         "cssls",
-        "ts_ls",
+        "tsserver",
         "jsonls",
         "sqls"
     }
@@ -60,12 +60,32 @@ lspconfig("lua_ls", {
 })
 
 -- その他の言語サーバ
-for _, server in ipairs({ "clangd", "pyright", "html", "cssls", "ts_ls", "jsonls" }) do
+for _, server in ipairs({ "clangd", "pyright", "html", "cssls", "jsonls" }) do
     lspconfig(server, {
         on_attach = on_attach,
         capabilities = capabilities
     })
 end
+
+-- tsserver
+lspconfig("tsserver", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    init_options = {
+        preferences = {
+            includeCompletionsForModuleExports = true,
+            includeCompletionsWithInsertText = true
+        },
+        plugins = {
+            {
+                name = "@vue/typescript-plugin",
+                location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
+                languages = { "vue" }
+            }
+        }
+    }
+})
 
 -- sqls(フォーマット無効化)
 lspconfig("sqls", {
