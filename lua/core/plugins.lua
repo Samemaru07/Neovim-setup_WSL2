@@ -42,13 +42,13 @@ require("lazy").setup({
     { "mattn/emmet-vim" },
  
     -- 自動括弧補完
-    {
-        "windwp/nvim-autopairs",
-        config = function()
-            require("nvim-autopairs").setup({})
-        end
-    },
-
+    -- {
+    --     "windwp/nvim-autopairs",
+    --     config = function()
+    --         require("nvim-autopairs").setup({})
+    --     end
+    -- },
+    --
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
