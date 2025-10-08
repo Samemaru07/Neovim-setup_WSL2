@@ -33,7 +33,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = vim.lsp.config
 
--- tsserver 以外の言語サーバをループで設定
+-- tsserver 以外の言語サーバ
 for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls" }) do
     lspconfig(server, {
         on_attach = on_attach,
@@ -41,12 +41,19 @@ for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonl
     })
 end
 
--- tsserver の設定を個別に行う
+-- tsserver
 lspconfig("tsserver", {
     on_attach = on_attach,
     capabilities = capabilities,
-    -- TSX/JSXファイルをtypescriptreactとして認識させる
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    init_options = {
+        emmet = {
+            includeLanguages = {
+                javascript = "javascriptreact",
+                typescript = "typescriptreact",
+            }
+        }
+    }
 })
 
 -- sqls(フォーマット無効化)
