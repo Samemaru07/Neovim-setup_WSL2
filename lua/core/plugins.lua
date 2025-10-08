@@ -40,13 +40,7 @@ require("lazy").setup({
     },
     { "rafamadriz/friendly-snippets" },
     { "mattn/emmet-vim" },
-
-    -- フォーマッタ / リンタ
-    {
-        "nvimtools/none-ls.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" }
-    },
-
+ 
     -- 自動括弧補完
     {
         "windwp/nvim-autopairs",
@@ -201,6 +195,9 @@ require("lazy").setup({
         config = function()
             local null_ls = require("null-ls")
 
+            local prettier = null_ls.builtins.formatting.prettier.with({
+            })
+
             local pg_format = null_ls.builtins.formatting.pg_format.with({
                 command = "/usr/local/bin/pg_format",
                 to_stdin = true,
@@ -216,8 +213,11 @@ require("lazy").setup({
             })
 
             null_ls.setup({
-                debug = true,
-                sources = { pg_format }
+                debug = false,
+                sources = {
+                    prettier,
+                    pg_format
+                }
             })
         end
     }
