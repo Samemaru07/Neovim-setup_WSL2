@@ -24,29 +24,27 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping({
+            i = function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
+                    cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+                    vim.defer_fn(function()
+                        vim.cmd("doautocmd User TreesitterBufPost")
+                    end, 10)
+                else
+                    fallback()
+                end
+            end,
+            s = cmp.mapping.confirm({ select = true }),
+            c = cmp.mapping.confirm({ select = true }),
+        }),
         ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expandable() then
-                luasnip.expand()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
+        end, { "i", "s" })
     }),
+-- ... (これ以降も変更なし) ...
     sources = cmp.config.sources({
         { name = "nvim_lsp", keyword_length = 1 },
         { name = "luasnip",  keyword_length = 1 },
