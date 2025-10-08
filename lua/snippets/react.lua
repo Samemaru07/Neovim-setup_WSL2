@@ -4,7 +4,7 @@ local t = ls.text_node
 local i = ls.insert_node
 
 return {
-    s("rafce", {
+    s("myrafce", {
         t("const "), i(1, "Component"), t(" = () => {"),
         t({ "", "    return (" }),
         t({ "", "        <div>" }),
