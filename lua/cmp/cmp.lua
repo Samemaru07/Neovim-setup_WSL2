@@ -1,9 +1,8 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
-require("luasnip.loaders.from_vscode").lazy_load({
-    paths = { "C:/Users/nakayama/AppData/Local/nvim-data/lazy/friendly-snippets" }
-})
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/lua/snippets" })
 
 luasnip.add_snippets("javascript", {
     luasnip.snippet("clg", {
