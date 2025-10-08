@@ -1,17 +1,8 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
-require("luasnip").config.setup({
-    history = true,
-    update_events = "TextChanged,TextChangedI",
-    callbacks = {
-        on_leave = function()
-            vim.cmd("doautocmd User TreesitterBufPost")
-        end
-    }
-})
+require("luasnip.loaders.from_vscode").lazy_load({ exclude = { "react" } })
 
-require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/lua/snippets" })
 
 luasnip.add_snippets("javascript", {
@@ -25,12 +16,10 @@ luasnip.add_snippets("javascript", {
 cmp.setup({
     snippet = {
         expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-            vim.defer_fn(function()
-                vim.cmd("doautocmd User TreesitterBufPost")
-            end, 20)
+            luasnip.lsp_expand(args.body)
         end
     },
+
     mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
