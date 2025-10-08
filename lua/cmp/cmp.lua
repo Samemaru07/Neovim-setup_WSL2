@@ -1,7 +1,10 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
-require("luasnip.loaders.from_vscode").lazy_load()
+-- friendly-snippetsを読み込むが、"react"に関するスニペットだけは完全に無視する
+require("luasnip.loaders.from_vscode").lazy_load({ exclude = { "react" } })
+
+-- あなたの自作スニペットを読み込む
 require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/lua/snippets" })
 
 luasnip.add_snippets("javascript", {
