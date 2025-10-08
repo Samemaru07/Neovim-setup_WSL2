@@ -64,7 +64,6 @@ require("lazy").setup({
         end
     },
 
->>>>>>> feature/react
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
