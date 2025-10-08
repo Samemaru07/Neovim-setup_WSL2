@@ -9,7 +9,6 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         config = function()
             local lspconfig = vim.lsp.config
-
             lspconfig("sqls", {
                 on_attach = function(client, bufnr)
                     client.server_capabilities.documentFormattingProvider = false
@@ -17,7 +16,6 @@ require("lazy").setup({
             })
         end
     },
-
     { "williamboman/mason.nvim" },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -26,7 +24,7 @@ require("lazy").setup({
     },
     { "Mofiqul/vscode.nvim" },
 
-    -- 補完
+    -- 補完プラグイン群
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -34,25 +32,16 @@ require("lazy").setup({
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
-            "L3MON4D3/LuaSnip",
+            {
+                "L3MON4D3/LuaSnip",
+                dependencies = { "rafamadriz/friendly-snippets" },
+            },
             "saadparwaiz1/cmp_luasnip"
         }
     },
-    { "rafamadriz/friendly-snippets" },
     { "mattn/emmet-vim" },
- 
-    -- 自動括弧補完
-    {
-        "windwp/nvim-autopairs",
-        config = function()
-            local autopairs = require("nvim-autopairs")
-            autopairs.setup({
-                check_ts = true,
-                ts_context_for = { "jsx", "tsx" }
-            })
-        end
-    },
 
+    -- 自動括弧補完
     {
         "windwp/nvim-autopairs",
         config = function()
@@ -108,11 +97,8 @@ require("lazy").setup({
             local builtin = require("telescope.builtin")
             local opts = { noremap = true, silent = true }
 
-            -- バッファ内検索（現在開いているファイル）
             vim.keymap.set("n", "<leader>f", builtin.current_buffer_fuzzy_find, opts)
-            -- ファイル検索
             vim.keymap.set("n", "<leader>ff", builtin.find_files, opts)
-            -- バッファ検索（開いているファイル一覧）
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
         end
     },
@@ -175,7 +161,6 @@ require("lazy").setup({
         "kristijanhusak/vim-dadbod-completion",
         dependencies = { "tpope/vim-dadbod" },
         config = function()
-            -- SQL系ファイルで nvim-cmp に dadbod-completion を追加
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = { "sql", "mysql", "psql" },
                 callback = function()
@@ -203,16 +188,13 @@ require("lazy").setup({
         end
     },
 
-    -- pgFormatter
+    -- フォーマッタ群 (pgFormatter と prettier)
     {
         "nvimtools/none-ls.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local null_ls = require("null-ls")
-
-            local prettier = null_ls.builtins.formatting.prettier.with({
-            })
-
+            local prettier = null_ls.builtins.formatting.prettier
             local pg_format = null_ls.builtins.formatting.pg_format.with({
                 command = "/usr/local/bin/pg_format",
                 to_stdin = true,
@@ -226,7 +208,6 @@ require("lazy").setup({
                     "--wrap-after", "1"
                 }
             })
-
             null_ls.setup({
                 debug = false,
                 sources = {
