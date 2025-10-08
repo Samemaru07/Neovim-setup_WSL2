@@ -1,6 +1,16 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
+require("luasnip").config.setup({
+    history = true,
+    update_events = "TextChanged,TextChangedI",
+    callbacks = {
+        on_leave = function()
+            vim.cmd("doautocmd User TreesitterBufPost")
+        end
+    }
+})
+
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").load({ paths = vim.fn.stdpath("config") .. "/lua/snippets" })
 
