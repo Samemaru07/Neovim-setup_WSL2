@@ -15,7 +15,10 @@ luasnip.add_snippets("javascript", {
 cmp.setup({
     snippet = {
         expand = function(args)
-            luasnip.lsp_expand(args.body)
+            require("luasnip").lsp_expand(args.body)
+            vim.defer_fn(function()
+                vim.cmd("doautocmd User TreesitterBufPost")
+            end, 10)
         end
     },
     mapping = cmp.mapping.preset.insert({
