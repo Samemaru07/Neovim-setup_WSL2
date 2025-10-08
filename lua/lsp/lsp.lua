@@ -8,7 +8,7 @@ require("mason-lspconfig").setup({
         "pyright",
         "html",
         "cssls",
-        "tsserver",
+        "tsserver", -- "ts_ls" から "tsserver" に変更
         "jsonls",
         "sqls"
     }
@@ -31,60 +31,22 @@ end
 -- capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- Neovim 0.11+ 新API: vim.lsp.config
 local lspconfig = vim.lsp.config
 
--- Lua LS
-lspconfig("lua_ls", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = { version = "LuaJIT" },
-            workspace = {
-                library = { vim.env.VIMRUNTIME },
-                checkThirdParty = false
-            },
-            diagnostics = {
-                globals = { "vim" }
-            },
-            format = {
-                enable = true,
-                defaultConfig = {
-                    indent_style = "space",
-                    indent_size = "4"
-                }
-            }
-        }
-    }
-})
-
--- その他の言語サーバ
-for _, server in ipairs({ "clangd", "pyright", "html", "cssls", "jsonls" }) do
+-- tsserver 以外の言語サーバをループで設定
+for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls" }) do
     lspconfig(server, {
         on_attach = on_attach,
         capabilities = capabilities
     })
 end
 
--- tsserver
+-- tsserver の設定を個別に行う
 lspconfig("tsserver", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-    init_options = {
-        preferences = {
-            includeCompletionsForModuleExports = true,
-            includeCompletionsWithInsertText = true
-        },
-        plugins = {
-            {
-                name = "@vue/typescript-plugin",
-                location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
-                languages = { "vue" }
-            }
-        }
-    }
+    on_attach = on_attach,
+    capabilities = capabilities,
+    -- TSX/JSXファイルをtypescriptreactとして認識させる
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
 })
 
 -- sqls(フォーマット無効化)
