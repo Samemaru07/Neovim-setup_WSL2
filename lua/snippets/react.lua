@@ -5,7 +5,7 @@ local i = ls.insert_node
 
 return {
     -- React コンポーネント
-    s("rfc", {
+    s("rafce", {
         t("const "), i(1, "Component"), t(" = () => {"),
         t({ "", "  return (" }),
         t({ "", "    " }), i(2, "<div></div>"),

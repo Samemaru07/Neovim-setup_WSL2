@@ -1,3 +1,4 @@
+vim.g.did_load_filetypes = 1
 vim.g.mapleader = " "
 
 require("core.options")
