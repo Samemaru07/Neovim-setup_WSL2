@@ -2,6 +2,7 @@ local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
+local d = ls.dynamic_node
 
 return {
     s("rafce", {
@@ -16,7 +17,9 @@ return {
         t({ "", "    );" }),
         t({ "", "}" }),
         t({ "", "", "export default " }),
-        i(1)
+        d(2, function(args)
+            return t(args[1][1] or "")
+        end, {1})
     }),
 
     s("us", {
