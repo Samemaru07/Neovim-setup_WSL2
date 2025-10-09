@@ -5,13 +5,13 @@ local i = ls.insert_node
 
 return {
     s("rafce", {
-        t("const "), i(1, "Component"), t(" = () => {"),
+        t("function "), i(1, "Component"), t("() {"),
         t({ "", "    return (" }),
-        t({ "", "        <div>" }),
+        t({ "", "        <>" }),
         t({ "", "            " }), i(0),
-        t({ "", "        </div>" }),
+        t({ "", "        </>" }),
         t({ "", "    );" }),
-        t({ "", "};" }),
+        t({ "", "}" }),
         t({ "", "", "export default " }), i(1)
     }),
 
