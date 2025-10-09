@@ -6,7 +6,7 @@ local i = ls.insert_node
 return {
     s("rafce", {
         t("function "),
-        i(1, "ComponentName"),
+        i(1),
         t("() {"),
         t({ "", "    return (" }),
         t({ "", "        <>" }),
