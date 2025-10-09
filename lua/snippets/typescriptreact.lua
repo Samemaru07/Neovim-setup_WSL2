@@ -21,7 +21,8 @@ return {
         t({ "", "    );" }),
         t({ "", "}" }),
         t({ "", "", "export default " }),
-        d(2, copy_node_text, {1})
+        d(2, copy_node_text, {1}),
+        t(";")
     }),
 
     s("us", {
