@@ -238,9 +238,9 @@ require("lazy").setup({
             vim.g.vimtex_view_method = 'zathura'
 
             vim.g.vimtex_compiler_latexmk_engines = {
-                _ = '-e "$pdflatex = \'uplatex -synctex=1 -interaction=nonstopmode %O %S\'"',
+                _ = '-e "$pdflatex = \'uplatex -synctex=1 -interaction=nonstopmode %O %S\'"'
             }
-            
+
             vim.g.vimtex_compiler_latexmk = {
                 callback = 1,
                 continuous = 1,
