@@ -230,7 +230,7 @@ require("lazy").setup({
         end
     },
     {
-       'lervag/vimtex',
+        'lervag/vimtex',
         ft = "tex",
         config = function()
             vim.g.vimtex_compiler_method = 'latexmk'
@@ -243,10 +243,10 @@ require("lazy").setup({
                 executable = 'latexmk',
                 options = {
                     '-pdfdvi',
-                    '-e',
-                    '$latex=q/uplatex %O %S/',
                     '-synctex=1',
-                    '-interaction=nonstopmode'
+                    '-interaction=nonstopmode',
+                    '-e',
+                    [[\$latex = 'uplatex -synctex=1 -interaction=nonstopmode %O %S']]
                 }
             }
 
