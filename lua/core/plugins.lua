@@ -216,5 +216,22 @@ require("lazy").setup({
                 }
             })
         end
+    },
+    {
+        'lervag/vimtex',
+        ft = "tex",
+        init = function()
+            vim.g.vimtex_compiler_method = 'latexmk'
+            vim.g.vimtex_view_method = 'zathura'
+            vim.g.vimtex_compiler_latexmk = {
+                options = {
+                    '-e',
+                    '$pdflatex=q/uplatex %O -synctex=1 -interaction=nonstopmode %S/',
+                    '-pvc',
+                    '-pdf',
+                },
+            }
+            vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
+        end
     }
 })
