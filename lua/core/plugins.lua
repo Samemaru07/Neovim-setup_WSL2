@@ -231,28 +231,30 @@ require("lazy").setup({
     },
     {
         'lervag/vimtex',
-        ft = "tex",
-        config = function()
-            vim.g.vimtex_compiler_method = 'latexmk'
-            vim.g.vimtex_view_method = 'zathura'
+    ft = "tex",
+    config = function()
+        vim.g.vimtex_compiler_method = 'latexmk'
+        vim.g.vimtex_view_method = 'zathura'
 
-            vim.g.vimtex_compiler_latexmk = {
-                build_dir = '',
-                callback = 1,
-                continuous = 1,
-                executable = 'latexmk',
-                options = {
-                    '-pdfdvi',
-                    '-synctex=1',
-                    '-interaction=nonstopmode',
-                    '-e',
-                    [[\$latex = 'uplatex -synctex=1 -interaction=nonstopmode %O %S']]
-                }
-            }
+        vim.g.vimtex_compiler_latexmk_engines = {
+        _ = "uplatex"
+        }
 
-            vim.g.vimtex_syntax_enabled = 0
-            vim.g.vimtex_view_zathura_options =
-                '--synctex-editor-command "nvr --remote +%{line} %{input}"'
-        end
+        vim.g.vimtex_compiler_latexmk = {
+        build_dir = '',
+        callback = 1,
+        continuous = 1,
+        executable = 'latexmk',
+        options = {
+            '-pdfdvi',
+            '-synctex=1',
+            '-interaction=nonstopmode'
+        }
+    }
+
+    vim.g.vimtex_syntax_enabled = 0
+    vim.g.vimtex_view_zathura_options =
+        '--synctex-editor-command "nvr --remote +%{line} %{input}"'
+    end
     }
 })
