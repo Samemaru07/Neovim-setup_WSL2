@@ -18,21 +18,51 @@ require("lazy").setup({
             })
         end
     },
+    -- ... (他のプラグイン設定) ...
+
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-        handlers = {
-            function(server_name)
-                require("lspconfig")[server_name].setup({})
-            end,
-            ["sqls"] = function()
-                require("lspconfig").sqls.setup({
-                    on_attach = function(client, bufnr)
-                        client.server_capabilities.documentFormattingProvider = false
-                    end
-                })
-            end
-        }
+        config = function()
+            require("mason-lspconfig").setup_handlers({
+                -- デフォルトのセットアップ
+                function(server_name)
+                    require("lspconfig")[server_name].setup({})
+                end,
+
+                -- texlab の設定をここに追加
+                ["texlab"] = function()
+                    require("lspconfig").texlab.setup({
+                        settings = {
+                            texlab = {
+                                build = {
+                                    executable = "latexmk",
+                                    args = {
+                                        "-synctex=1",
+                                        "-interaction=nonstopmode",
+                                        "%f"
+                                    },
+                                    onSave = true
+                                },
+                                forwardSearch = {
+                                    executable = 'zathura',
+                                    args = {"--synctex-forward", "%l:1:%f", "%p"}
+                                }
+                            }
+                        }
+                    })
+                end,
+                
+                -- 既存の sqls の設定はそのまま
+                ["sqls"] = function()
+                    require("lspconfig").sqls.setup({
+                        on_attach = function(client, bufnr)
+                            client.server_capabilities.documentFormattingProvider = false
+                        end
+                    })
+                end
+            })
+        end
     },
     { "Mofiqul/vscode.nvim" },
 
