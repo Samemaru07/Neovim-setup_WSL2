@@ -18,49 +18,47 @@ require("lazy").setup({
             })
         end
     },
-    -- ... (他のプラグイン設定) ...
-
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
         config = function()
-            require("mason-lspconfig").setup_handlers({
-                -- デフォルトのセットアップ
-                function(server_name)
-                    require("lspconfig")[server_name].setup({})
-                end,
+            require("mason-lspconfig").setup({
+                handlers = {
+                    function(server_name)
+                        require("lspconfig")[server_name].setup({})
+                    end,
 
-                -- texlab の設定をここに追加
-                ["texlab"] = function()
-                    require("lspconfig").texlab.setup({
-                        settings = {
-                            texlab = {
-                                build = {
-                                    executable = "latexmk",
-                                    args = {
-                                        "-synctex=1",
-                                        "-interaction=nonstopmode",
-                                        "%f"
+                    ["texlab"] = function()
+                        require("lspconfig").texlab.setup({
+                            settings = {
+                                texlab = {
+                                    build = {
+                                        executable = "latexmk",
+                                        args = {
+                                            "-synctex=1",
+                                            "-interaction=nonstopmode",
+                                            "%f" -- ファイル名
+                                        },
+                                        onSave = true,
                                     },
-                                    onSave = true
-                                },
-                                forwardSearch = {
-                                    executable = 'zathura',
-                                    args = {"--synctex-forward", "%l:1:%f", "%p"}
+                                    forwardSearch = {
+                                        executable = 'zathura',
+                                        args = {"--synctex-forward", "%l:1:%f", "%p"}
+                                    }
                                 }
                             }
-                        }
-                    })
-                end,
-                
-                -- 既存の sqls の設定はそのまま
-                ["sqls"] = function()
-                    require("lspconfig").sqls.setup({
-                        on_attach = function(client, bufnr)
-                            client.server_capabilities.documentFormattingProvider = false
-                        end
-                    })
-                end
+                        })
+                    end,
+
+                    -- 元からあった sqls 用のカスタム設定
+                    ["sqls"] = function()
+                        require("lspconfig").sqls.setup({
+                            on_attach = function(client, bufnr)
+                                client.server_capabilities.documentFormattingProvider = false
+                            end
+                        })
+                    end
+                }
             })
         end
     },
