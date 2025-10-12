@@ -6,6 +6,7 @@ require("lazy").setup({
     { "akinsho/toggleterm.nvim" },
     { "folke/trouble.nvim" },
     { "neovim/nvim-lspconfig" },
+
     {
         "williamboman/mason.nvim",
         config = function()
@@ -20,20 +21,18 @@ require("lazy").setup({
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-        config = function()
-            require("mason-lspconfig").setup_handlers({
-                function(server_name)
-                    require("lspconfig")[server_name].setup({})
-                end,
-                ["sqls"] = function()
-                    require("lspconfig").sqls.setup({
-                        on_attach = function(client, bufnr)
-                            client.server_capabilities.documentFormattingProvider = false
-                        end
-                    })
-                end
-            })
-        end
+        handlers = {
+            function(server_name)
+                require("lspconfig")[server_name].setup({})
+            end,
+            ["sqls"] = function()
+                require("lspconfig").sqls.setup({
+                    on_attach = function(client, bufnr)
+                        client.server_capabilities.documentFormattingProvider = false
+                    end
+                })
+            end
+        }
     },
     { "Mofiqul/vscode.nvim" },
 
