@@ -229,16 +229,12 @@ require("lazy").setup({
             })
         end
     },
-    {
+{
     'lervag/vimtex',
     ft = "tex",
     config = function()
         vim.g.vimtex_compiler_method = 'latexmk'
         vim.g.vimtex_view_method = 'zathura'
-
-        vim.g.vimtex_compiler_latexmk_engines = {
-            _ = "uplatex"
-        }
 
         vim.g.vimtex_compiler_latexmk = {
             build_dir = '',
@@ -246,10 +242,8 @@ require("lazy").setup({
             continuous = 1,
             executable = 'latexmk',
             options = {
-                '-pdfdvi',
                 '-synctex=1',
-                '-interaction=nonstopmode',
-                '-norc'
+                '-interaction=nonstopmode'
             }
         }
 
