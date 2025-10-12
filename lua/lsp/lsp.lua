@@ -10,7 +10,8 @@ require("mason-lspconfig").setup({
         "cssls",
         "ts_ls",
         "jsonls",
-        "sqls"
+        "sqls",
+        "texlab"
     }
 })
 
