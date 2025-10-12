@@ -5,32 +5,35 @@ require("lazy").setup({
     { "nvim-lualine/lualine.nvim" },
     { "akinsho/toggleterm.nvim" },
     { "folke/trouble.nvim" },
-    {
-        "neovim/nvim-lspconfig",
-        config = function()
-            local lspconfig = vim.lsp.config
-
-            lspconfig.sqls.setup({
-                on_attach = function(client, bufnr)
-                    client.server_capabilities.documentFormattingProvider = false
-                end
-            })
-
-            lspconfig.texlab.setup({})
-        end
-    },
+    { "neovim/nvim-lspconfig" },
     {
         "williamboman/mason.nvim",
         config = function()
             require("mason").setup({
                 ensure_installed = {
-                    "texlab"
+                    "texlab",
+                    "sqls"
                 }
             })
         end
     },
     {
         "williamboman/mason-lspconfig.nvim",
+        dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+        config = function()
+            require("mason-lspconfig").setup_handlers({
+                function(server_name)
+                    require("lspconfig")[server_name].setup({})
+                end,
+                ["sqls"] = function()
+                    require("lspconfig").sqls.setup({
+                        on_attach = function(client, bufnr)
+                            client.server_capabilities.documentFormattingProvider = false
+                        end
+                    })
+                end
+            })
+        end
     },
     { "Mofiqul/vscode.nvim" },
 
