@@ -245,7 +245,6 @@ require("lazy").setup({
                 callback = 1,
                 continuous = 1,
                 options = {
-                    "-pdf",
                     "-interaction=nonstopmode"
                 }
             }
