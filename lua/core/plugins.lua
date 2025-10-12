@@ -240,8 +240,8 @@ require("lazy").setup({
                     '-e',
                     '$pdflatex=q/uplatex %O -synctex=1 -interaction=nonstopmode %S/',
                     '-pvc',
-                    '-pdf',
-                },
+                    '-pdf'
+                }
             }
             vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
         end
