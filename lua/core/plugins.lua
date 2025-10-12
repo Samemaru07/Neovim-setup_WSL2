@@ -238,7 +238,7 @@ require("lazy").setup({
             vim.g.vimtex_view_method = 'zathura'
 
             vim.g.vimtex_compiler_latexmk_engines = {
-                _ = '-e "$pdflatex = \'uplatex -synctex=1 -interaction=nonstopmode %O %S\'"'
+                _ = "uplatex"
             }
 
             vim.g.vimtex_compiler_latexmk = {
@@ -249,6 +249,8 @@ require("lazy").setup({
                     "-interaction=nonstopmode"
                 }
             }
+
+            vim.g.vimtex_syntax_enabled = 0
 
             vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
         end
