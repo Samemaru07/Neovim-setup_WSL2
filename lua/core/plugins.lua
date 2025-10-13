@@ -287,7 +287,6 @@ require("lazy").setup({
 },
     -- hdl
     { "vhda/verilog_systemverilog.vim" },
-    { "vhda/vhdltool" },
     { "mfussenegger/nvim-lint" },
     { "stevearc/conform.nvim" }
 })
