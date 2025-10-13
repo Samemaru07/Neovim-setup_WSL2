@@ -53,14 +53,20 @@ require("lazy").setup({
                         })
                     end,
 
-                    -- 元からあった sqls 用のカスタム設定
                     ["sqls"] = function()
                         require("lspconfig").sqls.setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
                             end
                         })
-                    end
+                    end,
+                    ["vhdl_ls"] = function()
+                    require("lspconfig").vhdl_ls.setup({
+                        cmd = { "vhdl_ls" },
+                        filetypes = { "vhdl" },
+                        root_dir = require("lspconfig.util").root_pattern(".git", "*.vhdl")
+                    })
+                end
                 }
             })
         end
