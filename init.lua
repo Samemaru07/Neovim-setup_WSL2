@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 require("core.options")
 require("core.keymaps")
 require("core.plugins")
+require("core.lint")
 
 require("ui.colorscheme")
 require("ui.lualine")

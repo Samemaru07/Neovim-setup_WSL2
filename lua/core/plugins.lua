@@ -284,5 +284,10 @@ require("lazy").setup({
         vim.g.vimtex_view_zathura_options =
             '--synctex-editor-command "nvr --remote +%{line} %{input}"'
     end
-}
+},
+    -- hdl
+    { "vhda/verilog_systemverilog.vim" },
+    { "vhda/vhdltool" },
+    { "mfussenegger/nvim-lint" },
+    { "stevearc/conform.nvim" }
 })
