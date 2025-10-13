@@ -13,6 +13,7 @@ require("lazy").setup({
             require("mason").setup({
                 ensure_installed = {
                     "texlab",
+                    "ltex",
                     "sqls"
                 }
             })
@@ -35,9 +36,11 @@ require("lazy").setup({
                                     build = {
                                         executable = "latexmk",
                                         args = {
+                                            "-pdf",
+                                            "-lualatex",
                                             "-synctex=1",
                                             "-interaction=nonstopmode",
-                                            "%f" -- ファイル名
+                                            "%p"
                                         },
                                         onSave = true,
                                     },
@@ -270,6 +273,8 @@ require("lazy").setup({
             continuous = 1,
             executable = 'latexmk',
             options = {
+                "-pdf",
+                "-lualatex",
                 '-synctex=1',
                 '-interaction=nonstopmode'
             }
