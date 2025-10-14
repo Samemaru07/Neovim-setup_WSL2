@@ -284,12 +284,13 @@ require("lazy").setup({
         }
 
         vim.g.vimtex_view_zathura_options =
-            '-x "nvr --remote +%{line} %{input}" --name "zathura-vimtex-' .. vim.fn.serverstart() .. '"'
+            '--synctex-editor-command "nvr --remote +%{line} %{input}" --name "zathura-vimtex-' .. vim.fn.expand('%:t') .. '"'
 
         vim.g.vimtex_view_zathura_update_view_cb = function(self)
-            local name = "zathura-vimtex-" .. vim.fn.serverstart(0)
+            local name = "zathura-vimtex-" .. vim.fn.expand('%:t')
             local cmd = "xdotool search --name '" .. name .. "' windowactivate key F5"
-            vim.fn.system(cmd)
+            -- エラー出力を抑制するために >/dev/null 2>&1 を追加
+            vim.fn.system(cmd .. " >/dev/null 2>&1")
         end
     end
 },
