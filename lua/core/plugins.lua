@@ -266,18 +266,17 @@ require("lazy").setup({
             })
         end
     },
-{
+    {
     'lervag/vimtex',
+    lazy = false,
     ft = "tex",
     config = function()
+
         vim.g.vimtex_compiler_method = 'latexmk'
         vim.g.vimtex_view_method = 'zathura'
 
         vim.g.vimtex_compiler_latexmk = {
             build_dir = '',
-            callback = 1,
-            continuous = 1,
-            executable = 'latexmk',
             options = {
                 "-pdf",
                 "-lualatex",
@@ -286,9 +285,14 @@ require("lazy").setup({
             }
         }
 
+        vim.g.vimtex_view_zathura_update_view_cb = function(self)
+            local user = vim.fn.expand('$USER')
+            vim.fn.system('killall -HUP -u ' .. user .. ' zathura >/dev/null 2>&1')
+        end
+
+        vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
+
         vim.g.vimtex_syntax_enabled = 0
-        vim.g.vimtex_view_zathura_options =
-            '--synctex-editor-command "nvr --remote +%{line} %{input}"'
     end
 },
     -- hdl
