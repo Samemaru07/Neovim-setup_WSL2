@@ -300,11 +300,3 @@ require("lazy").setup({
     { "mfussenegger/nvim-lint" },
     { "stevearc/conform.nvim" }
 })
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = "*.tex",
-    callback = function()
-        vim.cmd("VimtexCompileSS")
-        vim.cmd("VimtexView")
-    end
-})
