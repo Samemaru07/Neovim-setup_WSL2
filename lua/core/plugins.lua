@@ -266,6 +266,7 @@ require("lazy").setup({
             })
         end
     },
+    
 {
     'lervag/vimtex',
     lazy = false,
@@ -283,14 +284,12 @@ require("lazy").setup({
             }
         }
 
-        vim.g.vimtex_view_zathura_options =
-            '--synctex-editor-command "nvr --remote +%{line} %{input}" --name "zathura-vimtex-' .. vim.fn.expand('%:t') .. '"'
-
         vim.g.vimtex_view_zathura_update_view_cb = function(self)
-            local name = "zathura-vimtex-" .. vim.fn.expand('%:t')
-            local cmd = "xdotool search --name '" .. name .. "' windowactivate key F5"
-            vim.fn.system(cmd .. " >/dev/null 2>&1")
+            local user = vim.fn.expand('$USER')
+            vim.fn.system('killall -HUP -u ' .. user .. ' zathura >/dev/null 2>&1')
         end
+
+        vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
     end
 },
     -- hdl
