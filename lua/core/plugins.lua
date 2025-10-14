@@ -33,26 +33,17 @@ require("lazy").setup({
                         require("lspconfig").texlab.setup({
                             settings = {
                                 texlab = {
-                                    build = {
-                                        executable = "latexmk",
-                                        args = {
-                                            "-pdf",
-                                            "-lualatex",
-                                            "-synctex=1",
-                                            "-interaction=nonstopmode",
-                                            "%p"
-                                        },
-                                        onSave = true,
+                                    chktex = {
+                                        onOpenAndSave = true,
+                                        onEdit = true,
                                     },
-                                    forwardSearch = {
-                                        executable = 'zathura',
-                                        args = {"--synctex-forward", "%l:1:%f", "%p"}
+                                    build = {
+                                        onSave = false,
                                     }
                                 }
                             }
                         })
                     end,
-
                     ["sqls"] = function()
                         require("lspconfig").sqls.setup({
                             on_attach = function(client, bufnr)
@@ -266,32 +257,31 @@ require("lazy").setup({
             })
         end
     },
-    
-{
-    'lervag/vimtex',
-    lazy = false,
-    config = function()
-        vim.g.vimtex_view_method = 'zathura'
-        vim.g.vimtex_compiler_method = 'latexmk'
+    {
+        'lervag/vimtex',
+        lazy = false,
+        config = function()
+            vim.g.vimtex_view_method = 'zathura'
+            vim.g.vimtex_compiler_method = 'latexmk'
 
-        vim.g.vimtex_compiler_latexmk = {
-            continuous = 1,
-            options = {
-                "-pdf",
-                "-lualatex",
-                '-synctex=1',
-                '-interaction=nonstopmode'
+            vim.g.vimtex_compiler_latexmk = {
+                continuous = 1,
+                options = {
+                    "-pdf",
+                    "-lualatex",
+                    '-synctex=1',
+                    '-interaction=nonstopmode'
+                }
             }
-        }
 
-        vim.g.vimtex_view_zathura_update_view_cb = function(self)
-            local user = vim.fn.expand('$USER')
-            vim.fn.system('killall -HUP -u ' .. user .. ' zathura >/dev/null 2>&1')
+            vim.g.vimtex_view_zathura_update_view_cb = function(self)
+                local user = vim.fn.expand('$USER')
+                vim.fn.system('killall -HUP -u ' .. user .. ' zathura >/dev/null 2>&1')
+            end
+
+            vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
         end
-
-        vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
-    end
-},
+    },
     -- hdl
     { "vhda/verilog_systemverilog.vim" },
     { "mfussenegger/nvim-lint" },
