@@ -300,6 +300,6 @@ require("lazy").setup({
 vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*.tex",
     callback = function()
-        vim.cmd("VimtexCompile")
-    end,
+        vim.cmd("VimtexCompileSS")
+    end
 })
