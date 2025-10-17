@@ -65,3 +65,6 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.cmd("VimtexCompile")
     end
 })
+
+-- 折り返し
+vim.o.wrap = false
