@@ -107,6 +107,11 @@ vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
 map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
 
+-- 置換
+map("n", "<leader>fc", function()
+    require("spectre").open()
+end, opts)
+
 -- NvimTree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
 
