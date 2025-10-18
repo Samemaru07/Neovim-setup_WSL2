@@ -21,7 +21,7 @@ local current_term = nil
 -- ターミナル #1 を初期作成
 terms[1] = Terminal:new({
     count = 1,
-    cmd = "wsl.exe",
+    cmd = "wsl.exe -e zsh",
     direction = "horizontal",
     start_in_insert = true,
     close_on_exit = false,
@@ -37,7 +37,7 @@ local function create_toggle_func(i)
         if not terms[i] then
             terms[i] = Terminal:new({
                 count = i,
-                cmd = "wsl.exe",
+                cmd = "wsl.exe -e zsh",
                 direction = "horizontal",
                 start_in_insert = true,
                 close_on_exit = false,
@@ -68,7 +68,7 @@ vim.keymap.set("n", "<leader>n", function()
         if not terms[i] then
             terms[i] = Terminal:new({
                 count = i,
-                cmd = "wsl.exe",
+                cmd = "wsl.exe -e zsh",
                 direction = "horizontal",
                 start_in_insert = true,
                 close_on_exit = false,
