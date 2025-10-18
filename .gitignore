@@ -24,3 +24,5 @@
 /docs/
 /package.json
 /package-lock.json
+
+nvim.appimage
