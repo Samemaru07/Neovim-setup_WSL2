@@ -101,7 +101,10 @@ vim.keymap.set("i", "<C-q>", "<C-o><C-r>", { noremap = false, silent = true })
 
 -- 単語削除
 vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
+map("t", "<C-e>", "<C-w>", opts)
+
 vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
+map("t", "<C-r>", "<A-d>", opts)
 
 -- ペイン分割
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
