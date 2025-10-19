@@ -228,45 +228,37 @@ require("lazy").setup({
         end
     },
 
-    -- フォーマッタ群 (pgFormatter と prettier)
     {
-        "nvimtools/none-ls.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        "stevearc/conform.nvim",
         config = function()
-            local null_ls = require("null-ls")
-            local prettier = null_ls.builtins.formatting.prettier
-            local pg_format = null_ls.builtins.formatting.pg_format.with({
-                command = "/usr/local/bin/pg_format",
-                to_stdin = true,
-                filetypes = { "sql", "pgsql" },
-                extra_args = {
-                    "--format", "text",
-                    "--no-rcfile",
-                    "--keyword-case", "2",
-                    "--type-case", "2",
-                    "--spaces", "4",
-                    "--wrap-after", "1"
-                }
-            })
-
-            local clang_format = null_ls.builtins.formatting.clang_format
-            local black = null_ls.builtins.formatting.black
-            local ruff = null_ls.builtins.formatting.ruff
-            local pint = null_ls.builtins.formatting.pint
-            local stylua = null_ls.builtins.formatting.stylua
-            local shfmt = null_ls.builtins.formatting.shfmt
-
-            null_ls.setup({
-                debug = false,
-                sources = {
-                    prettier,
-                    pg_format,
-                    clang_format,
-                    black,
-                    ruff,
-                    pint,
-                    stylua,
-                    shfmt
+            require("conform").setup({
+                format_on_save = {
+                    timeout_ms = 500,
+                    lsp_fallback = true,
+                },
+                formatters_by_ft = {
+                    javascript = { "prettier" },
+                    typescript = { "prettier" },
+                    javascriptreact = { "prettier" },
+                    typescriptreact = { "prettier" },
+                    python = { "ruff", "black" },
+                    c = { "clang_format" },
+                    cpp = { "clang_format" },
+                    php = { "pint" },
+                    lua = { "stylua" },
+                    sh = { "shfmt" },
+                    sql = { "pg_format" }
+                },
+                formatters = {
+                    pg_format = {
+                        command = "/usr/local/bin/pg_format",
+                        args = {
+                            "--format", "text", "--no-rcfile", "--keyword-case", "2",
+                            "--type-case", "2", "--spaces", "4", "--wrap-after", "1",
+                            "-"
+                        },
+                        stdin = true
+                    }
                 }
             })
         end
