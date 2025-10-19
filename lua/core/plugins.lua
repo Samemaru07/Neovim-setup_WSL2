@@ -14,10 +14,10 @@ require("lazy").setup({
                 ensure_installed = {
                     "texlab",
                     "ltex",
-                    "sqls"
-                }
+                    "sqls",
+                },
             })
-        end
+        end,
     },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -39,28 +39,28 @@ require("lazy").setup({
                                     },
                                     build = {
                                         onSave = false,
-                                    }
-                                }
-                            }
+                                    },
+                                },
+                            },
                         })
                     end,
                     ["sqls"] = function()
                         require("lspconfig").sqls.setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
-                            end
+                            end,
                         })
                     end,
                     ["vhdl_ls"] = function()
-                    require("lspconfig").vhdl_ls.setup({
-                        cmd = { "vhdl_ls" },
-                        filetypes = { "vhdl" },
-                        root_dir = require("lspconfig.util").root_pattern(".git", "*.vhdl")
-                    })
-                end
-                }
+                        require("lspconfig").vhdl_ls.setup({
+                            cmd = { "vhdl_ls" },
+                            filetypes = { "vhdl" },
+                            root_dir = require("lspconfig.util").root_pattern(".git", "*.vhdl"),
+                        })
+                    end,
+                },
             })
-        end
+        end,
     },
     { "Mofiqul/vscode.nvim" },
 
@@ -76,8 +76,8 @@ require("lazy").setup({
                 "L3MON4D3/LuaSnip",
                 dependencies = { "rafamadriz/friendly-snippets" },
             },
-            "saadparwaiz1/cmp_luasnip"
-        }
+            "saadparwaiz1/cmp_luasnip",
+        },
     },
     { "mattn/emmet-vim" },
 
@@ -88,9 +88,9 @@ require("lazy").setup({
             local autopairs = require("nvim-autopairs")
             autopairs.setup({
                 check_ts = true,
-                ts_context_for = { "jsx", "tsx" }
+                ts_context_for = { "jsx", "tsx" },
             })
-        end
+        end,
     },
 
     -- Treesitter
@@ -101,9 +101,28 @@ require("lazy").setup({
             require("nvim-treesitter.configs").setup({
                 highlight = { enable = true },
                 indent = { enable = true },
-                ensure_installed = { "html", "javascript", "typescript", "css", "lua", "vim", "bash", "python", "tsx", "json", "yaml", "markdown", "dockerfile", "terraform", "hcl", "toml", "ini", "latex" }
+                ensure_installed = {
+                    "html",
+                    "javascript",
+                    "typescript",
+                    "css",
+                    "lua",
+                    "vim",
+                    "bash",
+                    "python",
+                    "tsx",
+                    "json",
+                    "yaml",
+                    "markdown",
+                    "dockerfile",
+                    "terraform",
+                    "hcl",
+                    "toml",
+                    "ini",
+                    "latex",
+                },
             })
-        end
+        end,
     },
 
     -- コメントアウト
@@ -118,9 +137,9 @@ require("lazy").setup({
                 sticky = true,
                 toggler = { line = "<leader>/" },
                 opleader = { line = "<leader>/" },
-                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
             })
-        end
+        end,
     },
 
     -- Telescope
@@ -140,14 +159,14 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>f", builtin.current_buffer_fuzzy_find, opts)
             vim.keymap.set("n", "<leader>ff", builtin.find_files, opts)
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
-        end
+        end,
     },
 
     -- インデントに色付け
     {
         "lukas-reineke/indent-blankline.nvim",
         version = "*",
-        event = "BufRead"
+        event = "BufRead",
     },
 
     -- ダッシュボード
@@ -155,7 +174,7 @@ require("lazy").setup({
         "goolord/alpha-nvim",
         config = function()
             require("ui.dashboard")
-        end
+        end,
     },
 
     -- 置換
@@ -167,11 +186,11 @@ require("lazy").setup({
                 find_engine = {
                     ["rg"] = {
                         cmd = "rg",
-                        args = { "--vimgrep" }
-                    }
-                }
+                        args = { "--vimgrep" },
+                    },
+                },
             })
-        end
+        end,
     },
 
     -- neodev
@@ -179,21 +198,21 @@ require("lazy").setup({
         "folke/neodev.nvim",
         config = function()
             require("neodev").setup({
-                lspconfig = false
+                lspconfig = false,
             })
-        end
+        end,
     },
 
     -- dadbod-ui
     {
         "tpope/vim-dadbod",
         dependencies = {
-            "kristijanhusak/vim-dadbod-ui"
+            "kristijanhusak/vim-dadbod-ui",
         },
         config = function()
             vim.g.db_ui_save_location = "~/.config/nvim/db_ui"
             vim.g.db_ui_use_nerd_fonts = 1
-        end
+        end,
     },
 
     -- vim-dadbod-completion
@@ -210,12 +229,12 @@ require("lazy").setup({
                             { name = "vim-dadbod-completion" },
                         }, {
                             { name = "buffer" },
-                            { name = "path" }
-                        })
+                            { name = "path" },
+                        }),
                     })
-                end
+                end,
             })
-        end
+        end,
     },
 
     -- iamcco
@@ -225,7 +244,7 @@ require("lazy").setup({
         build = "cd app && npm install",
         init = function()
             vim.g.mkdp_auto_start = 1
-        end
+        end,
     },
 
     {
@@ -247,49 +266,60 @@ require("lazy").setup({
                     php = { "pint" },
                     lua = { "stylua" },
                     sh = { "shfmt" },
-                    sql = { "pg_format" }
+                    sql = { "pg_format" },
+                    tex = { "latexindent" },
+                    bib = { "latexindent" },
                 },
                 formatters = {
                     pg_format = {
                         command = "/usr/local/bin/pg_format",
                         args = {
-                            "--format", "text", "--no-rcfile", "--keyword-case", "2",
-                            "--type-case", "2", "--spaces", "4", "--wrap-after", "1",
-                            "-"
+                            "--format",
+                            "text",
+                            "--no-rcfile",
+                            "--keyword-case",
+                            "2",
+                            "--type-case",
+                            "2",
+                            "--spaces",
+                            "4",
+                            "--wrap-after",
+                            "1",
+                            "-",
                         },
-                        stdin = true
-                    }
-                }
+                        stdin = true,
+                    },
+                },
             })
-        end
+        end,
     },
     {
-        'lervag/vimtex',
+        "lervag/vimtex",
         lazy = false,
         config = function()
-            vim.g.vimtex_view_method = 'zathura'
-            vim.g.vimtex_compiler_method = 'latexmk'
+            vim.g.vimtex_view_method = "zathura"
+            vim.g.vimtex_compiler_method = "latexmk"
 
             vim.g.vimtex_compiler_latexmk = {
                 continuous = 1,
                 options = {
                     "-pdf",
                     "-lualatex",
-                    '-synctex=1',
-                    '-interaction=nonstopmode'
-                }
+                    "-synctex=1",
+                    "-interaction=nonstopmode",
+                },
             }
 
             vim.g.vimtex_view_zathura_update_view_cb = function(self)
-                local user = vim.fn.expand('$USER')
-                vim.fn.system('killall -HUP -u ' .. user .. ' zathura >/dev/null 2>&1')
+                local user = vim.fn.expand("$USER")
+                vim.fn.system("killall -HUP -u " .. user .. " zathura >/dev/null 2>&1")
             end
 
             vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
-        end
+        end,
     },
     -- hdl
     { "vhda/verilog_systemverilog.vim" },
     { "mfussenegger/nvim-lint" },
-    { "stevearc/conform.nvim" }
+    { "stevearc/conform.nvim" },
 })
