@@ -248,11 +248,15 @@ require("lazy").setup({
                     "--wrap-after", "1"
                 }
             })
+
+            local clang_format = null_ls.builtins.formatting.clang_format
+
             null_ls.setup({
                 debug = false,
                 sources = {
                     prettier,
-                    pg_format
+                    pg_format,
+                    clang_format
                 }
             })
         end
