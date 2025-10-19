@@ -249,8 +249,9 @@ require("lazy").setup({
                 }
             })
 
-            local clang_format = null_ls.builtins.formatting.clang_formatlocal black = null_ls.builtins.formatting.black
-            local ruff_format = null_ls.builtins.formatting.ruff_format
+            local clang_format = null_ls.builtins.formatting.clang_format
+            local black = null_ls.builtins.formatting.black
+            local ruff = null_ls.builtins.formatting.ruff
             local pint = null_ls.builtins.formatting.pint
             local stylua = null_ls.builtins.formatting.stylua
             local shfmt = null_ls.builtins.formatting.shfmt
@@ -262,7 +263,7 @@ require("lazy").setup({
                     pg_format,
                     clang_format,
                     black,
-                    ruff_format,
+                    ruff,
                     pint,
                     stylua,
                     shfmt
