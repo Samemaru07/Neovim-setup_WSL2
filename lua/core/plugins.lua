@@ -28,9 +28,11 @@ require("lazy").setup({
                     function(server_name)
                         require("lspconfig")[server_name].setup({})
                     end,
-
                     ["texlab"] = function()
                         require("lspconfig").texlab.setup({
+                            on_attach = function(client, bufnr)
+                                client.server_capabilities.documentFormattingProvider = false
+                            end,
                             settings = {
                                 texlab = {
                                     chktex = {
