@@ -20,7 +20,7 @@ map("t", "<Esc>", "<C-\\><C-n>", opts)
 local function format_and_save()
     local conform = require("conform")
 
-    conform.format({ async = false, lsp_fallback = true }, function(err)
+    conform.format(nil, function(err)
         if err then
             vim.notify("Conform (Format): " .. err, vim.log.levels.ERROR)
         end
