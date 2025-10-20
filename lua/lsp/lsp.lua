@@ -11,8 +11,9 @@ require("mason-lspconfig").setup({
         "ts_ls",
         "jsonls",
         "sqls",
-        "texlab"
-    }
+        "texlab",
+        "svls",
+    },
 })
 
 local on_attach = function(client, bufnr)
@@ -23,9 +24,9 @@ local on_attach = function(client, bufnr)
                 bufnr = bufnr,
                 filter = function(c)
                     return c.name == "null-ls"
-                end
+                end,
             })
-        end
+        end,
     })
 end
 
@@ -35,10 +36,10 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = vim.lsp.config
 
 -- tsserver 以外の言語サーバ
-for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls" }) do
+for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls", "svls" }) do
     lspconfig(server, {
         on_attach = on_attach,
-        capabilities = capabilities
+        capabilities = capabilities,
     })
 end
 
@@ -52,9 +53,9 @@ lspconfig("tsserver", {
             includeLanguages = {
                 javascript = "javascriptreact",
                 typescript = "typescriptreact",
-            }
-        }
-    }
+            },
+        },
+    },
 })
 
 -- sqls(フォーマット無効化)
@@ -64,5 +65,5 @@ lspconfig("sqls", {
         client.server_capabilities.documentRangeFormattingProvider = false
         on_attach(client, bufnr)
     end,
-    capabilities = capabilities
+    capabilities = capabilities,
 })

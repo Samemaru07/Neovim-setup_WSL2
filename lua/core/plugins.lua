@@ -15,6 +15,7 @@ require("lazy").setup({
                     "texlab",
                     "ltex",
                     "sqls",
+                    "verible-verilog-format",
                 },
             })
         end,
@@ -271,6 +272,7 @@ require("lazy").setup({
                     sql = { "pg_format" },
                     tex = { "latexindent" },
                     bib = { "latexindent" },
+                    verilog = { "verible-verilog-format" },
                 },
                 formatters = {
                     pg_format = {
