@@ -20,8 +20,6 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.opt.shell = vim.env.SHELL or "/bin/sh"
 vim.opt.shellcmdflag = "-c"
-vim.opt.shellquote = ""
-vim.opt.shellxquote = ""
 vim.opt.showmode = false
 
 -- 改行コード
