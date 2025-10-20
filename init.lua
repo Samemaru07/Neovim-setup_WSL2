@@ -17,10 +17,10 @@ require("lsp.lsp")
 require("cmp.cmp")
 require("ui.trouble")
 
-local data_dir   = vim.fn.stdpath("data")
-local swap_dir   = data_dir .. "/swap//"
+local data_dir = vim.fn.stdpath("data")
+local swap_dir = data_dir .. "/swap//"
 local backup_dir = data_dir .. "/backup//"
-local undo_dir   = data_dir .. "/undo//"
+local undo_dir = data_dir .. "/undo//"
 
 local function ensure_dir(path)
     if vim.fn.isdirectory(path) == 0 then
@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "NvimTree_*",
     callback = function()
         vim.opt_local.statusline = "Explorer"
-    end
+    end,
 })
 
 -- spectreのswapファイルは作らせない
@@ -56,14 +56,7 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = "spectre",
     callback = function()
         vim.opt_local.swapfile = false
-    end
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "tex",
-    callback = function()
-        vim.cmd("VimtexCompile")
-    end
+    end,
 })
 
 -- 折り返し
