@@ -312,6 +312,13 @@ require("lazy").setup({
                 },
             }
 
+            vim.g.vimtex_view_zathura_update_view_cb = function(self)
+                vim.fn.system("sleep 0.3")
+
+                local user = vim.fn.expand("$USER")
+                vim.fn.system("killall -HUP -u " .. user .. " zathura >/dev/null 2>&1")
+            end
+
             vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
         end,
     },
