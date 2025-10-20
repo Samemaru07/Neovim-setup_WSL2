@@ -18,21 +18,14 @@ map("t", "<Esc>", "<C-\\><C-n>", opts)
 
 -- 保存 + 整形
 local function format_and_save()
-    local ok = pcall(function()
-        vim.lsp.buf.format({
-            async = false,
-            timeout_ms = 5000,
-            filter = function(client)
-                return client.name == "null-ls"
-            end
-        })
+    local conform = require("conform")
+
+    conform.format({ async = false, lsp_fallback = true }, function(err)
+        if err then
+            vim.notify("Conform (Format): " .. err, vim.log.levels.ERROR)
+        end
+        vim.cmd("write")
     end)
-
-    if not ok then
-        print("null-ls フォーマッタが見つかりませんでした")
-    end
-
-    vim.cmd("write")
 end
 
 vim.keymap.set({ "n", "v" }, "<leader>s", format_and_save, { noremap = true, silent = true })
@@ -45,7 +38,8 @@ end, opts)
 map("n", "<leader>q", "<cmd>bdelete!<CR>", opts)
 
 map({ "n", "i" }, "<C-S-s>", function()
-    format_and_save(); vim.cmd("quit")
+    format_and_save()
+    vim.cmd("quit")
 end, opts)
 
 -- コピー・ペースト
@@ -56,7 +50,9 @@ map("i", "<C-c>", '<C-o>"+y', opts)
 map("i", "<C-v>", '<C-o>"+p', opts)
 
 -- 全選択
-local function select_all() vim.cmd("normal! ggVG") end
+local function select_all()
+    vim.cmd("normal! ggVG")
+end
 map({ "n", "v" }, "<leader>a", select_all, opts)
 
 -- ウィンドウ操作（リサイズ）
@@ -89,8 +85,12 @@ map("n", "<leader>x", "dd", opts)
 map("v", "<leader>x", "d", opts)
 
 -- コメントアウト
-map("n", "<leader>/", function() require("core.comment").toggle_comment() end, opts)
-map("v", "<leader>/", function() require("core.comment").toggle_visual() end, opts)
+map("n", "<leader>/", function()
+    require("core.comment").toggle_comment()
+end, opts)
+map("v", "<leader>/", function()
+    require("core.comment").toggle_visual()
+end, opts)
 
 -- Undo / Redo
 vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })

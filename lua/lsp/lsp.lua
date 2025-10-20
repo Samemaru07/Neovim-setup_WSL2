@@ -16,19 +16,7 @@ require("mason-lspconfig").setup({
     },
 })
 
-local on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format({
-                bufnr = bufnr,
-                filter = function(c)
-                    return c.name == "null-ls"
-                end,
-            })
-        end,
-    })
-end
+local on_attach = function(client, bufnr) end
 
 -- capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
