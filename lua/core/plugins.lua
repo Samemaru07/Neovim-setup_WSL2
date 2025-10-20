@@ -313,7 +313,7 @@ require("lazy").setup({
             }
 
             vim.g.vimtex_view_zathura_update_view_cb = function(self)
-                vim.fn.system("sleep 0.1")
+                vim.fn.system("sleep 0.3")
 
                 if self.pid and self.pid > 0 then
                     vim.fn.system("kill -HUP " .. self.pid .. " >/dev/null 2>&1")
