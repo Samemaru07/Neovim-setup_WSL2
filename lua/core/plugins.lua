@@ -292,7 +292,7 @@ require("lazy").setup({
                         },
                         stdin = true,
                     },
-                    verible_verilog_format = {
+                    ["verible-verilog-format"] = {
                         args = { "--indentation_spaces=4", "-" },
                         stdin = true,
                     },
