@@ -309,7 +309,7 @@ require("lazy").setup({
                     "-lualatex",
                     "-synctex=1",
                     "-interaction=nonstopmode",
-                    '-e "$latexmk_use_gzip_synctex = 0"',
+                    "-e '$latexmk_use_gzip_synctex = 0'",
                 },
             }
             vim.g.vimtex_view_zathura_update_view_cb = function(self)
