@@ -272,7 +272,7 @@ require("lazy").setup({
                     sql = { "pg_format" },
                     tex = { "latexindent" },
                     bib = { "latexindent" },
-                    verilog = { "verible-verilog-format" },
+                    verilog = { "verible-verilog-format", lsp_fallback = false },
                 },
                 formatters = {
                     pg_format = {
