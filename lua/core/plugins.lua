@@ -328,8 +328,7 @@ require("lazy").setup({
                     vim.fn.system("killall -HUP -u " .. user .. " zathura >/dev/null 2>&1")
                 end
             end
-            vim.g.vimtex_view_zathura_options =
-                '--config pages-per-row=1 --synctex-editor-command "nvr --remote +%{line} %{input}"'
+            vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
         end,
     },
     -- hdl
