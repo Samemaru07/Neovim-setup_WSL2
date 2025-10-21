@@ -1,7 +1,7 @@
 require("lualine").setup({
     options = {
         theme = "vscode",
-        globalstatus = true,
+        globalstatus = false,
         disabled_filetypes = { "alpha" },
     },
     sections = {
@@ -18,6 +18,13 @@ require("lualine").setup({
                 "branch",
                 cond = function()
                     return vim.bo.filetype ~= "alpha"
+                end,
+            },
+            {
+                "filename",
+                path = 1,
+                cond = function()
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
                 end,
             },
         },
@@ -37,9 +44,11 @@ require("lualine").setup({
 
                     local bufnr = vim.api.nvim_get_current_buf()
                     local name = vim.api.nvim_buf_get_name(bufnr)
-                    if name ~= "" then
-                        name = vim.fn.fnamemodify(name, ":t")
+                    if name == "" then
+                        return ""
                     end
+
+                    name = vim.fn.fnamemodify(name, ":t")
 
                     return vim.bo.modified and (name .. " そんなファイル、保存してやる！！")
                         or (name .. " 保存しておけばどうということはない！")
