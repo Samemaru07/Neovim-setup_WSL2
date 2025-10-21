@@ -17,7 +17,7 @@ require("lualine").setup({
             {
                 "branch",
                 cond = function()
-                    return vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
                 end,
             },
             {
@@ -34,7 +34,6 @@ require("lualine").setup({
                     if vim.bo.buftype == "terminal" then
                         return ""
                     end
-
                     local ft = vim.bo.filetype
                     if ft == "NvimTree" then
                         return "エクスプローラ"
@@ -57,7 +56,6 @@ require("lualine").setup({
                 color = nil,
             },
         },
-
         lualine_x = {
             {
                 function()
