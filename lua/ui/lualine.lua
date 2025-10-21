@@ -21,9 +21,9 @@ require("lualine").setup({
                         local m = vim.api.nvim_get_mode().mode
 
                         if m == "t" then
-                            return name .. " > -- TERMINAL --"
+                            return name .. "  -- TERMINAL --"
                         else
-                            return name .. " > -- TERMINAL-NORMAL --"
+                            return name .. "  -- TERMINAL-NORMAL --"
                         end
                     end
                     return ""
