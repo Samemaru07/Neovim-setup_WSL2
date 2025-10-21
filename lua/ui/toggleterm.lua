@@ -1,6 +1,6 @@
 local toggleterm = require("toggleterm")
 
-local last_focused_term_id = nil
+local last_focused_term = nil
 
 toggleterm.setup({
     size = 8,
@@ -10,14 +10,14 @@ toggleterm.setup({
     on_open = function(term)
         vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. term.id)
         vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
-        last_focused_term_id = term.id
+        last_focused_term = term
     end,
     on_focus = function(term)
-        last_focused_term_id = term.id
+        last_focused_term = term
     end,
     on_close = function(term)
-        if last_focused_term_id == term.id then
-            last_focused_term_id = nil
+        if last_focused_term and last_focused_term.id == term.id then
+            last_focused_term = nil
         end
     end,
 })
@@ -43,11 +43,11 @@ vim.keymap.set("n", "<leader>td", function()
 end, { noremap = true, silent = true, desc = "Close current/last focused terminal" })
 
 vim.keymap.set("n", "<leader>tn", function()
-    require("toggleterm").move_to_next()
+    require("toggleterm.tabs").move_to_next()
 end, { noremap = true, silent = true, desc = "Next terminal tab" })
 
 vim.keymap.set("n", "<leader>tp", function()
-    require("toggleterm").move_to_prev()
+    require("toggleterm.tabs").move_to_prev()
 end, { noremap = true, silent = true, desc = "Previous terminal tab" })
 
 vim.cmd([[
