@@ -43,11 +43,11 @@ vim.keymap.set("n", "<leader>td", function()
 end, { noremap = true, silent = true, desc = "Close current/last focused terminal" })
 
 vim.keymap.set("n", "<leader>tn", function()
-    require("toggleterm.tabs").move_to_next()
+    require("toggleterm").move_to_next()
 end, { noremap = true, silent = true, desc = "Next terminal tab" })
 
 vim.keymap.set("n", "<leader>tp", function()
-    require("toggleterm.tabs").move_to_prev()
+    require("toggleterm").move_to_prev()
 end, { noremap = true, silent = true, desc = "Previous terminal tab" })
 
 vim.cmd([[
