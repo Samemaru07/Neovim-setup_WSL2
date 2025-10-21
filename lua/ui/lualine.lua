@@ -39,6 +39,7 @@ require("lualine").setup({
                     end
                     return nil
                 end,
+                separator = { right = "" },
             },
         },
         lualine_b = {
