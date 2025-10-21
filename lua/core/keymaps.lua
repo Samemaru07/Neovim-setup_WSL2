@@ -16,6 +16,9 @@ map("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
 map("t", "<C-l>", "<C-\\><C-n><C-w>l", opts)
 map("t", "<Esc>", "<C-\\><C-n>", opts)
 
+map("t", "<C-Right>", "\x1bf")
+map("t", "<C-Left>", "\x1bb")
+
 -- 保存 + 整形
 local function format_and_save()
     local conform = require("conform")
