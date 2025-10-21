@@ -6,7 +6,7 @@ toggleterm.setup({
     start_in_insert = true,
     close_on_exit = false,
     on_open = function(term)
-        vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. term.count)
+        vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. term.id)
         vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
     end,
 })
