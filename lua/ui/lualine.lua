@@ -31,31 +31,14 @@ require("lualine").setup({
         lualine_c = {
             {
                 function()
-                    if vim.bo.buftype == "terminal" then
-                        return ""
-                    end
-                    local ft = vim.bo.filetype
-                    if ft == "NvimTree" then
+                    if vim.bo.filetype == "NvimTree" then
                         return "エクスプローラ"
                     end
-                    if ft == "alpha" then
-                        return ""
-                    end
-
-                    local bufnr = vim.api.nvim_get_current_buf()
-                    local name = vim.api.nvim_buf_get_name(bufnr)
-                    if name == "" then
-                        return ""
-                    end
-
-                    name = vim.fn.fnamemodify(name, ":t")
-
-                    return vim.bo.modified and (name .. " そんなファイル、保存してやる！！")
-                        or (name .. " 保存しておけばどうということはない！")
+                    return ""
                 end,
-                color = nil,
             },
         },
+
         lualine_x = {
             {
                 function()
