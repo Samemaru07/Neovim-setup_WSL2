@@ -33,16 +33,21 @@ vim.keymap.set("n", "<leader>n", function()
 end, { noremap = true, silent = true, desc = "New terminal tab" })
 
 vim.keymap.set("n", "<leader>td", function()
-    if last_focused_term_id then
-        require("toggleterm").close(last_focused_term_id)
-    else
-        if vim.bo.buftype == "terminal" then
-            require("toggleterm").close(0) -- 0 = 現在のバッファ
-        else
-            print("閉じるターミナルが見つかりません")
-        end
+    local state = require("toggleterm.state")
+    local term_to_close = nil
+
+    if vim.bo.buftype == "terminal" then
+        term_to_close = state.get_current_term()
+    elseif last_focused_term_id then
+        term_to_close = state.get_term(last_focused_term_id)
     end
-end, { noremap = true, silent = true, desc = "Close last focused terminal" })
+
+    if term_to_close then
+        term_to_close:close()
+    else
+        print("閉じるターミナルが見つかりません")
+    end
+end, { noremap = true, silent = true, desc = "Close current/last focused terminal" })
 
 vim.keymap.set("n", "<leader>tn", function()
     require("toggleterm").move_to_next()
