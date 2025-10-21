@@ -293,6 +293,7 @@ require("lazy").setup({
                         stdin = true,
                     },
                     ["verible-verilog-format"] = {
+                        command = "verible-verilog-format",
                         args = { "--indentation_spaces=4", "-" },
                         stdin = true,
                     },
@@ -328,7 +329,8 @@ require("lazy").setup({
                 end
             end
 
-            vim.g.vimtex_view_zathura_options = '--synctex-editor-command "nvr --remote +%{line} %{input}"'
+            vim.g.vimtex_view_zathura_options =
+                '--synctex-editor-command "nvr --remote +%{line} %{input}" --config pages-per-row=1'
         end,
     },
     -- hdl
