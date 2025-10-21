@@ -9,7 +9,7 @@ require("lualine").setup({
             {
                 "mode",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
         },
@@ -17,28 +17,40 @@ require("lualine").setup({
             {
                 "branch",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
             {
                 "filename",
                 path = 1,
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
         },
         lualine_c = {
             {
                 function()
-                    if vim.bo.filetype == "NvimTree" then
+                    if vim.bo.buftype == "terminal" then
+                        return ""
+                    end
+                    local ft = vim.bo.filetype
+                    if ft == "NvimTree" then
                         return "エクスプローラ"
                     end
-                    return ""
+                    if ft == "alpha" then
+                        return ""
+                    end
+
+                    if vim.bo.modified then
+                        return "そんなファイル、保存してやる！！"
+                    else
+                        return "保存しておけばどうということはない！"
+                    end
                 end,
+                color = nil,
             },
         },
-
         lualine_x = {
             {
                 function()
@@ -72,7 +84,7 @@ require("lualine").setup({
             {
                 "progress",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
         },
@@ -80,7 +92,7 @@ require("lualine").setup({
             {
                 "location",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
         },
