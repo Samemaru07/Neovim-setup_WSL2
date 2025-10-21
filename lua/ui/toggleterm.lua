@@ -1,5 +1,7 @@
 local toggleterm = require("toggleterm")
 
+local last_focused_term_id = nil
+
 toggleterm.setup({
     size = 8,
     direction = "horizontal",
@@ -8,6 +10,15 @@ toggleterm.setup({
     on_open = function(term)
         vim.api.nvim_buf_set_name(term.bufnr, "ターミナル #" .. term.id)
         vim.api.nvim_win_set_option(term.window, "winhighlight", "Normal:Normal")
+        last_focused_term_id = term.id
+    end,
+    on_focus = function(term)
+        last_focused_term_id = term.id
+    end,
+    on_close = function(term)
+        if last_focused_term_id == term.id then
+            last_focused_term_id = nil
+        end
     end,
 })
 
@@ -22,8 +33,16 @@ vim.keymap.set("n", "<leader>n", function()
 end, { noremap = true, silent = true, desc = "New terminal tab" })
 
 vim.keymap.set("n", "<leader>td", function()
-    require("toggleterm").close()
-end, { noremap = true, silent = true, desc = "Close current terminal tab" })
+    if last_focused_term_id then
+        require("toggleterm").close(last_focused_term_id)
+    else
+        if vim.bo.buftype == "terminal" then
+            require("toggleterm").close(0) -- 0 = 現在のバッファ
+        else
+            print("閉じるターミナルが見つかりません")
+        end
+    end
+end, { noremap = true, silent = true, desc = "Close last focused terminal" })
 
 vim.keymap.set("n", "<leader>tn", function()
     require("toggleterm").move_to_next()
