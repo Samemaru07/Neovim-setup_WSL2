@@ -97,4 +97,35 @@ require("lualine").setup({
             },
         },
     },
+    inactive_sections = {
+        lualine_a = {
+            {
+                "mode",
+                cond = function()
+                    return vim.bo.filetype ~= "NvimTree"
+                end,
+            },
+        },
+        lualine_b = {},
+        lualine_c = {
+            {
+                function()
+                    if vim.bo.filetype == "NvimTree" then
+                        return "エクスプローラ"
+                    end
+                    return ""
+                end,
+            },
+        },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {
+            {
+                "location",
+                cond = function()
+                    return vim.bo.filetype ~= "NvimTree"
+                end,
+            },
+        },
+    },
 })
