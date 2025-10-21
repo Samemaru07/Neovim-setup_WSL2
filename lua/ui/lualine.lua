@@ -57,6 +57,7 @@ require("lualine").setup({
                     if vim.bo.buftype == "terminal" then
                         local bufnr = vim.api.nvim_get_current_buf()
                         local name = vim.api.nvim_buf_get_name(bufnr)
+                        name = vim.fn.fnamemodify(name, ":t")
                         local m = vim.api.nvim_get_mode().mode
 
                         if m == "t" then
@@ -71,7 +72,7 @@ require("lualine").setup({
                     if vim.bo.buftype == "terminal" then
                         local m = vim.api.nvim_get_mode().mode
                         if m == "t" then
-                            return { fg = "#ffffff", bg = "#d19a6mm" }
+                            return { fg = "#ffffff", bg = "#d19a66" }
                         else
                             return { fg = "#ffffff", bg = "#61afef" }
                         end
@@ -98,14 +99,7 @@ require("lualine").setup({
         },
     },
     inactive_sections = {
-        lualine_a = {
-            {
-                "mode",
-                cond = function()
-                    return vim.bo.filetype ~= "NvimTree" and vim.bo.buftype ~= "terminal"
-                end,
-            },
-        },
+        lualine_a = {},
         lualine_b = {},
         lualine_c = {
             {
@@ -119,13 +113,6 @@ require("lualine").setup({
         },
         lualine_x = {},
         lualine_y = {},
-        lualine_z = {
-            {
-                "location",
-                cond = function()
-                    return vim.bo.filetype ~= "NvimTree" and vim.bo.buftype ~= "terminal"
-                end,
-            },
-        },
+        lualine_z = {},
     },
 })
