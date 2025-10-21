@@ -25,15 +25,7 @@ require("lualine").setup({
             {
                 function()
                     if vim.bo.buftype == "terminal" then
-                        local bufnr = vim.api.nvim_get_current_buf()
-                        local name = vim.api.nvim_buf_get_name(bufnr)
-                        local m = vim.api.nvim_get_mode().mode
-
-                        if m == "t" then
-                            return name .. " -- TERMINAL --"
-                        else
-                            return name .. " -- TERMINAL-NORMAL --"
-                        end
+                        return ""
                     end
 
                     local ft = vim.bo.filetype
@@ -53,6 +45,25 @@ require("lualine").setup({
                     return vim.bo.modified and (name .. " そんなファイル、保存してやる！！")
                         or (name .. " 保存しておけばどうということはない！")
                 end,
+            },
+        },
+
+        lualine_x = {
+            {
+                function()
+                    if vim.bo.buftype == "terminal" then
+                        local bufnr = vim.api.nvim_get_current_buf()
+                        local name = vim.api.nvim_buf_get_name(bufnr)
+                        local m = vim.api.nvim_get_mode().mode
+
+                        if m == "t" then
+                            return name .. " -- TERMINAL --"
+                        else
+                            return name .. " -- TERMINAL-NORMAL --"
+                        end
+                    end
+                    return ""
+                end,
                 color = function()
                     if vim.bo.buftype == "terminal" then
                         local m = vim.api.nvim_get_mode().mode
@@ -66,8 +77,6 @@ require("lualine").setup({
                 end,
             },
         },
-
-        lualine_x = {},
         lualine_y = {
             {
                 "progress",
