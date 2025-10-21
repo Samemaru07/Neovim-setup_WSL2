@@ -16,7 +16,9 @@ vim.keymap.set("n", "<leader>t", function()
 end, { noremap = true, silent = true, desc = "Toggle horizontal terminal section" })
 
 vim.keymap.set("n", "<leader>n", function()
-    require("toggleterm").new_term({ cmd = "wsl.exe -e zsh", direction = "horizontal" })
+    local Terminal = require("toggleterm.terminal").Terminal
+    local new_term = Terminal:new({ cmd = "wsl.exe -e zsh", direction = "horizontal" })
+    new_term:open()
 end, { noremap = true, silent = true, desc = "New terminal tab" })
 
 vim.keymap.set("n", "<leader>td", function()
