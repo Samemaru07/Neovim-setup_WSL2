@@ -45,12 +45,7 @@ require("lualine").setup({
                     return vim.bo.modified and (name .. " そんなファイル、保存してやる！！")
                         or (name .. " 保存しておけばどうということはない！")
                 end,
-                color = function()
-                    if vim.bo.buftype == "terminal" then
-                        return nil
-                    end
-                    return nil
-                end,
+                color = nil,
             },
         },
 
