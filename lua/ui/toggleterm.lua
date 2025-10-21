@@ -33,17 +33,10 @@ vim.keymap.set("n", "<leader>n", function()
 end, { noremap = true, silent = true, desc = "New terminal tab" })
 
 vim.keymap.set("n", "<leader>td", function()
-    local state = require("toggleterm.state")
-    local term_to_close = nil
-
     if vim.bo.buftype == "terminal" then
-        term_to_close = state.get_current_term()
-    elseif last_focused_term_id then
-        term_to_close = state.get_term(last_focused_term_id)
-    end
-
-    if term_to_close then
-        term_to_close:close()
+        vim.cmd("close")
+    elseif last_focused_term then
+        last_focused_term:close()
     else
         print("閉じるターミナルが見つかりません")
     end
