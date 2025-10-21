@@ -12,6 +12,34 @@ require("lualine").setup({
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
             },
+            {
+                function()
+                    if vim.bo.buftype == "terminal" then
+                        local bufnr = vim.api.nvim_get_current_buf()
+                        local name = vim.api.nvim_buf_get_name(bufnr)
+                        name = vim.fn.fnamemodify(name, ":t")
+                        local m = vim.api.nvim_get_mode().mode
+
+                        if m == "t" then
+                            return name .. " > -- TERMINAL --"
+                        else
+                            return name .. " > -- TERMINAL-NORMAL --"
+                        end
+                    end
+                    return ""
+                end,
+                color = function()
+                    if vim.bo.buftype == "terminal" then
+                        local m = vim.api.nvim_get_mode().mode
+                        if m == "t" then
+                            return { fg = "#ffffff", bg = "#d19a66" }
+                        else
+                            return { fg = "#ffffff", bg = "#61afef" }
+                        end
+                    end
+                    return nil
+                end,
+            },
         },
         lualine_b = {
             {
@@ -54,30 +82,7 @@ require("lualine").setup({
         lualine_x = {
             {
                 function()
-                    if vim.bo.buftype == "terminal" then
-                        local bufnr = vim.api.nvim_get_current_buf()
-                        local name = vim.api.nvim_buf_get_name(bufnr)
-                        name = vim.fn.fnamemodify(name, ":t")
-                        local m = vim.api.nvim_get_mode().mode
-
-                        if m == "t" then
-                            return name .. " -- TERMINAL --"
-                        else
-                            return name .. " -- TERMINAL-NORMAL --"
-                        end
-                    end
                     return ""
-                end,
-                color = function()
-                    if vim.bo.buftype == "terminal" then
-                        local m = vim.api.nvim_get_mode().mode
-                        if m == "t" then
-                            return { fg = "#ffffff", bg = "#d19a66" }
-                        else
-                            return { fg = "#ffffff", bg = "#61afef" }
-                        end
-                    end
-                    return nil
                 end,
             },
         },
