@@ -71,7 +71,7 @@ require("lualine").setup({
                     if vim.bo.buftype == "terminal" then
                         local m = vim.api.nvim_get_mode().mode
                         if m == "t" then
-                            return { fg = "#ffffff", bg = "#d19a66" }
+                            return { fg = "#ffffff", bg = "#d19a6mm" }
                         else
                             return { fg = "#ffffff", bg = "#61afef" }
                         end
@@ -102,7 +102,7 @@ require("lualine").setup({
             {
                 "mode",
                 cond = function()
-                    return vim.bo.filetype ~= "NvimTree"
+                    return vim.bo.filetype ~= "NvimTree" and vim.bo.buftype ~= "terminal"
                 end,
             },
         },
@@ -123,7 +123,7 @@ require("lualine").setup({
             {
                 "location",
                 cond = function()
-                    return vim.bo.filetype ~= "NvimTree"
+                    return vim.bo.filetype ~= "NvimTree" and vim.bo.buftype ~= "terminal"
                 end,
             },
         },
