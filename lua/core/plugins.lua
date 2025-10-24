@@ -63,10 +63,6 @@ require("lazy").setup({
                             root_dir = require("lspconfig.util").root_pattern(".git", "*.vhdl"),
                         })
                     end,
-                    goimports = {
-                        command = "goimports",
-                        stdin = true,
-                    },
                 },
             })
         end,
