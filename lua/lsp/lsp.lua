@@ -13,6 +13,7 @@ require("mason-lspconfig").setup({
         "sqls",
         "texlab",
         "svls",
+        "gopls",
     },
 })
 
@@ -24,7 +25,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = vim.lsp.config
 
 -- tsserver 以外の言語サーバ
-for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls", "svls" }) do
+for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls", "svls", "gopls" }) do
     lspconfig(server, {
         on_attach = on_attach,
         capabilities = capabilities,

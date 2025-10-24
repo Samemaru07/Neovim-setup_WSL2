@@ -16,6 +16,8 @@ require("lazy").setup({
                     "ltex",
                     "sqls",
                     "verible-verilog-format",
+                    "gopls",
+                    "goimports",
                 },
             })
         end,
@@ -123,6 +125,7 @@ require("lazy").setup({
                     "toml",
                     "ini",
                     "latex",
+                    "go",
                 },
             })
         end,
@@ -272,6 +275,7 @@ require("lazy").setup({
                     tex = { "latexindent" },
                     bib = { "latexindent" },
                     verilog = { "verible-verilog-format", lsp_fallback = false },
+                    go = { "goimports" },
                 },
                 formatters = {
                     pg_format = {
