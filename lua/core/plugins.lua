@@ -174,14 +174,6 @@ require("lazy").setup({
         "shellRaining/hlchunk.nvim",
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            vim.cmd([[
-                highlight Normal guibg=NONE
-                highlight NormalNC guibg=NONE
-                highlight NonText guibg=NONE
-                highlight EndOfBuffer guibg=NONE
-                highlight SignColumn guibg=NONE
-            ]])
-
             require("hlchunk").setup({
                 chunk = {
                     enable = true,
