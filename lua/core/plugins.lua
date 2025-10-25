@@ -165,6 +165,8 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>f", builtin.current_buffer_fuzzy_find, opts)
             vim.keymap.set("n", "<leader>ff", builtin.find_files, opts)
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
+            vim.keymap.set("n", "<leader>fg", builtin.live_grep, opts)
+            vim.keymap.set("n", "<leader>fw", builtin.grep_string, opts)
         end,
     },
 
