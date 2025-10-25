@@ -336,7 +336,12 @@ require("lazy").setup({
             end
         end,
     },
-    -- hdl
     { "vhda/verilog_systemverilog.vim" },
     { "mfussenegger/nvim-lint" },
+    {
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            require("gitsigns").setup()
+        end,
+    },
 })
