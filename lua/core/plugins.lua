@@ -170,11 +170,12 @@ require("lazy").setup({
         end,
     },
 
-    -- インデントに色付け
     {
-        "lukas-reineke/indent-blankline.nvim",
-        version = "*",
-        event = "BufRead",
+        "shellRaining/hlchunk.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            require("ui.indent")
+        end,
     },
 
     -- ダッシュボード
