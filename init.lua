@@ -10,7 +10,6 @@ require("ui.lualine")
 require("ui.bufferline")
 require("ui.nvim-tree")
 require("ui.toggleterm")
-require("ui.indent")
 require("ui.dashboard")
 
 require("lsp.lsp")
