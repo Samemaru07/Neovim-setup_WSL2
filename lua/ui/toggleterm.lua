@@ -28,19 +28,20 @@ end, { noremap = true, silent = true, desc = "Toggle horizontal terminal section
 
 vim.keymap.set("n", "<leader>n", function()
     local Terminal = require("toggleterm.terminal").Terminal
-    local new_term = Terminal:new({ direction = "horizontal" })
+    local new_term = Terminal:new({ cmd = "wsl.exe -e zsh", direction = "horizontal" })
     new_term:open()
 end, { noremap = true, silent = true, desc = "New terminal tab" })
 
 vim.keymap.set("n", "<leader>td", function()
     if vim.bo.buftype == "terminal" then
-        vim.cmd("close")
-    elseif last_focused_term then
-        last_focused_term:close()
+        vim.cmd("bdelete!")
+    elseif last_focused_term and last_focused_term.bufnr then
+        vim.cmd("bdelete! " .. last_focused_term.bufnr)
+        last_focused_term = nil
     else
-        print("閉じるターミナルが見つかりません")
+        print("削除するターミナルが見つかりません")
     end
-end, { noremap = true, silent = true, desc = "Close current/last focused terminal" })
+end, { noremap = true, silent = true, desc = "Delete current/last focused terminal" })
 
 vim.cmd([[
   autocmd TermOpen * startinsert
