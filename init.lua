@@ -63,7 +63,16 @@ vim.o.wrap = false
 
 vim.o.autoread = true
 
-vim.api.nvim_create_autocmd("FocusGained", {
-    pattern = "*",
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
     command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+    callback = function()
+        vim.notify(
+            "🔄 ファイルが外部で変更されたため、再読み込みしました。",
+            vim.log.levels.INFO,
+            { title = "Auto Reload" }
+        )
+    end,
 })
