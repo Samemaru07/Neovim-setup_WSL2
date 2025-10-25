@@ -35,7 +35,7 @@ end, { noremap = true, silent = true, desc = "New terminal tab" })
 vim.keymap.set("n", "<leader>td", function()
     if vim.bo.buftype == "terminal" then
         vim.cmd("bdelete!")
-    elseif last_focused_term and last_focused_term.bufnr then
+    elseif last_focused_term and last_focused_term.bufnr and vim.fn.bufexists(last_focused_term.bufnr) == 1 then
         vim.cmd("bdelete! " .. last_focused_term.bufnr)
         last_focused_term = nil
     else
