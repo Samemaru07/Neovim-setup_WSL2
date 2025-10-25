@@ -180,6 +180,7 @@ require("lazy").setup({
                     style = {
                         guibg = "#2E2E2E",
                     },
+                    exclude_filetypes = { "tex", "latex", "markdown" },
                 },
                 indent = {
                     enable = true,
