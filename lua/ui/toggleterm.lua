@@ -46,3 +46,12 @@ end, { noremap = true, silent = true, desc = "Delete current/last focused termin
 vim.cmd([[
   autocmd TermOpen * startinsert
 ]])
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*",
+    callback = function()
+        if vim.bo.buftype == "terminal" then
+            vim.cmd("startinsert")
+        end
+    end,
+})
