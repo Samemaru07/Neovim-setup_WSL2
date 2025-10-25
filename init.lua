@@ -61,6 +61,8 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 -- 折り返し
 vim.o.wrap = false
 
+vim.o.autoread = true
+
 vim.api.nvim_create_autocmd("FocusGained", {
     pattern = "*",
     command = "checktime",
