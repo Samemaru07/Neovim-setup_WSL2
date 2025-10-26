@@ -98,9 +98,11 @@ end, opts)
 -- Undo / Redo
 vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
+vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = false, silent = true })
 
 vim.keymap.set("n", "<C-q>", "<C-r>", { noremap = false, silent = true })
 vim.keymap.set("i", "<C-q>", "<C-o><C-r>", { noremap = false, silent = true })
+vim.keymap.set("v", "<C-z>", "<C-o><C-r>", { noremap = false, silent = true })
 
 -- 単語削除
 vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
