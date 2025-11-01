@@ -1,4 +1,3 @@
--- Mason のセットアップ
 require("mason").setup()
 
 require("mason-lspconfig").setup({
@@ -27,27 +26,15 @@ local on_attach = function(client, bufnr)
     map("n", "gi", vim.lsp.buf.implementation, opts)
     map("n", "<leader>rn", vim.lsp.buf.rename, opts)
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-
     map("n", "[d", vim.diagnostic.goto_prev, opts)
     map("n", "]d", vim.diagnostic.goto_next, opts)
     map("n", "<leader>dl", vim.diagnostic.open_float, opts)
-
-    if client.name == "tsserver" then
-        map(
-            "n",
-            "<leader>oi",
-            ":OrganizeImports<CR>",
-            { noremap = true, silent = true, buffer = bufnr, desc = "Organize Imports" }
-        )
-    end
 end
 
--- capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = vim.lsp.config
 
--- tsserver 以外の言語サーバ
 for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls", "svls", "gopls" }) do
     lspconfig(server, {
         on_attach = on_attach,
@@ -55,7 +42,6 @@ for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonl
     })
 end
 
--- tsserver
 lspconfig("tsserver", {
     on_attach = on_attach,
     capabilities = capabilities,
@@ -70,7 +56,6 @@ lspconfig("tsserver", {
     },
 })
 
--- sqls(フォーマット無効化)
 lspconfig("sqls", {
     on_attach = function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
