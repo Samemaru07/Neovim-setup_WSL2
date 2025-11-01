@@ -42,8 +42,8 @@ map({ "n", "i" }, "<C-S-s>", function()
     vim.cmd("quit")
 end, opts)
 
-map({ "n", "v" }, "<leader>c", '"+y', opts)
-map({ "n", "v" }, "<leader>v", '"+p', opts)
+map("i", "<C-c>", '<C-o>"+y"', opts)
+map("i", "<C-v>", '<C-o>"+p"', opts)
 
 map("i", "<C-c>", '<C-o>"+y', opts)
 map("i", "<C-v>", '<C-o>"+p', opts)
@@ -74,9 +74,9 @@ map({ "n", "v" }, "<leader>cd", "yyp", opts)
 
 map("n", "dd", '"_dd', opts)
 
-map("n", "<leader>x", "+dd", opts)
-map("v", "<leader>x", "+d", opts)
-map("n", "xx", "+dd", opts)
+map("n", "<leader>x", '"+dd"', opts)
+map("v", "<leader>x", '"+d"', opts)
+map("n", "xx", '"+dd"', opts)
 
 map("n", "<leader>/", function()
     require("core.comment").toggle_comment()
