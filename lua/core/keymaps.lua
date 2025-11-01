@@ -140,9 +140,5 @@ map({ "n", "i", "v", "t" }, "<ScrollWheelDown>", "3<C-e>", opts)
 
 map("n", "<leader>z", "zz", opts)
 
-map("n", "<leader>.", function()
-    require("bufferline").cycle_next()
-end, opts)
-map("n", "<leader>,", function()
-    require("bufferline").cycle_prev()
-end, opts)
+map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
+map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
