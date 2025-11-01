@@ -72,11 +72,11 @@ map({ "n", "v" }, "<leader><Down>", "ddp", opts)
 map({ "n", "v" }, "<leader>cu", "yypk", opts)
 map({ "n", "v" }, "<leader>cd", "yyp", opts)
 
-map("n", "dd", '"+dd"', opts)
+map("n", "dd", '"_dd"', opts)
 
-map("n", "<leader>x", '"+dd"', opts)
-map("v", "<leader>x", '"+d"', opts)
-map("n", "xx", '"+dd"', opts)
+map("n", "<leader>x", '"+dd"', { noremap = false, silent = true })
+map("v", "<leader>x", '"+d"', { noremap = false, silent = true })
+map("n", "xx", '"+dd"', { noremap = false, silent = true })
 
 map("n", "<leader>/", function()
     require("core.comment").toggle_comment()
