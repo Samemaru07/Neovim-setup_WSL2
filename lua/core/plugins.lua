@@ -426,6 +426,9 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
+                cmdline = {
+                    view = "cmdline_popup",
+                },
                 views = {
                     cmdline_popup = {
                         border = {
