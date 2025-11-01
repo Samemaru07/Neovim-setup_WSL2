@@ -426,9 +426,6 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
-                cmdline = {
-                    view = "cmdline_popup",
-                },
                 views = {
                     cmdline_popup = {
                         border = {
@@ -450,7 +447,7 @@ require("lazy").setup({
                 },
                 presets = {
                     bottom_search = true,
-                    command_palette = true,
+                    command_palette = false,
                     long_message_to_split = true,
                     inc_rename = false,
                 },
