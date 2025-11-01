@@ -74,9 +74,9 @@ map({ "n", "v" }, "<leader>cd", "yyp", opts)
 
 map("n", "dd", '"_dd', opts)
 
-map("n", "<leader>x", "dd", opts)
-map("v", "<leader>x", "d", opts)
-map("n", "xx", "dd", opts)
+map("n", "<leader>x", "+dd", opts)
+map("v", "<leader>x", "+d", opts)
+map("n", "xx", "+dd", opts)
 
 map("n", "<leader>/", function()
     require("core.comment").toggle_comment()
