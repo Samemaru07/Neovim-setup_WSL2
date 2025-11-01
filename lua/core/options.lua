@@ -1,6 +1,5 @@
 vim.o.number = true
 vim.o.relativenumber = false
-vim.opt.clipboard = "unnamedplus"
 vim.o.termguicolors = true
 
 -- インデント設定
