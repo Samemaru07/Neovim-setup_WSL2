@@ -32,3 +32,5 @@ vim.o.timeoutlen = 500
 vim.o.scrolloff = 2
 
 vim.o.autoread = true
+
+vim.o.cmdheight = 0

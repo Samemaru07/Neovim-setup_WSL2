@@ -7,7 +7,7 @@ require("lualine").setup({
     sections = {
         lualine_a = {
             {
-                "mode",
+                "noice",
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
