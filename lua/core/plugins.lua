@@ -421,28 +421,46 @@ require("lazy").setup({
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-        },
+        dependencies = { "MunifTanjim/nui.nvim" },
         config = function()
             require("noice").setup({
+                cmdline = {
+                    view = "cmdline_popup",
+                    format = {
+                        cmdline = {
+                            pattern = "^:",
+                            icon = "",
+                            lang = "vim",
+                            title = "コマンド",
+                        },
+                        search_down = {
+                            kind = "search",
+                            pattern = "^/",
+                            icon = "",
+                            lang = "regex",
+                            title = "検索 ↓",
+                        },
+                        search_up = {
+                            kind = "search",
+                            pattern = "^%?",
+                            icon = "",
+                            lang = "regex",
+                            title = "検索 ↑",
+                        },
+                    },
+                },
+
                 views = {
                     cmdline_popup = {
+                        position = { row = "40%", col = "50%" },
+                        size = { width = 60, height = "auto" },
                         border = {
                             style = "rounded",
-                            title = "コマンド",
                             title_pos = "left",
                         },
                     },
                 },
-                cmdline = {
-                    view = "cmdline_popup",
-                    format = {
-                        cmdline = { pattern = "^:", icon = "", lang = "vim" }, -- ←ここ、不要ならアイコン削除
-                        search_down = { kind = "search", pattern = "^/", icon = " 検索 ↓", lang = "regex" },
-                        search_up = { kind = "search", pattern = "^%?", icon = " 検索 ↑", lang = "regex" },
-                    },
-                },
+
                 presets = {
                     command_palette = false,
                 },
