@@ -467,4 +467,23 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("which-key").setup({
+                plugins = {
+                    marks = true,
+                    registers = true,
+                    spelling = {
+                        enabled = true,
+                        suggestions = 20,
+                    },
+                },
+                window = {
+                    border = "rounded",
+                },
+            })
+        end,
+    },
 })
