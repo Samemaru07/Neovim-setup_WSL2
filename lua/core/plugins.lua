@@ -453,6 +453,10 @@ require("lazy").setup({
                 },
                 routes = {
                     {
+                        filter = { event = "notify" },
+                        opts = { skip = true },
+                    },
+                    {
                         filter = {
                             event = "msg_show",
                             kind = "",
