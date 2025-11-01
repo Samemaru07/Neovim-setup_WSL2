@@ -139,3 +139,10 @@ map({ "n", "i", "v", "t" }, "<ScrollWheelUp>", "3<C-y>", opts)
 map({ "n", "i", "v", "t" }, "<ScrollWheelDown>", "3<C-e>", opts)
 
 map("n", "<leader>z", "zz", opts)
+
+map("n", "<leader>.", function()
+    require("bufferline").cycle_next()
+end, opts)
+map("n", "<leader>,", function()
+    require("bufferline").cycle_prev()
+end, opts)
