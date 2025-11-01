@@ -426,6 +426,18 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
+                views = {
+                    cmdline_popup = {
+                        border = {
+                            title = "コマンド",
+                        },
+                    },
+                    cmdline_popup_search = {
+                        border = {
+                            title = "検索",
+                        },
+                    },
+                },
                 lsp = {
                     override = {
                         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
