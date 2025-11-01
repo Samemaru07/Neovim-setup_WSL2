@@ -1,25 +1,22 @@
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- サイン列を常に表示（エラー列用）
 vim.opt.signcolumn = "yes"
 
--- ウィンドウ移動
 map("n", "<leader>h", "<C-w>h", opts)
 map("n", "<leader>j", "<C-w>j", opts)
 map("n", "<leader>k", "<C-w>k", opts)
 map("n", "<leader>l", "<C-w>l", opts)
 
-map("t", "<C-h>", "<C-\\><C-n><C-w>h", opts)
-map("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
-map("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
-map("t", "<C-l>", "<C-\\><C-n><C-w>l", opts)
+map("t", "<C-h>", "<C-\\><C-n><C-w>h<cmd>checktime<CR>", opts)
+map("t", "<C-j>", "<C-\\><C-n><C-w>j<cmd>checktime<CR>", opts)
+map("t", "<C-k>", "<C-\\><C-n><C-w>k<cmd>checktime<CR>", opts)
+map("t", "<C-l>", "<C-\\><C-n><C-w>l<cmd>checktime<CR>", opts)
 map("t", "<Esc>", "<C-\\><C-n>", opts)
 
 map("t", "<C-Right>", "\x1bf")
 map("t", "<C-Left>", "\x1bb")
 
--- 保存 + 整形
 local function format_and_save()
     local conform = require("conform")
 
@@ -45,20 +42,17 @@ map({ "n", "i" }, "<C-S-s>", function()
     vim.cmd("quit")
 end, opts)
 
--- コピー・ペースト
 map({ "n", "v" }, "<leader>c", '"+y', opts)
 map({ "n", "v" }, "<leader>v", '"+p', opts)
 
 map("i", "<C-c>", '<C-o>"+y', opts)
 map("i", "<C-v>", '<C-o>"+p', opts)
 
--- 全選択
 local function select_all()
     vim.cmd("normal! ggVG")
 end
 map({ "n", "v" }, "<leader>a", select_all, opts)
 
--- ウィンドウ操作（リサイズ）
 local resize_maps = {
     ["<A-Up>"] = "<cmd>resize +2<CR>",
     ["<A-Down>"] = "<cmd>resize -2<CR>",
@@ -72,22 +66,18 @@ for k, cmd in pairs(resize_maps) do
     map("t", k, "<C-\\><C-n>" .. cmd .. "i", opts)
 end
 
--- 行移動（<leader>↑↓）
 map({ "n", "v" }, "<leader><Up>", "ddkP", opts)
 map({ "n", "v" }, "<leader><Down>", "ddp", opts)
 
--- 行複製（<leader>cu, <leader>cd）
 map({ "n", "v" }, "<leader>cu", "yypk", opts)
 map({ "n", "v" }, "<leader>cd", "yyp", opts)
 
--- 行削除（ヤンクなし）
-map({ "n", "v" }, "<leader>d", '"_dd', opts)
+map("n", "dd", '"_dd', opts)
 
--- 行切り取り（ヤンクあり）
 map("n", "<leader>x", "dd", opts)
 map("v", "<leader>x", "d", opts)
+map("n", "xx", "dd", opts)
 
--- コメントアウト
 map("n", "<leader>/", function()
     require("core.comment").toggle_comment()
 end, opts)
@@ -95,42 +85,34 @@ map("v", "<leader>/", function()
     require("core.comment").toggle_visual()
 end, opts)
 
--- Undo / Redo
 vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
-vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = false, silent = true })
+vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-q>", "<C-r>", { noremap = false, silent = true })
 vim.keymap.set("i", "<C-q>", "<C-o><C-r>", { noremap = false, silent = true })
-vim.keymap.set("v", "<C-z>", "<C-o><C-r>", { noremap = false, silent = true })
 
--- 単語削除
 vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
 map("t", "<C-e>", "<C-w>", opts)
 
 vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
 map("t", "<C-r>", "<A-d>", opts)
 
--- ペイン分割
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
 map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
 
--- 置換
 map("n", "<leader>fc", function()
     require("spectre").open()
 end, opts)
 
--- NvimTree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
 
--- Bufferline
 for i = 1, 9 do
     map("n", "<leader>" .. i, function()
         require("bufferline").go_to(i, true)
     end, opts)
 end
 
--- Trouble
 map("n", "<leader>m", function()
     local trouble = require("trouble")
 
@@ -140,3 +122,15 @@ map("n", "<leader>m", function()
         trouble.open("diagnostics")
     end
 end, opts)
+
+map("n", "<leader>rr", function()
+    vim.cmd("luafile " .. vim.fn.stdpath("config") .. "/init.lua")
+    vim.notify("Neovim Config Reloaded!", vim.log.levels.INFO, { title = "Neovim" })
+end, opts)
+
+map("n", "zz", "zz", opts)
+
+map({ "n", "i", "v", "t" }, "<ScrollWheelUp>", "3<C-y>", opts)
+map({ "n", "i", "v", "t" }, "<ScrollWheelDown>", "3<C-e>", opts)
+
+map("n", "<leader>z", "zz", opts)
