@@ -426,44 +426,16 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
-                views = {
-                    cmdline_popup = {
-                        border = {
-                            title = "コマンド",
-                        },
-                    },
-                    cmdline_popup_search = {
-                        border = {
-                            title = "検索",
-                        },
-                    },
-                },
-                lsp = {
-                    override = {
-                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                        ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true,
+                cmdline = {
+                    view = "cmdline_popup",
+                    format = {
+                        cmdline = { pattern = "^:", icon = " コマンド", lang = "vim" },
+                        search_down = { kind = "search", pattern = "^/", icon = " 検索 ↓", lang = "regex" },
+                        search_up = { kind = "search", pattern = "^%?", icon = " 検索 ↑", lang = "regex" },
                     },
                 },
                 presets = {
-                    bottom_search = true,
                     command_palette = false,
-                    long_message_to_split = true,
-                    inc_rename = false,
-                },
-                routes = {
-                    {
-                        filter = { event = "notify" },
-                        opts = { skip = true },
-                    },
-                    {
-                        filter = {
-                            event = "msg_show",
-                            kind = "",
-                            find = "Neovim Config Reloaded",
-                        },
-                        opts = { skip = true },
-                    },
                 },
             })
         end,
