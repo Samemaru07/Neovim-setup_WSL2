@@ -483,6 +483,7 @@ require("lazy").setup({
                 window = {
                     border = "rounded",
                 },
+                timeout = false,
             })
         end,
     },
