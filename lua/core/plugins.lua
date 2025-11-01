@@ -426,10 +426,19 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
+                views = {
+                    cmdline_popup = {
+                        border = {
+                            style = "rounded",
+                            title = "コマンド",
+                            title_pos = "left",
+                        },
+                    },
+                },
                 cmdline = {
                     view = "cmdline_popup",
                     format = {
-                        cmdline = { pattern = "^:", icon = " コマンド", lang = "vim" },
+                        cmdline = { pattern = "^:", icon = "", lang = "vim" }, -- ←ここ、不要ならアイコン削除
                         search_down = { kind = "search", pattern = "^/", icon = " 検索 ↓", lang = "regex" },
                         search_up = { kind = "search", pattern = "^%?", icon = " 検索 ↑", lang = "regex" },
                     },
