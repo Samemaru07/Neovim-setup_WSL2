@@ -124,8 +124,13 @@ map("n", "<leader>m", function()
 end, opts)
 
 map("n", "<leader>rr", function()
-    vim.cmd("luafile " .. vim.fn.stdpath("config") .. "/init.lua")
-    vim.notify("Neovim Config Reloaded!", vim.log.levels.INFO, { title = "Neovim" })
+    for name, _ in pairs(package.loaded) do
+        if name:match("^core") or name:match("^ui") then
+            package.loaded[name] = nil
+        end
+    end
+    dofile(vim.fn.stdpath("config") .. "/init.lua")
+    vim.notify("Neovim Config Reloaded (Full)!", vim.log.levels.INFO)
 end, opts)
 
 map("n", "zz", "zz", opts)
