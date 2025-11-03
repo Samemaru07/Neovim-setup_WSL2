@@ -314,6 +314,7 @@ require("lazy").setup({
                     format_on_save = nil,
                 },
                 formatters_by_ft = {
+                    html = { "prettier" },
                     javascript = { "prettier" },
                     typescript = { "prettier" },
                     javascriptreact = { "prettier" },
