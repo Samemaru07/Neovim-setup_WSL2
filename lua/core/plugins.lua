@@ -480,10 +480,12 @@ require("lazy").setup({
                         suggestions = 20,
                     },
                 },
-                window = {
+                win = {
                     border = "rounded",
                 },
-                timeout = false,
+                icons = {
+                    show = false,
+                },
             })
         end,
     },
