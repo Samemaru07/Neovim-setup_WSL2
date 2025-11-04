@@ -363,6 +363,7 @@ require("lazy").setup({
         "lervag/vimtex",
         lazy = false,
         config = function()
+            vim.g.vimtex_compiler_progname = "nvr"
             vim.g.vimtex_view_method = "zathura"
             vim.g.vimtex_compiler_method = "latexmk"
 
