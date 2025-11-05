@@ -46,13 +46,8 @@ require("lazy").setup({
                             end,
                             settings = {
                                 texlab = {
-                                    chktex = {
-                                        onOpenAndSave = true,
-                                        onEdit = true,
-                                    },
-                                    build = {
-                                        onSave = false,
-                                    },
+                                    chktex = { onOpenAndSave = true, onEdit = true },
+                                    build = { onSave = false },
                                 },
                             },
                         })
@@ -77,7 +72,6 @@ require("lazy").setup({
     },
     { "Mofiqul/vscode.nvim" },
 
-    -- 補完プラグイン群
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -94,7 +88,6 @@ require("lazy").setup({
     },
     { "mattn/emmet-vim" },
 
-    -- 自動括弧補完
     {
         "windwp/nvim-autopairs",
         config = function()
@@ -106,7 +99,6 @@ require("lazy").setup({
         end,
     },
 
-    -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
@@ -139,7 +131,6 @@ require("lazy").setup({
         end,
     },
 
-    -- コメントアウト
     {
         "numToStr/Comment.nvim",
         dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
@@ -156,20 +147,15 @@ require("lazy").setup({
         end,
     },
 
-    -- Telescope
     {
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require("telescope").setup({
-                defaults = {
-                    file_ignore_patterns = { "node_modules", ".git/" },
-                },
+                defaults = { file_ignore_patterns = { "node_modules", ".git/" } },
             })
-
             local builtin = require("telescope.builtin")
             local opts = { noremap = true, silent = true }
-
             vim.keymap.set("n", "<leader>f", builtin.current_buffer_fuzzy_find, opts)
             vim.keymap.set("n", "<leader>ff", builtin.find_files, opts)
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
@@ -185,38 +171,17 @@ require("lazy").setup({
             require("hlchunk").setup({
                 chunk = {
                     enable = true,
-                    style = {
-                        guibg = "#2E2E2E",
-                    },
+                    style = { guibg = "#2E2E2E" },
                     exclude_filetypes = { "tex", "latex", "markdown" },
                 },
                 indent = {
                     enable = true,
                     char = "│",
-                    style = {
-                        "Indent1",
-                        "Indent2",
-                        "Indent3",
-                        "Indent4",
-                        "Indent5",
-                        "Indent6",
-                    },
+                    style = { "Indent1", "Indent2", "Indent3", "Indent4", "Indent5", "Indent6" },
                 },
-                highlight = {
-                    "Indent1",
-                    "Indent2",
-                    "Indent3",
-                    "Indent4",
-                    "Indent5",
-                    "Indent6",
-                },
-                exclude_filetypes = {
-                    "alpha",
-                    "NvimTree",
-                    "toggleterm",
-                },
+                highlight = { "Indent1", "Indent2", "Indent3", "Indent4", "Indent5", "Indent6" },
+                exclude_filetypes = { "alpha", "NvimTree", "toggleterm" },
             })
-
             vim.cmd([[
                 highlight Indent1 guifg=#FF8FA1 gui=nocombine
                 highlight Indent2 guifg=#FFC27F gui=nocombine
@@ -228,7 +193,6 @@ require("lazy").setup({
         end,
     },
 
-    -- ダッシュボード
     {
         "goolord/alpha-nvim",
         config = function()
@@ -236,45 +200,32 @@ require("lazy").setup({
         end,
     },
 
-    -- 置換
     {
         "nvim-pack/nvim-spectre",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require("spectre").setup({
-                find_engine = {
-                    ["rg"] = {
-                        cmd = "rg",
-                        args = { "--vimgrep" },
-                    },
-                },
+                find_engine = { ["rg"] = { cmd = "rg", args = { "--vimgrep" } } },
             })
         end,
     },
 
-    -- neodev
     {
         "folke/neodev.nvim",
         config = function()
-            require("neodev").setup({
-                lspconfig = false,
-            })
+            require("neodev").setup({ lspconfig = false })
         end,
     },
 
-    -- dadbod-ui
     {
         "tpope/vim-dadbod",
-        dependencies = {
-            "kristijanhusak/vim-dadbod-ui",
-        },
+        dependencies = { "kristijanhusak/vim-dadbod-ui" },
         config = function()
             vim.g.db_ui_save_location = "~/.config/nvim/db_ui"
             vim.g.db_ui_use_nerd_fonts = 1
         end,
     },
 
-    -- vim-dadbod-completion
     {
         "kristijanhusak/vim-dadbod-completion",
         dependencies = { "tpope/vim-dadbod" },
@@ -296,7 +247,6 @@ require("lazy").setup({
         end,
     },
 
-    -- iamcco
     {
         "iamcco/markdown-preview.nvim",
         ft = "markdown",
@@ -310,9 +260,6 @@ require("lazy").setup({
         "stevearc/conform.nvim",
         config = function()
             require("conform").setup({
-                format_on_save = {
-                    format_on_save = nil,
-                },
                 formatters_by_ft = {
                     html = { "prettier" },
                     javascript = { "prettier" },
@@ -331,34 +278,10 @@ require("lazy").setup({
                     verilog = { "verible-verilog-format", lsp_fallback = false },
                     go = { "goimports" },
                 },
-                formatters = {
-                    pg_format = {
-                        command = "/usr/local/bin/pg_format",
-                        args = {
-                            "--format",
-                            "text",
-                            "--no-rcfile",
-                            "--keyword-case",
-                            "2",
-                            "--type-case",
-                            "2",
-                            "--spaces",
-                            "4",
-                            "--wrap-after",
-                            "1",
-                            "-",
-                        },
-                        stdin = true,
-                    },
-                    ["verible-verilog-format"] = {
-                        command = "verible-verilog-format",
-                        args = { "--indentation_spaces=4", "-" },
-                        stdin = true,
-                    },
-                },
             })
         end,
     },
+
     {
         "lervag/vimtex",
         lazy = false,
@@ -366,7 +289,6 @@ require("lazy").setup({
             vim.g.vimtex_compiler_progname = "nvr"
             vim.g.vimtex_view_method = "zathura"
             vim.g.vimtex_compiler_method = "latexmk"
-
             vim.g.vimtex_compiler_latexmk = {
                 continuous = 1,
                 options = {
@@ -379,7 +301,6 @@ require("lazy").setup({
             }
             vim.g.vimtex_view_zathura_update_view_cb = function(self)
                 vim.fn.system("sleep 0.3")
-
                 if self.pid and self.pid > 0 then
                     vim.fn.system("kill -HUP " .. self.pid .. " >/dev/null 2>&1")
                 else
@@ -389,14 +310,17 @@ require("lazy").setup({
             end
         end,
     },
+
     { "vhda/verilog_systemverilog.vim" },
     { "mfussenegger/nvim-lint" },
+
     {
         "lewis6991/gitsigns.nvim",
         config = function()
             require("gitsigns").setup()
         end,
     },
+
     {
         "karb94/neoscroll.nvim",
         config = function()
@@ -406,28 +330,26 @@ require("lazy").setup({
             })
         end,
     },
+
     {
         "gen740/SmoothCursor.nvim",
         config = function()
             require("smoothcursor").setup({
                 autostart = true,
                 speed = 15,
-                fancy = {
-                    enable = true,
-                    head = { cursor = "▷", texthl = "SmoothCursor" },
-                },
+                fancy = { enable = true, head = { cursor = "▷", texthl = "SmoothCursor" } },
             })
         end,
     },
+
     {
         "rcarriga/nvim-notify",
         config = function()
-            require("notify").setup({
-                background_colour = "#000000",
-            })
+            require("notify").setup({ background_colour = "#000000" })
             vim.notify = require("notify")
         end,
     },
+
     {
         "folke/noice.nvim",
         event = "VeryLazy",
@@ -437,12 +359,7 @@ require("lazy").setup({
                 cmdline = {
                     view = "cmdline_popup",
                     format = {
-                        cmdline = {
-                            pattern = "^:",
-                            icon = "",
-                            lang = "vim",
-                            title = "コマンド",
-                        },
+                        cmdline = { pattern = "^:", icon = "", lang = "vim", title = "コマンド" },
                         search_down = {
                             kind = "search",
                             pattern = "^/",
@@ -450,52 +367,35 @@ require("lazy").setup({
                             lang = "regex",
                             title = "検索",
                         },
-                        search_up = {
-                            kind = "search",
-                            pattern = "^%?",
-                            icon = "",
-                            lang = "regex",
-                            title = "検索",
-                        },
+                        search_up = { kind = "search", pattern = "^%?", icon = "", lang = "regex", title = "検索" },
                     },
                 },
-
                 views = {
                     cmdline_popup = {
                         position = { row = "40%", col = "50%" },
                         size = { width = 60, height = "auto" },
-                        border = {
-                            style = "rounded",
-                            title_pos = "left",
-                        },
+                        border = { style = "rounded", title_pos = "left" },
                     },
                 },
-
-                presets = {
-                    command_palette = false,
+                lsp = {
+                    progress = { enabled = false },
+                    message = { enabled = false },
+                    hover = { enabled = false },
+                    signature = { enabled = false },
                 },
+                presets = { command_palette = false },
             })
         end,
     },
+
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
         config = function()
             require("which-key").setup({
-                plugins = {
-                    marks = true,
-                    registers = true,
-                    spelling = {
-                        enabled = true,
-                        suggestions = 20,
-                    },
-                },
-                win = {
-                    border = "rounded",
-                },
-                icons = {
-                    show = false,
-                },
+                plugins = { marks = true, registers = true, spelling = { enabled = true, suggestions = 20 } },
+                win = { border = "rounded" },
+                icons = { show = false },
             })
         end,
     },
