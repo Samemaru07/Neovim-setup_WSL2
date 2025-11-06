@@ -281,36 +281,37 @@ require("lazy").setup({
             })
         end,
     },
-
     {
-        "lervag/vimtex",
-        lazy = false,
+        "stevearc/conform.nvim",
         config = function()
-            vim.g.vimtex_compiler_progname = "nvr"
-            vim.g.vimtex_view_method = "zathura"
-            vim.g.vimtex_compiler_method = "latexmk"
-            vim.g.vimtex_compiler_latexmk = {
-                continuous = 1,
-                options = {
-                    "-pdf",
-                    "-lualatex",
-                    "-synctex=1",
-                    "-interaction=nonstopmode",
-                    "-e '$latexmk_use_gzip_synctex = 0'",
+            require("conform").setup({
+                formatters_by_ft = {
+                    html = { "prettier" },
+                    javascript = { "prettier" },
+                    typescript = { "prettier" },
+                    javascriptreact = { "prettier" },
+                    typescriptreact = { "prettier" },
+                    python = { "ruff", "black" },
+                    c = { "clang_format" },
+                    cpp = { "clang_format" },
+                    php = { "pint" },
+                    lua = { "stylua" },
+                    sh = { "shfmt" },
+                    sql = { "pg_format" },
+                    tex = { "latexindent" },
+                    bib = { "latexindent" },
+                    verilog = { "verible-verilog-format", lsp_fallback = false },
+                    go = { "goimports" },
                 },
-            }
-            vim.g.vimtex_view_zathura_update_view_cb = function(self)
-                vim.fn.system("sleep 0.3")
-                if self.pid and self.pid > 0 then
-                    vim.fn.system("kill -HUP " .. self.pid .. " >/dev/null 2>&1")
-                else
-                    local user = vim.fn.expand("$USER")
-                    vim.fn.system("killall -HUP -u " .. user .. " zathura >/dev/null 2>&1")
-                end
-            end
+                formatters = {
+                    latexindent = {
+                        command = "latexindent",
+                        timeout_ms = 10000,
+                    },
+                },
+            })
         end,
     },
-
     { "vhda/verilog_systemverilog.vim" },
     { "mfussenegger/nvim-lint" },
 
