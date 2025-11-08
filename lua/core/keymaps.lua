@@ -151,3 +151,6 @@ vim.api.nvim_create_autocmd("User", {
         vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
     end,
 })
+
+vim.keymap.set("n", "E", "%", { noremap = true, silent = true })
+vim.keymap.set( "v", "E", "%", { noremap = true, silent = true })
