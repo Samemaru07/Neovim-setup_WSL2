@@ -85,12 +85,10 @@ map("v", "<leader>/", function()
     require("core.comment").toggle_visual()
 end, opts)
 
-vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
-vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>z", "u", { noremap = true, silent = true })
+vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-y>", "<C-r>", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-y>", "<C-o><C-r>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
 
 vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
 map("t", "<C-e>", "<C-w>", opts)
@@ -134,8 +132,6 @@ map("n", "<leader>rr", function()
 end, opts)
 
 map("n", "zz", "zz", opts)
-
-map("n", "<leader>z", "zz", opts)
 
 map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
 map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
