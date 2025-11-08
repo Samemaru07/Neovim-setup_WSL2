@@ -86,10 +86,12 @@ vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
 -- 前単語削除
 vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-h>", "<C-E>", { noremap = true, silent = true })
 
 -- 次単語削除
 vim.keymap.set("i", "<C-l>", "<C-o>de", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-l>", "de", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-l>", "<C-r>", { noremap = true, silent = true })
 
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
 map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
