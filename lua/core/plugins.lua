@@ -5,7 +5,20 @@ require("lazy").setup({
     { "nvim-lualine/lualine.nvim" },
     { "akinsho/toggleterm.nvim" },
     { "folke/trouble.nvim" },
-    { "neovim/nvim-lspconfig" },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
+            })
+        end,
+    },
 
     {
         "williamboman/mason.nvim",
