@@ -411,7 +411,6 @@ require("lazy").setup({
             "delphinus/skkeleton_indicator.nvim",
         },
         config = function()
-            -- skkeleton設定
             vim.cmd([[
         call skkeleton#config({
         \ 'globalDictionaries': ['~/.skk/SKK-JISYO.L'],
@@ -420,7 +419,6 @@ require("lazy").setup({
         \ })
         ]])
 
-            -- ddc設定（skkeleton用）
             vim.cmd([[
         call ddc#custom#patch_global('sources', ['skkeleton'])
         call ddc#custom#patch_global('sourceOptions', {
@@ -437,8 +435,25 @@ require("lazy").setup({
         call ddc#enable()
         ]])
 
-            -- インジケータ（skkeletonの状態表示）
-            require("skkeleton_indicator").setup({})
+            vim.cmd([[
+  highlight SkkeletonIndicatorEiji guifg=#000000 guibg=#fffff0
+  highlight SkkeletonIndicatorHira guifg=#000000 guibg=#f0fff0
+  highlight SkkeletonIndicatorKata guifg=#000000 guibg=#f5fffa
+  highlight SkkeletonIndicatorHankata guifg=#000000 guibg=#f0ffff
+]])
+
+            require("skkeleton_indicator").setup({
+                eijiText = "英数",
+                hiraText = "かな",
+                kataText = "カタカナ",
+                hankataText = "半ｶﾀ",
+                hl = {
+                    eiji = { fg = "#000000", bg = "#fffff0" },
+                    hira = { fg = "#000000", bg = "#f0fff0" },
+                    kata = { fg = "#000000", bg = "#e0ffff" },
+                    hankata = { fg = "#000000", bg = "#fff8dc" },
+                },
+            })
         end,
     },
 })
