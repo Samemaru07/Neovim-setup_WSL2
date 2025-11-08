@@ -83,11 +83,13 @@ vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
 
-vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
-map("t", "<C-e>", "<C-w>", opts)
+-- 前単語削除
+vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
 
-vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
-map("t", "<C-r>", "<A-d>", opts)
+-- 次単語削除
+vim.keymap.set("i", "<C-l>", "<C-o>de", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "de", { noremap = true, silent = true })
 
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
 map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
