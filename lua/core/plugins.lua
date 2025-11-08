@@ -327,12 +327,10 @@ require("lazy").setup({
 
     {
         "karb94/neoscroll.nvim",
-        config = function()
-            require("neoscroll").setup({
-                animation_time = 300,
-                easing_function = "quadratic",
-            })
-        end,
+        opts = {
+            animation_time = 300,
+            easing_function = "quadratic",
+        },
     },
 
     {
