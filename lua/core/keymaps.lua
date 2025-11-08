@@ -78,13 +78,6 @@ map("n", "<leader>x", '"+dd', opts)
 map("v", "<leader>x", '"+d', opts)
 map("n", "xx", '"+dd', opts)
 
-map("n", "<leader>/", function()
-    require("core.comment").toggle_comment()
-end, opts)
-map("v", "<leader>/", function()
-    require("core.comment").toggle_visual()
-end, opts)
-
 vim.keymap.set("n", "<leader>z", "u", { noremap = true, silent = true })
 vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
 
