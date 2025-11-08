@@ -1,3 +1,16 @@
+local function skkeleton_mode()
+    local mode = vim.fn["skkeleton#mode"]()
+    if mode == "hira" then
+        return "[あ]"
+    elseif mode == "kata" then
+        return "[ア]"
+    elseif mode == "hankata" then
+        return "[ｱ]"
+    else
+        return "[A]"
+    end
+end
+
 require("lualine").setup({
     options = {
         theme = "vscode",
@@ -32,9 +45,9 @@ require("lualine").setup({
                     if vim.bo.buftype == "terminal" then
                         local m = vim.api.nvim_get_mode().mode
                         if m == "t" then
-                            return { fg = "#ffffff", bg = "#d19a66" }
+                            return { fg = "#000000", bg = "#d19a66" }
                         else
-                            return { fg = "#ffffff", bg = "#61afef" }
+                            return { fg = "#000000", bg = "#61afef" }
                         end
                     end
                     return nil
@@ -44,17 +57,21 @@ require("lualine").setup({
         },
         lualine_b = {
             {
-                "branch",
-                cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
-                end,
-            },
-            {
                 "filename",
                 path = 1,
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
+                color = { fg = "#000000", bg = "#708090" },
+                separator = { right = "" },
+            },
+            {
+                "branch",
+                cond = function()
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
+                end,
+                color = { fg = "#000000", bg = "#778899" },
+                separator = { right = "" },
             },
         },
         lualine_c = {
@@ -93,14 +110,45 @@ require("lualine").setup({
                 cond = function()
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
+                color = { fg = "#000000", bg = "#778899" },
             },
         },
         lualine_z = {
             {
                 "location",
                 cond = function()
-                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
+                    return vim.bo.buftype == "" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
                 end,
+                color = { fg = "#000000", bg = "#778899" },
+            },
+            {
+                skkeleton_mode,
+                cond = function()
+                    -- ターミナルでは非表示、それ以外では表示
+                    return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
+                end,
+                color = { fg = "#000000", bg = "#5f676f" },
+                padding = { left = 1, right = 1 },
+                separator = { fg = "#ffffff", left = "" },
+            },
+            {
+                "filetype",
+                cond = function()
+                    return vim.bo.buftype == "" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
+                end,
+                colored = true,
+                padding = { left = 1, right = 1 },
+                color = { fg = "#000000", bg = "#708090" },
+                separator = { left = "" },
+            },
+            {
+                "encoding",
+                cond = function()
+                    return vim.bo.buftype == "" and vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree"
+                end,
+                padding = { left = 1, right = 1 },
+                color = { fg = "#000000", bg = "#708090" },
+                separator = { left = "" },
             },
         },
     },

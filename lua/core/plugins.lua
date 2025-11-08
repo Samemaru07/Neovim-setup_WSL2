@@ -5,7 +5,20 @@ require("lazy").setup({
     { "nvim-lualine/lualine.nvim" },
     { "akinsho/toggleterm.nvim" },
     { "folke/trouble.nvim" },
-    { "neovim/nvim-lspconfig" },
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
+            })
+        end,
+    },
 
     {
         "williamboman/mason.nvim",
@@ -119,6 +132,7 @@ require("lazy").setup({
                     "json",
                     "yaml",
                     "markdown",
+                    "markdown_inline",
                     "dockerfile",
                     "terraform",
                     "hcl",
@@ -161,6 +175,10 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, opts)
             vim.keymap.set("n", "<leader>fw", builtin.grep_string, opts)
+            -- 現在のドキュメントのシンボル
+            vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, opts)
+            -- ワークスペース全体のシンボル
+            vim.keymap.set("n", "<leader>fS", require("telescope.builtin").lsp_workspace_symbols, opts)
         end,
     },
 
@@ -327,12 +345,10 @@ require("lazy").setup({
 
     {
         "karb94/neoscroll.nvim",
-        config = function()
-            require("neoscroll").setup({
-                animation_time = 300,
-                easing_function = "quadratic",
-            })
-        end,
+        opts = {
+            animation_time = 300,
+            easing_function = "quadratic",
+        },
     },
 
     {
@@ -400,6 +416,61 @@ require("lazy").setup({
                 plugins = { marks = true, registers = true, spelling = { enabled = true, suggestions = 20 } },
                 win = { border = "rounded" },
                 icons = { show = false },
+            })
+        end,
+    },
+    {
+        "vim-skk/skkeleton",
+        dependencies = {
+            "vim-denops/denops.vim",
+            "Shougo/ddc.vim",
+            "Shougo/pum.vim",
+            "Shougo/ddc-ui-pum",
+            "delphinus/skkeleton_indicator.nvim",
+        },
+        config = function()
+            vim.cmd([[
+        call skkeleton#config({
+        \ 'globalDictionaries': ['~/.skk/SKK-JISYO.L'],
+        \ 'completionRankFile': '~/.skk/rank.json',
+        \ 'eggLikeNewline': v:true,
+        \ })
+        ]])
+
+            vim.cmd([[
+        call ddc#custom#patch_global('sources', ['skkeleton'])
+        call ddc#custom#patch_global('sourceOptions', {
+        \   'skkeleton': {
+        \     'mark': 'skkeleton',
+        \     'matchers': [],
+        \     'sorters': [],
+        \     'converters': [],
+        \     'isVolatile': v:true,
+        \     'minAutoCompleteLength': 1,
+        \   },
+        \ })
+        call ddc#custom#patch_global('ui', 'pum')
+        call ddc#enable()
+        ]])
+
+            vim.cmd([[
+  highlight SkkeletonIndicatorEiji guifg=#000000 guibg=#fffff0
+  highlight SkkeletonIndicatorHira guifg=#000000 guibg=#f0fff0
+  highlight SkkeletonIndicatorKata guifg=#000000 guibg=#f5fffa
+  highlight SkkeletonIndicatorHankata guifg=#000000 guibg=#f0ffff
+]])
+
+            require("skkeleton_indicator").setup({
+                eijiText = "英数",
+                hiraText = "かな",
+                kataText = "カタカナ",
+                hankataText = "半ｶﾀ",
+                hl = {
+                    eiji = { fg = "#000000", bg = "#fffff0" },
+                    hira = { fg = "#000000", bg = "#f0fff0" },
+                    kata = { fg = "#000000", bg = "#e0ffff" },
+                    hankata = { fg = "#000000", bg = "#fff8dc" },
+                },
             })
         end,
     },

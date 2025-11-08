@@ -68,6 +68,8 @@ end
 
 map({ "n", "v" }, "<leader><Up>", "ddkP", opts)
 map({ "n", "v" }, "<leader><Down>", "ddp", opts)
+map("v", "<leader><Up>", ":m '<-2<CR>gv=gv", opts)
+map("v", "<leader><Down>", ":m '>+1<CR>gv=gv", opts)
 
 map({ "n", "v" }, "<leader>cu", "yypk", opts)
 map({ "n", "v" }, "<leader>cd", "yyp", opts)
@@ -78,25 +80,20 @@ map("n", "<leader>x", '"+dd', opts)
 map("v", "<leader>x", '"+d', opts)
 map("n", "xx", '"+dd', opts)
 
-map("n", "<leader>/", function()
-    require("core.comment").toggle_comment()
-end, opts)
-map("v", "<leader>/", function()
-    require("core.comment").toggle_visual()
-end, opts)
+vim.keymap.set("n", "<leader>z", "u", { noremap = true, silent = true })
+vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
-vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-q>", "<C-r>", { noremap = false, silent = true })
-vim.keymap.set("i", "<C-q>", "<C-o><C-r>", { noremap = false, silent = true })
+-- 前単語削除
+vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-h>", "<C-E>", { noremap = true, silent = true })
 
-vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
-map("t", "<C-e>", "<C-w>", opts)
-
-vim.keymap.set("i", "<C-r>", "<C-o>de", { noremap = true, silent = true })
-map("t", "<C-r>", "<A-d>", opts)
+-- 次単語削除
+vim.keymap.set("i", "<C-l>", "<C-o>de", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "de", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-l>", "<C-r>", { noremap = true, silent = true })
 
 map({ "n", "v" }, "<leader>bv", "<cmd>vsplit<CR>", opts)
 map({ "n", "v" }, "<leader>bh", "<cmd>split<CR>", opts)
@@ -113,16 +110,6 @@ for i = 1, 9 do
     end, opts)
 end
 
-map("n", "<leader>m", function()
-    local trouble = require("trouble")
-
-    if trouble.is_open() then
-        trouble.close()
-    else
-        trouble.open("diagnostics")
-    end
-end, opts)
-
 map("n", "<leader>rr", function()
     for name, _ in pairs(package.loaded) do
         if name:match("^core") or name:match("^ui") then
@@ -135,10 +122,27 @@ end, opts)
 
 map("n", "zz", "zz", opts)
 
-map({ "n", "i", "v", "t" }, "<ScrollWheelUp>", "3<C-y>", opts)
-map({ "n", "i", "v", "t" }, "<ScrollWheelDown>", "3<C-e>", opts)
-
-map("n", "<leader>z", "zz", opts)
-
 map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
 map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
+
+vim.keymap.set({ "i", "c" }, "\\", [[<Plug>(skkeleton-toggle)]], { noremap = false })
+vim.keymap.set({ "i", "c" }, "<C-_>", "<cmd>call pum#map#insert_relative(+1)<CR>")
+vim.keymap.set({ "i", "c" }, "<C-\\>", "<cmd>call pum#map#insert_relative(-1)<CR>")
+-- vim.keymap.set({ "i", "c" }, [[<C-y>]], "<cmd>call pum#map#confirm()<CR>")
+vim.keymap.set({ "i", "c" }, [[<C-e>]], "<cmd>call pum#map#cancel()<CR>")
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "skkeleton-initialize-pre",
+    callback = function()
+        -- q → カタカナ
+        vim.fn["skkeleton#register_keymap"]("input", "q", "katakana")
+        -- Q → 半角カタカナ
+        vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
+    end,
+})
+
+vim.keymap.set("n", "E", "%", { noremap = true, silent = true })
+vim.keymap.set("v", "E", "%", { noremap = true, silent = true })
+
+vim.keymap.set({ "n", "v" }, "+", "<C-a>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "-", "<C-x>", { noremap = true, silent = true })
