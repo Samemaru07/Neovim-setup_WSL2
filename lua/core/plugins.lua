@@ -119,6 +119,7 @@ require("lazy").setup({
                     "json",
                     "yaml",
                     "markdown",
+                    "markdown_inline",
                     "dockerfile",
                     "terraform",
                     "hcl",
