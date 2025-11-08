@@ -403,4 +403,44 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "vim-skk/skkeleton",
+        dependencies = {
+            "vim-denops/denops.vim",
+            "Shougo/ddc.vim",
+            "Shougo/pum.vim",
+            "Shougo/ddc-ui-pum",
+            "delphinus/skkeleton_indicator.nvim",
+        },
+        config = function()
+            -- skkeleton設定
+            vim.cmd([[
+        call skkeleton#config({
+        \ 'globalDictionaries': ['~/.skk/SKK-JISYO.L'],
+        \ 'completionRankFile': '~/.skk/rank.json',
+        \ 'eggLikeNewline': v:true,
+        \ })
+        ]])
+
+            -- ddc設定（skkeleton用）
+            vim.cmd([[
+        call ddc#custom#patch_global('sources', ['skkeleton'])
+        call ddc#custom#patch_global('sourceOptions', {
+        \   'skkeleton': {
+        \     'mark': 'skkeleton',
+        \     'matchers': [],
+        \     'sorters': [],
+        \     'converters': [],
+        \     'isVolatile': v:true,
+        \     'minAutoCompleteLength': 1,
+        \   },
+        \ })
+        call ddc#custom#patch_global('ui', 'pum')
+        call ddc#enable()
+        ]])
+
+            -- インジケータ（skkeletonの状態表示）
+            require("skkeleton_indicator").setup({})
+        end,
+    },
 })

@@ -89,8 +89,8 @@ vim.keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-z>", "<C-o>u", { noremap = true, silent = true })
 vim.keymap.set("v", "<C-z>", "<Esc>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-q>", "<C-r>", { noremap = false, silent = true })
-vim.keymap.set("i", "<C-q>", "<C-o><C-r>", { noremap = false, silent = true })
+vim.keymap.set("n", "<C-y>", "<C-r>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-y>", "<C-o><C-r>", { noremap = true, silent = true })
 
 vim.keymap.set("i", "<C-e>", "<C-w>", { noremap = true, silent = true })
 map("t", "<C-e>", "<C-w>", opts)
@@ -135,10 +135,23 @@ end, opts)
 
 map("n", "zz", "zz", opts)
 
-map({ "n", "i", "v", "t" }, "<ScrollWheelUp>", "3<C-y>", opts)
-map({ "n", "i", "v", "t" }, "<ScrollWheelDown>", "3<C-e>", opts)
-
 map("n", "<leader>z", "zz", opts)
 
 map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
 map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
+
+vim.keymap.set({ "i", "c" }, "<F12>", [[<Plug>(skkeleton-toggle)]], { noremap = false })
+vim.keymap.set({ "i", "c" }, "<C-_>", "<cmd>call pum#map#insert_relative(+1)<CR>")
+vim.keymap.set({ "i", "c" }, "<C-\\>", "<cmd>call pum#map#insert_relative(-1)<CR>")
+-- vim.keymap.set({ "i", "c" }, [[<C-y>]], "<cmd>call pum#map#confirm()<CR>")
+vim.keymap.set({ "i", "c" }, [[<C-e>]], "<cmd>call pum#map#cancel()<CR>")
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "skkeleton-initialize-pre",
+    callback = function()
+        -- q → カタカナ
+        vim.fn["skkeleton#register_keymap"]("input", "q", "katakana")
+        -- Q → 半角カタカナ
+        vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
+    end,
+})
