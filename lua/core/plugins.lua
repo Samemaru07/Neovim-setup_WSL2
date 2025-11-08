@@ -162,6 +162,10 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, opts)
             vim.keymap.set("n", "<leader>fw", builtin.grep_string, opts)
+            -- 現在のドキュメントのシンボル
+            vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, opts)
+            -- ワークスペース全体のシンボル
+            vim.keymap.set("n", "<leader>fS", require("telescope.builtin").lsp_workspace_symbols, opts)
         end,
     },
 
