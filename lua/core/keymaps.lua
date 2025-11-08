@@ -153,4 +153,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.keymap.set("n", "E", "%", { noremap = true, silent = true })
-vim.keymap.set( "v", "E", "%", { noremap = true, silent = true })
+vim.keymap.set("v", "E", "%", { noremap = true, silent = true })
+
+vim.keymap.set({ "n", "v" }, "+", "<C-a>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "-", "<C-x>", { noremap = true, silent = true })
