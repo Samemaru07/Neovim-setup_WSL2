@@ -68,6 +68,8 @@ end
 
 map({ "n", "v" }, "<leader><Up>", "ddkP", opts)
 map({ "n", "v" }, "<leader><Down>", "ddp", opts)
+map("v", "<leader><Up>", ":m '<-2<CR>gv=gv", opts)
+map("v", "<leader><Down>", ":m '>+1<CR>gv=gv", opts)
 
 map({ "n", "v" }, "<leader>cu", "yypk", opts)
 map({ "n", "v" }, "<leader>cd", "yyp", opts)
