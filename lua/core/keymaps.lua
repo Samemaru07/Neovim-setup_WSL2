@@ -121,7 +121,7 @@ map("n", "zz", "zz", opts)
 map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
 map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
 
-vim.keymap.set({ "i", "c" }, "<F12>", [[<Plug>(skkeleton-toggle)]], { noremap = false })
+vim.keymap.set({ "i", "c" }, "\\", [[<Plug>(skkeleton-toggle)]], { noremap = false })
 vim.keymap.set({ "i", "c" }, "<C-_>", "<cmd>call pum#map#insert_relative(+1)<CR>")
 vim.keymap.set({ "i", "c" }, "<C-\\>", "<cmd>call pum#map#insert_relative(-1)<CR>")
 -- vim.keymap.set({ "i", "c" }, [[<C-y>]], "<cmd>call pum#map#confirm()<CR>")
