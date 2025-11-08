@@ -104,16 +104,6 @@ for i = 1, 9 do
     end, opts)
 end
 
-map("n", "<leader>m", function()
-    local trouble = require("trouble")
-
-    if trouble.is_open() then
-        trouble.close()
-    else
-        trouble.open("diagnostics")
-    end
-end, opts)
-
 map("n", "<leader>rr", function()
     for name, _ in pairs(package.loaded) do
         if name:match("^core") or name:match("^ui") then
