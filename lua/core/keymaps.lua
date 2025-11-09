@@ -66,8 +66,8 @@ for k, cmd in pairs(resize_maps) do
     map("t", k, "<C-\\><C-n>" .. cmd .. "i", opts)
 end
 
-map({ "n", "v" }, "<leader><Up>", "ddkP", opts)
-map({ "n", "v" }, "<leader><Down>", "ddp", opts)
+map({ "n", "v" }, "<leader>c<Up>", "ddkP", opts)
+map({ "n", "v" }, "<leader>c<Down>", "ddp", opts)
 map("v", "<leader><Up>", ":m '<-2<CR>gv=gv", opts)
 map("v", "<leader><Down>", ":m '>+1<CR>gv=gv", opts)
 
@@ -85,12 +85,10 @@ vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
 
--- 前単語削除
 vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
 vim.keymap.set("t", "<C-h>", "<C-E>", { noremap = true, silent = true })
 
--- 次単語削除
 vim.keymap.set("i", "<C-l>", "<C-o>de", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-l>", "de", { noremap = true, silent = true })
 vim.keymap.set("t", "<C-l>", "<C-r>", { noremap = true, silent = true })
@@ -125,24 +123,46 @@ map("n", "zz", "zz", opts)
 map("n", "<leader>.", "<cmd>BufferLineCycleNext<CR>", opts)
 map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
 
-vim.keymap.set({ "i", "c" }, "\\", [[<Plug>(skkeleton-toggle)]], { noremap = false })
-vim.keymap.set({ "i", "c" }, "<C-_>", "<cmd>call pum#map#insert_relative(+1)<CR>")
-vim.keymap.set({ "i", "c" }, "<C-\\>", "<cmd>call pum#map#insert_relative(-1)<CR>")
--- vim.keymap.set({ "i", "c" }, [[<C-y>]], "<cmd>call pum#map#confirm()<CR>")
-vim.keymap.set({ "i", "c" }, [[<C-e>]], "<cmd>call pum#map#cancel()<CR>")
-
 vim.api.nvim_create_autocmd("User", {
     pattern = "skkeleton-initialize-pre",
     callback = function()
-        -- q → カタカナ
         vim.fn["skkeleton#register_keymap"]("input", "q", "katakana")
-        -- Q → 半角カタカナ
         vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
     end,
 })
 
-vim.keymap.set("n", "E", "%", { noremap = true, silent = true })
-vim.keymap.set("v", "E", "%", { noremap = true, silent = true })
+vim.keymap.set({ "i", "c" }, "<C-j>", [[<Plug>(skkeleton-toggle)]], { noremap = false })
 
-vim.keymap.set({ "n", "v" }, "+", "<C-a>", { noremap = true, silent = true })
-vim.keymap.set({ "n", "v" }, "-", "<C-x>", { noremap = true, silent = true })
+local pum_opts = { noremap = true, silent = true, expr = true }
+
+vim.keymap.set({ "i", "c" }, "<Tab>", function()
+    if vim.fn["pum#visible"]() then
+        return "<Cmd>call pum#map#insert_relative(+1)<CR>"
+    else
+        return "<Tab>"
+    end
+end, pum_opts)
+
+vim.keymap.set({ "i", "c" }, "<S-Tab>", function()
+    if vim.fn["pum#visible"]() then
+        return "<Cmd>call pum#map#insert_relative(-1)<CR>"
+    else
+        return "<S-Tab>"
+    end
+end, pum_opts)
+
+vim.keymap.set({ "i", "c" }, "<C-e>", function()
+    if vim.fn["pum#visible"]() then
+        return "<Cmd>call pum#map#cancel()<CR>"
+    else
+        return "<C-e>"
+    end
+end, pum_opts)
+
+vim.keymap.set({ "i", "c" }, "<CR>", function()
+    if vim.fn["pum#visible"]() then
+        return "<Cmd>call pum#map#confirm()<CR>"
+    else
+        return "<C-y>"
+    end
+end, pum_opts)
