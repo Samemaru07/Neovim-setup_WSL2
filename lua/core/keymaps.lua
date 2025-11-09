@@ -160,9 +160,11 @@ vim.keymap.set({ "i", "c" }, "<C-e>", function()
 end, pum_opts)
 
 vim.keymap.set({ "i", "c" }, "<CR>", function()
-    if vim.fn["pum#visible"]() then
+    if vim.fn["pum#visible"]() == 1 then
         return "<Cmd>call pum#map#confirm()<CR>"
+    elseif vim.fn["skkeleton#is_enabled"]() == 1 then
+        return "<Cmd>call skkeleton#map#confirm()<CR>"
     else
-        return "<C-y>"
+        return "<CR>"
     end
 end, pum_opts)
