@@ -91,3 +91,23 @@ if vim.fn.has("wsl") == 1 then
         cache_enabled = 0,
     }
 end
+
+-- プラグインロード後に setup を呼ぶ
+require("flutter-tools").setup({
+    flutter_path = "/home/samemaru/development/flutter/bin/flutter",
+    widget_guides = { enabled = true },
+    decorations = { statusline = { device = true } },
+    dev_log = { enabled = true, open_cmd = "tabnew" },
+    outline = { open_cmd = "30vsplit" },
+})
+
+-- プロジェクトディレクトリに入った状態でコマンドを登録
+vim.api.nvim_create_autocmd("VimEnter", {
+    pattern = "*",
+    callback = function()
+        local cwd = vim.fn.getcwd()
+        if vim.fn.isdirectory(cwd .. "/lib") == 1 then
+            require("flutter-tools").setup_project()
+        end
+    end,
+})
