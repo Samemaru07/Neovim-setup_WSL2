@@ -432,6 +432,7 @@ require("lazy").setup({
             vim.cmd([[
         call skkeleton#config({
         \ 'globalDictionaries': ['~/.skk/SKK-JISYO.L'],
+        \ 'userDictionary': '~/.skkeleton',
         \ 'completionRankFile': '~/.skk/rank.json',
         \ 'eggLikeNewline': v:true,
         \ })
