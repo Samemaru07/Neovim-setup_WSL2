@@ -3,7 +3,7 @@ local toggleterm = require("toggleterm")
 local last_focused_term = nil
 
 toggleterm.setup({
-    size = 8,
+    size = 10,
     direction = "horizontal",
     start_in_insert = true,
     close_on_exit = false,
