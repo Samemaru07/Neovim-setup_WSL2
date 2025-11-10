@@ -125,6 +125,7 @@ map("n", "<leader>,", "<cmd>BufferLineCyclePrev<CR>", opts)
 
 vim.keymap.set("n", "+", "<C-a>", { noremap = true, silent = true })
 vim.keymap.set("n", "-", "<C-x>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<S-e>", "%", { noremap = true, silent = true })
 
 vim.api.nvim_create_autocmd("User", {
     pattern = "skkeleton-initialize-pre",
