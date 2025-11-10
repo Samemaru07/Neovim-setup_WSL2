@@ -501,4 +501,41 @@ require("lazy").setup({
         },
         config = false,
     },
+    {
+        "aidavdw/bibcite.nvim",
+        cmd = { "CiteOpen", "CiteInsert", "CitePeek", "CiteNote" },
+        keys = {
+            -- (キー設定は省略)
+        },
+
+        -- optsをテーブルではなく関数で定義する
+        opts = function()
+            local cwd = vim.fn.getcwd() -- 現在の作業ディレクトリを取得
+
+            -- 1. デフォルト設定
+            local config = {
+                bibtex_path = "~/Documents/research/references.bib",
+                pdf_dir = "~/Documents/research/papers",
+                notes_dir = "~/Documents/research/notes",
+                text_file_open_mode = "vsplit",
+            }
+
+            -- 2. 特定のプロジェクトパスの場合、設定を上書き
+            -- string.find() を使って、そのディレクトリ（またはサブディレクトリ）にいるか判定
+
+            -- 例: プロジェクトA の場合
+            if string.find(cwd, "/home/samemaru/projects/Project_A") then
+                config.bibtex_path = "/home/samemaru/projects/Project_A/references.bib"
+                config.pdf_dir = "/home/samemaru/projects/Project_A/pdfs"
+
+            -- 例: プロジェクトB の場合
+            elseif string.find(cwd, "/home/samemaru/3rd_year/experiment3/amp_fh") then
+                config.bibtex_path = "/home/samemaru/3rd_year/experiment3/amp_fh/ref/references.bib"
+                -- notes_dir なども必要なら上書き
+            end
+
+            -- 3. 最終的な設定テーブルを返す
+            return config
+        end,
+    },
 })
