@@ -417,7 +417,7 @@ require("lazy").setup({
         "gen740/SmoothCursor.nvim",
         config = function()
             require("smoothcursor").setup({
-                autostart = true,
+                autostart = false,
                 speed = 15,
                 fancy = { enable = true, head = { cursor = "▷", texthl = "SmoothCursor" } },
             })
@@ -542,7 +542,25 @@ require("lazy").setup({
             "nvim-lua/plenary.nvim",
             "stevearc/dressing.nvim",
         },
-        config = false,
+        config = function()
+            require("flutter-tools").setup({
+                flutter_path = "/home/samemaru/development/flutter/bin/flutter",
+                widget_guides = { enabled = true },
+                decorations = { statusline = { device = true } },
+                dev_log = { enabled = true, open_cmd = "tabnew" },
+                outline = { open_cmd = "30vsplit" },
+            })
+
+            vim.api.nvim_create_autocmd("VimEnter", {
+                pattern = "*",
+                callback = function()
+                    local cwd = vim.fn.getcwd()
+                    if vim.fn.isdirectory(cwd .. "/lib") == 1 then
+                        require("flutter-tools").setup_project()
+                    end
+                end,
+            })
+        end,
     },
     {
         "aidavdw/bibcite.nvim",
