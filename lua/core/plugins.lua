@@ -424,9 +424,6 @@ require("lazy").setup({
         "vim-skk/skkeleton",
         dependencies = {
             "vim-denops/denops.vim",
-            "Shougo/ddc.vim",
-            "Shougo/pum.vim",
-            "Shougo/ddc-ui-pum",
             "delphinus/skkeleton_indicator.nvim",
         },
         config = function()
@@ -437,22 +434,6 @@ require("lazy").setup({
         \ 'completionRankFile': '~/.skk/rank.json',
         \ 'eggLikeNewline': v:true,
         \ })
-        ]])
-
-            vim.cmd([[
-        call ddc#custom#patch_global('sources', ['skkeleton'])
-        call ddc#custom#patch_global('sourceOptions', {
-        \   'skkeleton': {
-        \     'mark': 'skkeleton',
-        \     'matchers': [],
-        \     'sorters': [],
-        \     'converters': [],
-        \     'isVolatile': v:true,
-        \     'minAutoCompleteLength': 1,
-        \   },
-        \ })
-        call ddc#custom#patch_global('ui', 'pum')
-        call ddc#enable()
         ]])
 
             vim.cmd([[
