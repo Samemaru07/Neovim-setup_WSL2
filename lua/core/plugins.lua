@@ -47,16 +47,56 @@ require("lazy").setup({
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
         config = function()
+            -- ステップ1で修正した lsp.lua をここで require する
+            local lsp_settings = require("lsp.lsp")
+            local on_attach = lsp_settings.on_attach
+            local capabilities = lsp_settings.capabilities
+
             require("mason-lspconfig").setup({
+                -- ↓ ここを lspconfig の「設定名」に修正しました
+                ensure_installed = {
+                    "clangd",
+                    "lua_ls",
+                    "pyright",
+                    "html",
+                    "cssls",
+                    "ts_ls", -- "typescript-language-server" ではなく "tsserver"
+                    "jsonls",
+                    "sqls",
+                    "texlab",
+                    "svls",
+                    "gopls",
+                    "vhdl_ls",
+                },
                 handlers = {
+                    -- ↓ デフォルトハンドラ (個別設定が不要なサーバーはこれでOK)
                     function(server_name)
-                        require("lspconfig")[server_name].setup({})
+                        require("lspconfig")[server_name].setup({
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                        })
+                    end,
+
+                    -- ↓ 元々あった個別設定をここに集約
+
+                    ["lua_ls"] = function()
+                        require("lspconfig").lua_ls.setup({
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            settings = {
+                                Lua = {
+                                    diagnostics = { globals = { "vim" } },
+                                },
+                            },
+                        })
                     end,
                     ["texlab"] = function()
                         require("lspconfig").texlab.setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
+                                on_attach(client, bufnr) -- 共通の on_attach も呼ぶ
                             end,
+                            capabilities = capabilities,
                             settings = {
                                 texlab = {
                                     chktex = { onOpenAndSave = true, onEdit = true },
@@ -69,14 +109,34 @@ require("lazy").setup({
                         require("lspconfig").sqls.setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
+                                client.server_capabilities.documentRangeFormattingProvider = false
+                                on_attach(client, bufnr) -- 共通の on_attach も呼ぶ
                             end,
+                            capabilities = capabilities,
                         })
                     end,
                     ["vhdl_ls"] = function()
                         require("lspconfig").vhdl_ls.setup({
+                            on_attach = on_attach,
+                            capabilities = capabilities,
                             cmd = { "vhdl_ls" },
                             filetypes = { "vhdl" },
                             root_dir = require("lspconfig.util").root_pattern(".git", "*.vhdl"),
+                        })
+                    end,
+                    ["tsserver"] = function()
+                        require("lspconfig").tsserver.setup({
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+                            init_options = {
+                                emmet = {
+                                    includeLanguages = {
+                                        javascript = "javascriptreact",
+                                        typescript = "typescriptreact",
+                                    },
+                                },
+                            },
                         })
                     end,
                 },

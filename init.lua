@@ -12,7 +12,6 @@ require("ui.nvim-tree")
 require("ui.toggleterm")
 require("ui.dashboard")
 
-require("lsp.lsp")
 require("cmp.cmp")
 require("ui.trouble")
 

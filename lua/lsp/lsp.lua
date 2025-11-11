@@ -1,22 +1,6 @@
-require("mason").setup()
+local M = {}
 
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        "clangd",
-        "lua_ls",
-        "pyright",
-        "html",
-        "cssls",
-        "ts_ls",
-        "jsonls",
-        "sqls",
-        "texlab",
-        "svls",
-        "gopls",
-    },
-})
-
-local on_attach = function(client, bufnr)
+M.on_attach = function(client, bufnr)
     local map = vim.keymap.set
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
@@ -31,36 +15,6 @@ local on_attach = function(client, bufnr)
     map("n", "<leader>dl", vim.diagnostic.open_float, opts)
 end
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+M.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local lspconfig = vim.lsp.config
-
-for _, server in ipairs({ "clangd", "lua_ls", "pyright", "html", "cssls", "jsonls", "svls", "gopls" }) do
-    lspconfig(server, {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
-end
-
-lspconfig("tsserver", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-    init_options = {
-        emmet = {
-            includeLanguages = {
-                javascript = "javascriptreact",
-                typescript = "typescriptreact",
-            },
-        },
-    },
-})
-
-lspconfig("sqls", {
-    on_attach = function(client, bufnr)
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-        on_attach(client, bufnr)
-    end,
-    capabilities = capabilities,
-})
+return M
