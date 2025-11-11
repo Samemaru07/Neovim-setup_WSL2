@@ -127,6 +127,11 @@ vim.keymap.set("n", "+", "<C-a>", { noremap = true, silent = true })
 vim.keymap.set("n", "-", "<C-x>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "<S-e>", "%", { noremap = true, silent = true })
 
+map({ "n", "v" }, "<leader><Up>", ":m .-2<CR>==", opts)
+map({ "n", "v" }, "<leader><Down>", ":m .+1<CR>==", opts)
+map("v", "<leader><Up>", ":m '<-2<CR>gv=gv", opts)
+map("v", "<leader><Down>", ":m '>+1<CR>gv=gv", opts)
+
 vim.api.nvim_create_autocmd("User", {
     pattern = "skkeleton-initialize-pre",
     callback = function()
