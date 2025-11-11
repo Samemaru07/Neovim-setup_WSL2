@@ -92,6 +92,7 @@ require("lazy").setup({
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
+            "uga-rosa/cmp-skkeleton",
             {
                 "L3MON4D3/LuaSnip",
                 dependencies = { "rafamadriz/friendly-snippets" },

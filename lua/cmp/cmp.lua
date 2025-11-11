@@ -12,19 +12,27 @@ luasnip.add_snippets("javascript", {
         luasnip.text_node("console.log("),
         luasnip.insert_node(1),
         luasnip.text_node(");"),
-    })
+    }),
 })
 
 cmp.setup({
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)
-        end
+        end,
     },
     mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.confirm({ select = true })
+            elseif vim.fn["skkeleton#is_enabled"]() == 1 then
+                vim.fn["skkeleton#map#confirm"]()
+            else
+                fallback()
+            end
+        end, { "i", "s", "c" }),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -48,10 +56,11 @@ cmp.setup({
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-        { name = "luasnip",  keyword_length = 1 },
+        { name = "luasnip", keyword_length = 1 },
         { name = "nvim_lsp", keyword_length = 1 },
+        { name = "skkeleton", keyword_length = 1 },
     }, {
         { name = "buffer" },
-        { name = "path" }
-    })
+        { name = "path" },
+    }),
 })

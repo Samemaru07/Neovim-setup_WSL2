@@ -141,39 +141,3 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.keymap.set({ "i", "c" }, "<C-j>", [[<Plug>(skkeleton-toggle)]], { noremap = false })
-
-local pum_opts = { noremap = true, silent = true, expr = true }
-
-vim.keymap.set({ "i", "c" }, "<Tab>", function()
-    if vim.fn["pum#visible"]() then
-        return "<Cmd>call pum#map#insert_relative(+1)<CR>"
-    else
-        return "<Tab>"
-    end
-end, pum_opts)
-
-vim.keymap.set({ "i", "c" }, "<S-Tab>", function()
-    if vim.fn["pum#visible"]() then
-        return "<Cmd>call pum#map#insert_relative(-1)<CR>"
-    else
-        return "<S-Tab>"
-    end
-end, pum_opts)
-
-vim.keymap.set({ "i", "c" }, "<C-e>", function()
-    if vim.fn["pum#visible"]() then
-        return "<Cmd>call pum#map#cancel()<CR>"
-    else
-        return "<C-e>"
-    end
-end, pum_opts)
-
-vim.keymap.set({ "i", "c" }, "<CR>", function()
-    if vim.fn["pum#visible"]() == 1 then
-        return "<Cmd>call pum#map#confirm()<CR>"
-    elseif vim.fn["skkeleton#is_enabled"]() == 1 then
-        return "<Cmd>call skkeleton#map#confirm()<CR>"
-    else
-        return "<CR>"
-    end
-end, pum_opts)
