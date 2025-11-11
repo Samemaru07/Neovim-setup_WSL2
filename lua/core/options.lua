@@ -17,16 +17,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.shell = vim.env.SHELL or "/bin/sh"
-vim.opt.shellcmdflag = "-c"
-vim.opt.showmode = false
+vim.o.shell = vim.env.SHELL or "/bin/sh"
+vim.o.shellcmdflag = "-c"
+vim.o.showmode = false
 
 -- 改行コード
 vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos", "mac" }
 
 -- キーの判定速度
-vim.o.ttimeoutlen = 0
+vim.o.ttimeoutlen = 50
 vim.o.timeoutlen = 500
 
 vim.o.scrolloff = 2
