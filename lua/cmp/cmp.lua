@@ -53,6 +53,10 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
+        ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        }),
     }),
     sources = cmp.config.sources({
         { name = "luasnip", keyword_length = 1 },
