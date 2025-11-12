@@ -1,3 +1,5 @@
+math.randomseed(os.time())
+
 vim.g.mapleader = " "
 
 require("core.options")
@@ -30,15 +32,12 @@ ensure_dir(swap_dir)
 ensure_dir(backup_dir)
 ensure_dir(undo_dir)
 
--- スワップファイル
 vim.o.swapfile = true
 vim.o.directory = swap_dir
 
--- バックアップ
 vim.o.backup = true
 vim.o.backupdir = backup_dir
 
--- Undo ファイル
 vim.o.undofile = true
 vim.o.undodir = undo_dir
 
@@ -49,7 +48,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end,
 })
 
--- spectreのswapファイルは作らせない
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = "spectre",
     callback = function()
@@ -57,7 +55,6 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     end,
 })
 
--- 折り返し
 vim.o.wrap = false
 
 vim.o.autoread = true

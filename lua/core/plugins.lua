@@ -47,20 +47,18 @@ require("lazy").setup({
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
         config = function()
-            -- ステップ1で修正した lsp.lua をここで require する
             local lsp_settings = require("lsp.lsp")
             local on_attach = lsp_settings.on_attach
             local capabilities = lsp_settings.capabilities
 
             require("mason-lspconfig").setup({
-                -- ↓ ここを lspconfig の「設定名」に修正しました
                 ensure_installed = {
                     "clangd",
                     "lua_ls",
                     "pyright",
                     "html",
                     "cssls",
-                    "ts_ls", -- "typescript-language-server" ではなく "tsserver"
+                    "ts_ls",
                     "jsonls",
                     "sqls",
                     "texlab",
@@ -69,15 +67,12 @@ require("lazy").setup({
                     "vhdl_ls",
                 },
                 handlers = {
-                    -- ↓ デフォルトハンドラ (個別設定が不要なサーバーはこれでOK)
                     function(server_name)
                         require("lspconfig")[server_name].setup({
                             on_attach = on_attach,
                             capabilities = capabilities,
                         })
                     end,
-
-                    -- ↓ 元々あった個別設定をここに集約
 
                     ["lua_ls"] = function()
                         require("lspconfig").lua_ls.setup({
@@ -94,7 +89,7 @@ require("lazy").setup({
                         require("lspconfig").texlab.setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
-                                on_attach(client, bufnr) -- 共通の on_attach も呼ぶ
+                                on_attach(client, bufnr)
                             end,
                             capabilities = capabilities,
                             settings = {
@@ -110,7 +105,7 @@ require("lazy").setup({
                             on_attach = function(client, bufnr)
                                 client.server_capabilities.documentFormattingProvider = false
                                 client.server_capabilities.documentRangeFormattingProvider = false
-                                on_attach(client, bufnr) -- 共通の on_attach も呼ぶ
+                                on_attach(client, bufnr)
                             end,
                             capabilities = capabilities,
                         })
@@ -236,9 +231,7 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>fb", builtin.buffers, opts)
             vim.keymap.set("n", "<leader>fg", builtin.live_grep, opts)
             vim.keymap.set("n", "<leader>fw", builtin.grep_string, opts)
-            -- 現在のドキュメントのシンボル
             vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, opts)
-            -- ワークスペース全体のシンボル
             vim.keymap.set("n", "<leader>fS", require("telescope.builtin").lsp_workspace_symbols, opts)
         end,
     },
@@ -425,18 +418,17 @@ require("lazy").setup({
     },
 
     {
-        "rcarriga/nvim-notify",
-        config = function()
-            require("notify").setup({ background_colour = "#000000" })
-            vim.notify = require("notify")
-        end,
-    },
-
-    {
         "folke/noice.nvim",
-        event = "VeryLazy",
-        dependencies = { "MunifTanjim/nui.nvim" },
+        lazy = false,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
+        },
         config = function()
+            require("notify").setup({
+                background_colour = "#000000",
+            })
+
             require("noice").setup({
                 cmdline = {
                     view = "cmdline_popup",
@@ -466,7 +458,27 @@ require("lazy").setup({
                     signature = { enabled = false },
                 },
                 presets = { command_palette = false },
+
+                routes = {
+                    {
+                        filter = {
+                            event = "msg_show",
+                            kind = "",
+                            find = "lines yanked",
+                        },
+                        opts = { skip = true },
+                    },
+                    {
+                        filter = {
+                            event = "msg_show",
+                            kind = "",
+                            find = "line yanked",
+                        },
+                        opts = { skip = true },
+                    },
+                },
             })
+            vim.notify = require("noice").notify
         end,
     },
 
@@ -565,15 +577,11 @@ require("lazy").setup({
     {
         "aidavdw/bibcite.nvim",
         cmd = { "CiteOpen", "CiteInsert", "CitePeek", "CiteNote" },
-        keys = {
-            -- (キー設定は省略)
-        },
+        keys = {},
 
-        -- optsをテーブルではなく関数で定義する
         opts = function()
-            local cwd = vim.fn.getcwd() -- 現在の作業ディレクトリを取得
+            local cwd = vim.fn.getcwd()
 
-            -- 1. デフォルト設定
             local config = {
                 bibtex_path = "~/Documents/research/references.bib",
                 pdf_dir = "~/Documents/research/papers",
@@ -581,21 +589,13 @@ require("lazy").setup({
                 text_file_open_mode = "vsplit",
             }
 
-            -- 2. 特定のプロジェクトパスの場合、設定を上書き
-            -- string.find() を使って、そのディレクトリ（またはサブディレクトリ）にいるか判定
-
-            -- 例: プロジェクトA の場合
             if string.find(cwd, "/home/samemaru/projects/Project_A") then
                 config.bibtex_path = "/home/samemaru/projects/Project_A/references.bib"
                 config.pdf_dir = "/home/samemaru/projects/Project_A/pdfs"
-
-            -- 例: プロジェクトB の場合
             elseif string.find(cwd, "/home/samemaru/3rd_year/experiment3/amp_fh") then
                 config.bibtex_path = "/home/samemaru/3rd_year/experiment3/amp_fh/ref/references.bib"
-                -- notes_dir なども必要なら上書き
             end
 
-            -- 3. 最終的な設定テーブルを返す
             return config
         end,
     },

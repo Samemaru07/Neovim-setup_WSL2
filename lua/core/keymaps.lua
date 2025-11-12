@@ -42,7 +42,69 @@ map({ "n", "i" }, "<C-S-s>", function()
     vim.cmd("quit")
 end, opts)
 
-map({ "n", "v" }, "<leader>c", '"+y', opts)
+-- ▼▼▼ 【テーマパック】 キュンとする系・応援系 ▼▼▼
+local yank_messages = {
+    {
+        title = "はい、どうぞ！",
+        message = "さめまるくん、お疲れ様！ %s、ちゃんと持ってきたよ！",
+    },
+    {
+        title = "頑張ってるね…！",
+        message = "わぁ、%s も！ さめまるくんのコード、大切にコピーしとくね…！",
+    },
+    {
+        title = "ふふっ…",
+        message = "この %s、後で使うの？ うん、わかった。ちゃんと持ってるからね。",
+    },
+    {
+        title = "おてつだい！",
+        message = "さめまるくん、%s のコピー、手伝っちゃった！ えへへ…これで、いいかな？",
+    },
+    {
+        title = "見てたよ",
+        message = "…%s、コピーすると思った。はい、準備できてるよ。…頑張って。",
+    },
+}
+
+-- ノーマルモード (オペレータ):
+map("n", "<leader>c", '"+y', opts)
+
+-- ビジュアルモード:
+map("v", "<leader>c", function()
+    -- 1. まず、Vim内部の "a レジスタに同期ヤンク
+    vim.cmd('noautocmd normal! "ay')
+    -- 2. 次に、OSのクリップボード "+ レジスタにヤンク (gvでビジュアル選択を復元)
+    vim.cmd('noautocmd normal! gv"+y')
+
+    -- 3. "a レジスタから (同期が保証された) テキストを取得
+    local yanked_text = vim.fn.getreg("a")
+
+    -- 4. "a レジスタの内容から行数を正確にカウント
+    local lines_count = 0
+    if yanked_text ~= "" then
+        local nl_count = 0
+        for _ in string.gmatch(yanked_text, "\n") do
+            nl_count = nl_count + 1
+        end
+        if string.sub(yanked_text, -1) == "\n" then
+            lines_count = nl_count
+        else
+            lines_count = nl_count + 1
+        end
+    else
+        lines_count = 1
+    end
+
+    local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
+
+    -- 5. ランダムにメッセージを選択 (シードは init.lua で設定済み)
+    local selected = yank_messages[math.random(1, #yank_messages)]
+    local final_message = string.format(selected.message, lines_str)
+
+    vim.notify(final_message, vim.log.levels.INFO, { title = selected.title })
+end, opts)
+
+-- ペーストはそのまま
 map({ "n", "v" }, "<leader>v", '"+p', opts)
 
 map("i", "<C-c>", '<C-o>"+y', opts)
