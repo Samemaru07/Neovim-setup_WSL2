@@ -19,7 +19,6 @@ require("lazy").setup({
             })
         end,
     },
-
     {
         "williamboman/mason.nvim",
         config = function()
@@ -429,6 +428,22 @@ require("lazy").setup({
                 background_colour = "#000000",
             })
 
+            -- nvim-notify の設定（Noiceより先にロードされるように）
+            require("notify").setup({
+                stages = "fade_in_slide_out",
+                timeout = 2000,
+                fps = 60,
+                render = "default",
+                icons = {
+                    ERROR = "❌",
+                    WARN = "⚠️",
+                    INFO = "💬",
+                    DEBUG = "🐞",
+                    TRACE = "🔍",
+                },
+            })
+
+            -- Noice設定（notifyをviewとして利用）
             require("noice").setup({
                 cmdline = {
                     view = "cmdline_popup",
@@ -441,7 +456,13 @@ require("lazy").setup({
                             lang = "regex",
                             title = "検索",
                         },
-                        search_up = { kind = "search", pattern = "^%?", icon = "", lang = "regex", title = "検索" },
+                        search_up = {
+                            kind = "search",
+                            pattern = "^%?",
+                            icon = "",
+                            lang = "regex",
+                            title = "検索",
+                        },
                     },
                 },
                 views = {
@@ -458,66 +479,23 @@ require("lazy").setup({
                     signature = { enabled = false },
                 },
                 presets = { command_palette = false },
-
                 routes = {
                     {
-                        filter = {
-                            event = "msg_show",
-                            kind = "",
-                            find = "lines yanked",
-                        },
+                        filter = { event = "msg_show", kind = "", find = "lines yanked" },
                         opts = { skip = true },
                     },
                     {
-                        filter = {
-                            event = "msg_show",
-                            kind = "",
-                            find = "line yanked",
-                        },
+                        filter = { event = "msg_show", kind = "", find = "line yanked" },
                         opts = { skip = true },
                     },
                 },
-            })
-            vim.notify = require("noice").notify
-
-            local yank_messages = {
-                {
-                    title = "はい、どうぞ！",
-                    message = "さめまるくん、お疲れ様！ %s、ちゃんと持ってきたよ！",
+                messages = {
+                    view = "notify",
+                    view_error = "notify",
+                    view_warn = "notify",
+                    view_history = "messages",
+                    view_search = "virtualtext",
                 },
-                {
-                    title = "頑張ってるね…！",
-                    message = "わぁ、%s も！ さめまるくんのコード、大切にコピーしとくね…！",
-                },
-                {
-                    title = "ふふっ…",
-                    message = "この %s、後で使うの？ うん、わかった。ちゃんと持ってるからね。",
-                },
-                {
-                    title = "おてつだい！",
-                    message = "さめまるくん、%s のコピー、手伝っちゃった！ えへへ…これで、いいかな？",
-                },
-                {
-                    title = "見てたよ",
-                    message = "…%s、コピーすると思った。はい、準備できてるよ。…頑張って。",
-                },
-            }
-
-            vim.api.nvim_create_autocmd("TextYankPost", {
-                group = vim.api.nvim_create_augroup("SamemaruYankNotify", { clear = true }),
-                callback = function(args)
-                    if args.regname == "+" and args.visual then
-                        local lines_count = #args.lines
-                        local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
-
-                        local selected = yank_messages[math.random(1, #yank_messages)]
-                        local final_message = string.format(selected.message, lines_str)
-
-                        vim.schedule(function()
-                            vim.notify(final_message, vim.log.levels.INFO, { title = selected.title })
-                        end)
-                    end
-                end,
             })
         end,
     },
