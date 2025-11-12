@@ -24,11 +24,10 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.confirm({ select = true })
-            elseif vim.fn["skkeleton#is_enabled"]() == 1 then
-                vim.fn["skkeleton#map#confirm"]()
+
+        ["<Space>"] = cmp.mapping(function(fallback)
+            if vim.fn["skkeleton#is_enabled"]() == 1 then
+                vim.fn["skkeleton#map#henkan"]()
             else
                 fallback()
             end
