@@ -349,6 +349,10 @@ require("lazy").setup({
                     go = { "goimports" },
                 },
                 formatters = {
+                    ["verible-verilog-format"] = {
+                        command = "/usr/local/bin/verible-verilog-format",
+                        args = { "-" },
+                    },
                     latexindent = {
                         command = "latexindent",
                         timeout_ms = 10000,
