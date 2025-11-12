@@ -42,44 +42,111 @@ map({ "n", "i" }, "<C-S-s>", function()
     vim.cmd("quit")
 end, opts)
 
--- ▼▼▼ 【テーマパック】 キュンとする系・応援系 ▼▼▼
 local yank_messages = {
     {
-        title = "はい、どうぞ！",
-        message = "さめまるくん、お疲れ様！ %s、ちゃんと持ってきたよ！",
+        title = "頑張ってるな！", -- 桜島麻衣（青春ブタ野郎）
+        message = "%sのコピー。…さめまる、ほんと真面目にやってるじゃない。…別に、褒めてるわけじゃないけど。",
     },
     {
-        title = "頑張ってるね…！",
-        message = "わぁ、%s も！ さめまるくんのコード、大切にコピーしとくね…！",
+        title = "ふふっ…", -- 吹雪（艦これ）
+        message = "%sコピーしましたっ！ えへへ…吹雪、ちょっと役に立てた気がします！",
     },
     {
-        title = "ふふっ…",
-        message = "この %s、後で使うの？ うん、わかった。ちゃんと持ってるからね。",
+        title = "あっ…今の、いい感じ", -- カレン（コードギアス）
+        message = "%sのコピー、完璧ね。…ふふ、やるじゃない。さすが、さめまるくん。",
     },
     {
-        title = "おてつだい！",
-        message = "さめまるくん、%s のコピー、手伝っちゃった！ えへへ…これで、いいかな？",
+        title = "おてつだい！", -- 真矢（蒼穹のファフナー）
+        message = "%s分のコピー、私も手伝ったよ。…一緒にやると、ちょっと楽しいね。",
     },
     {
-        title = "見てたよ",
-        message = "…%s、コピーすると思った。はい、準備できてるよ。…頑張って。",
+        title = "まったく…", -- カガリ・ユラ・アスハ（ガンダムSEED）
+        message = "%sコピーか…別に大変なことじゃないが、こうしてきちんとやるとやっぱり気持ちがいいな。よし、この調子で次もいけ。さめまる、侮れないな。",
     },
 }
 
--- ノーマルモード (オペレータ):
+local paste_messages = {
+    {
+        title = "うん、ちゃんと貼れたわよ", -- 桜島麻衣（青春ブタ野郎）
+        message = "%sをペースト完了。…どう？思った通りになった？ ふふ、少しは頼りになるでしょ。…ありがとって言ってもいいのよ？",
+    },
+    {
+        title = "おまたせしましたっ！", -- 吹雪（艦これ）
+        message = "%s貼りつけました！えへへ…上手くいったかな？ 吹雪、もうちょっと自信ついちゃいそうです！",
+    },
+    {
+        title = "契約完了だ", -- C.C.（コードギアス）
+        message = "%sの貼りつけ、終わったぞ。…ふふ、いい出来だな。こうしてお前が動くたびに、少しずつ面白くなる。 そのまま続けろ、ルル…じゃなかった、しょうご。",
+    },
+    {
+        title = "うん、できたよ", -- カレン（蒼穹のファフナー）
+        message = "%sを貼りつけたよ。…ほら、上手くいっただろ？ こういう作業、一緒にやると楽しいな。",
+    },
+    {
+        title = "よし、完了だ", -- カガリ・ユラ・アスハ（ガンダムSEED）
+        message = "%s貼りつけたぞ。ちゃんと決まったな。…お前、手際いいじゃないか。 その勢い、まだまだ続けていけよ。",
+    },
+}
+
+local delete_messages = {
+    {
+        title = "よし、片づけ完了", -- 理央（青春ブタ野郎）
+        message = "%sを削除したよ。…必要ないものは、ちゃんと整理しないとね。 しょうご、そういうとこ、意外とちゃんとしてるんだな。",
+    },
+    {
+        title = "はっ…！ い、今のは仕方ありませんっ！", -- 榛名（艦これ）
+        message = "%sを削除しました！…はぁ、心がちょっと痛みますけど… でも、任務のためですからっ！",
+    },
+    {
+        title = "いい子ね", -- マキマ（チェンソーマン）
+        message = "%s、消しておいたわ。…そう、それでいいの。無駄なものは、残さなくていいのよ。 …ね、しょうごくん？",
+    },
+    {
+        title = "俺はお前だ...お前は、俺だ！", -- 真壁一騎（蒼穹のファフナー）
+        message = "お前のいるべき無に還れ！！！！",
+    },
+    {
+        title = "黙れ！！ それは僕の名前だーっ！！！", -- 皆城総士（蒼穹のファフナー）
+        message = "静まれ、亡霊ども... この怪物に支配する力を、僕に... 与えろ！！！！",
+    },
+}
+
+local cut_messages = {
+    {
+        title = "ちょっと待って、それ取っちゃうの？", -- 梓川かえで（青春ブタ野郎）
+        message = "%sを切り取ったの？ うん…でも、ちゃんと戻せるなら大丈夫だよ。…しょうご、無理はしないでね？",
+    },
+    {
+        title = "榛名、頑張りますっ！", -- 金剛（艦これ）
+        message = "%sをカット完了ネー！ しょうご提督、さすがデース！ 次の貼りつけもビシッとキメちゃいまショー！",
+    },
+    {
+        title = "さあ、続けなさい", -- パワー（チェンソーマン）
+        message = "%sをブチっと切ったのじゃ！ はーっはっはっ！ 我が手にかかれば何でも消えるのじゃ！ …で、これどうすんの？",
+    },
+    {
+        title = "…取っちゃうんだね", -- 遠見真矢（蒼穹のファフナー）
+        message = "%sを切り取ったよ。…でも、ちゃんと戻すんでしょ？ しょうごくんなら、きっと上手くできると思う。",
+    },
+    {
+        title = "受け取ったよ", -- 皆城乙姫 (蒼穹のファフナー)
+        message = "%sを切り取ったのね。…心配しないで、ちゃんと覚えておくから。 だから、次に必要な場所へ導いてあげて。",
+    },
+}
+
 map("n", "<leader>c", '"+y', opts)
 
--- ビジュアルモード:
 map("v", "<leader>c", function()
-    -- 1. まず、Vim内部の "a レジスタに同期ヤンク
-    vim.cmd('noautocmd normal! "ay')
-    -- 2. 次に、OSのクリップボード "+ レジスタにヤンク (gvでビジュアル選択を復元)
-    vim.cmd('noautocmd normal! gv"+y')
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
 
-    -- 3. "a レジスタから (同期が保証された) テキストを取得
+    vim.cmd('noautocmd silent! normal! "ay')
+
+    vim.cmd('noautocmd silent! normal! gv"+y')
+
+    vim.o.shortmess = old_shortmess
+
     local yanked_text = vim.fn.getreg("a")
-
-    -- 4. "a レジスタの内容から行数を正確にカウント
     local lines_count = 0
     if yanked_text ~= "" then
         local nl_count = 0
@@ -96,16 +163,42 @@ map("v", "<leader>c", function()
     end
 
     local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
-
-    -- 5. ランダムにメッセージを選択 (シードは init.lua で設定済み)
     local selected = yank_messages[math.random(1, #yank_messages)]
     local final_message = string.format(selected.message, lines_str)
-
     vim.notify(final_message, vim.log.levels.INFO, { title = selected.title })
 end, opts)
 
--- ペーストはそのまま
 map({ "n", "v" }, "<leader>v", '"+p', opts)
+
+map("n", "<leader>v", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "+p')
+
+    vim.o.shortmess = old_shortmess
+
+    local pasted_text = vim.fn.getreg("+")
+    local lines_count = 0
+    if pasted_text ~= "" then
+        local nl_count = 0
+        for _ in string.gmatch(pasted_text, "\n") do
+            nl_count = nl_count + 1
+        end
+        if string.sub(pasted_text, -1) == "\n" then
+            lines_count = nl_count
+        else
+            lines_count = nl_count + 1
+        end
+    else
+        lines_count = 1
+    end
+
+    local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
+    local selected = paste_messages[math.random(1, #paste_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.INFO, { title = selected.title })
+end, opts)
 
 map("i", "<C-c>", '<C-o>"+y', opts)
 map("i", "<C-v>", '<C-o>"+p', opts)
@@ -136,11 +229,105 @@ map("v", "<leader><Down>", ":m '>+1<CR>gv=gv", opts)
 map({ "n", "v" }, "<leader>cu", "yypk", opts)
 map({ "n", "v" }, "<leader>cd", "yyp", opts)
 
-map("n", "dd", '"_dd', opts)
+map("n", "<leader>d", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
 
-map("n", "<leader>x", '"+dd', opts)
+    vim.cmd('noautocmd silent! normal! "_dd')
+
+    vim.o.shortmess = old_shortmess
+
+    local lines_str = "1行"
+    local selected = delete_messages[math.random(1, #delete_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
+
+map("n", "dd", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "_dd')
+
+    vim.o.shortmess = old_shortmess
+
+    local lines_str = "1行"
+    local selected = delete_messages[math.random(1, #delete_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
+
 map("v", "<leader>x", '"+d', opts)
-map("n", "xx", '"+dd', opts)
+
+map("n", "<leader>x", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "+dd')
+
+    vim.o.shortmess = old_shortmess
+
+    local lines_str = "1行"
+    local selected = cut_messages[math.random(1, #cut_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
+
+map("n", "xx", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "+dd')
+
+    vim.o.shortmess = old_shortmess
+
+    local lines_str = "1行"
+    local selected = cut_messages[math.random(1, #cut_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
+
+map("v", "d", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "_d')
+
+    vim.o.shortmess = old_shortmess
+
+    local selected_text = vim.fn.getreg('"')
+    local nl_count = 0
+    for _ in string.gmatch(selected_text, "\n") do
+        nl_count = nl_count + 1
+    end
+    local lines_count = (selected_text ~= "" and nl_count > 0) and nl_count or 1
+    local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
+
+    local selected = delete_messages[math.random(1, #delete_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
+
+map("v", "x", function()
+    local old_shortmess = vim.o.shortmess
+    vim.o.shortmess = old_shortmess .. "A"
+
+    vim.cmd('noautocmd silent! normal! "+d')
+
+    vim.o.shortmess = old_shortmess
+
+    local yanked_text = vim.fn.getreg("+")
+    local nl_count = 0
+    for _ in string.gmatch(yanked_text, "\n") do
+        nl_count = nl_count + 1
+    end
+    local lines_count = (yanked_text ~= "" and nl_count > 0) and nl_count or 1
+    local lines_str = lines_count > 1 and lines_count .. "行" or "1行"
+
+    local selected = cut_messages[math.random(1, #cut_messages)]
+    local final_message = string.format(selected.message, lines_str)
+    vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
+end, opts)
 
 vim.keymap.set("n", "<leader>z", "u", { noremap = true, silent = true })
 vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
