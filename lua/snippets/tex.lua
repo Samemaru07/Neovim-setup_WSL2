@@ -141,7 +141,7 @@ return {
             "\\title{",
         }),
         i(1, "タイトル"),
-        t({ "}", "\\author{さめまる}", "\\date{\\today}", "\\maketitle", "" }),
+        t({ "}", "\\author{中山 将吾}", "\\date{\\today}", "\\maketitle", "" }),
         t("\\section{"),
         i(2, "セクション名"),
         t({ "}", "", "" }),
