@@ -14,6 +14,7 @@ return {
             "\\setsansjfont[BoldFont={HaranoAjiGothic-Bold}]{HaranoAjiGothic-Medium}",
             "",
             "\\usepackage{pdfpages}",
+            "\\usepackage{indentfirst}",
             "\\usepackage{siunitx}",
             "\\usepackage{enumitem}",
             "\\usepackage{titlesec}",
