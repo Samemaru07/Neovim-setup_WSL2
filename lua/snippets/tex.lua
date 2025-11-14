@@ -30,6 +30,8 @@ return {
             "\\usepackage{varwidth}",
             "\\usepackage{url}",
             "",
+            "\\captionsetup[figure]{name=図}",
+            "",
             "\\definecolor{codebg}{RGB}{245,245,245}",
             "\\definecolor{identifiercolor}{RGB}{7,54,66}",
             "\\definecolor{commentcolor}{RGB}{88,110,117}",
