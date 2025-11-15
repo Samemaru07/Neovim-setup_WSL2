@@ -195,6 +195,8 @@ require("lazy").setup({
                     "ini",
                     "latex",
                     "go",
+                    "c",
+                    "cpp",
                 },
             })
         end,
@@ -619,6 +621,20 @@ require("lazy").setup({
             end
 
             return config
+        end,
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("treesitter-context").setup({
+                enable = true,
+                max_lines = 0,
+                min_window_height = 0,
+                line_numbers = true,
+                trim_scope = "outer",
+                separator = nil,
+            })
         end,
     },
 })
