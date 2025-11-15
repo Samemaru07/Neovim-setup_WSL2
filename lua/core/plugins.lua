@@ -494,6 +494,10 @@ require("lazy").setup({
                         filter = { event = "msg_show", kind = "", find = "line yanked" },
                         opts = { skip = true },
                     },
+                    {
+                        filter = { event = "msg_show", kind = "diagnostic" },
+                        opts = { skip = true },
+                    },
                 },
                 messages = {
                     view = "notify",

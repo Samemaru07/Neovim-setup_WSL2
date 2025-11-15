@@ -27,3 +27,15 @@ vim.o.scrolloff = 2
 vim.o.autoread = true
 
 vim.o.cmdheight = 0
+
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+        source = "always",
+        border = "rounded",
+    },
+})
