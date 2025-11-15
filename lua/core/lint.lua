@@ -1,7 +1,10 @@
 local lint = require("lint")
 
 lint.linters_by_ft = {
+    python = { "ruff" },
+    tex = { "ltex" },
     vhdl = { "ghdl" },
+    sh = { "shellcheck" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
