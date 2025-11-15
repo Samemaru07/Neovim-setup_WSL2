@@ -10,13 +10,6 @@ vim.o.expandtab = true
 vim.o.smartindent = false
 vim.o.autoindent = true
 
--- Lazy.nvim setup
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    print("Lazy.nvim not found. Please run git clone.")
-end
-vim.opt.rtp:prepend(lazypath)
-
 vim.o.shell = vim.env.SHELL or "/bin/sh"
 vim.o.shellcmdflag = "-c"
 vim.o.showmode = false
