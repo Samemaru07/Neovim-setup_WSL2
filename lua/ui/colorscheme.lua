@@ -12,7 +12,7 @@ local function apply_transparency()
     highlight NvimTreeEndOfBuffer guibg=NONE
     highlight NvimTreeStatusLine guibg=NONE
     highlight NvimTreeStatusLineNC guibg=NONE
-    highlight NormalFloat guibg=NONE
+    highlight NormalFloat guibg=#1E1E1E
     highlight WhichKeyFloat guibg=NONE
   ]])
 end
