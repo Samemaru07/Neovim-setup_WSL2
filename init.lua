@@ -100,3 +100,10 @@ if vim.fn.has("wsl") == 1 then
         cache_enabled = 0,
     }
 end
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.v", "*.sv" },
+    callback = function()
+        vim.bo.filetype = "verilog"
+    end,
+})

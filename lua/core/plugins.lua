@@ -133,6 +133,8 @@ require("lazy").setup({
                             },
                         })
                     end,
+                    ["svlangserver"] = function() end,
+                    ["verible"] = function() end,
                 },
             })
         end,
