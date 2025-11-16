@@ -329,10 +329,10 @@ map("v", "x", function()
     vim.notify(final_message, vim.log.levels.WARN, { title = selected.title })
 end, opts)
 
-vim.keymap.set("n", "<leader>z", "u", { noremap = true, silent = true })
-vim.keymap.set("v", "<leader>z", "<Esc>u", { noremap = true, silent = true })
+vim.keymap.set("v", "u", "<Esc>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>y", "<C-r>", { noremap = true, silent = true })
+vim.keymap.set("n", "y", "<C-r>", { noremap = true, silent = true })
+vim.keymap.set("v", "y", "<Esc><C-r>", { noremap = true, silent = true })
 
 vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
