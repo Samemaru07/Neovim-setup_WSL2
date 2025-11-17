@@ -25,7 +25,6 @@ require("lazy").setup({
             require("mason").setup({
                 ensure_installed = {
                     "texlab",
-                    "ltex",
                     "sqls",
                     "verible-verilog-format",
                     "gopls",
@@ -38,6 +37,7 @@ require("lazy").setup({
                     "stylua",
                     "shfmt",
                     "latexindent",
+                    "harper_ls",
                 },
             })
         end,
@@ -64,6 +64,7 @@ require("lazy").setup({
                     "svls",
                     "gopls",
                     "vhdl_ls",
+                    "harper_ls",
                 },
                 handlers = {
                     function(server_name)
@@ -99,6 +100,43 @@ require("lazy").setup({
                             },
                         })
                     end,
+                    ["harper_ls"] = function()
+                        require("lspconfig").harper_ls.setup({
+                            on_attach = on_attach,
+                            capabilities = capabilities,
+                            filetypes = {
+                                "tex",
+                                "latex",
+                                "bib",
+                                "markdown",
+                                "gitcommit",
+                                "c",
+                                "cpp",
+                                "cs",
+                                "go",
+                                "java",
+                                "html",
+                                "javascript",
+                                "lua",
+                                "nix",
+                                "python",
+                                "ruby",
+                                "rust",
+                                "swift",
+                                "toml",
+                                "typescript",
+                                "typescriptreact",
+                                "haskell",
+                                "cmake",
+                                "typst",
+                                "php",
+                                "dart",
+                                "clojure",
+                                "sh",
+                            },
+                        })
+                    end,
+
                     ["sqls"] = function()
                         require("lspconfig").sqls.setup({
                             on_attach = function(client, bufnr)

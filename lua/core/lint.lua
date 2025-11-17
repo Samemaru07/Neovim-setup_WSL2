@@ -2,7 +2,6 @@ local lint = require("lint")
 
 lint.linters_by_ft = {
     python = { "ruff" },
-    tex = { "ltex" },
     vhdl = { "ghdl" },
     sh = { "shellcheck" },
 }
