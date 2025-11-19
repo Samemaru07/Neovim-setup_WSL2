@@ -7,17 +7,6 @@ require("lazy").setup({
     { "folke/trouble.nvim" },
     {
         "neovim/nvim-lspconfig",
-        config = function()
-            vim.lsp.config("lua_ls", {
-                settings = {
-                    Lua = {
-                        diagnostics = {
-                            globals = { "vim" },
-                        },
-                    },
-                },
-            })
-        end,
     },
     {
         "williamboman/mason.nvim",
@@ -44,7 +33,11 @@ require("lazy").setup({
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "neovim/nvim-lspconfig",
+            "hrsh7th/cmp-nvim-lsp",
+        },
         config = function()
             local lsp_settings = require("lsp.lsp")
             local on_attach = lsp_settings.on_attach
@@ -172,7 +165,15 @@ require("lazy").setup({
                         })
                     end,
                     ["svlangserver"] = function() end,
-                    ["verible"] = function() end,
+                    ["verible"] = function()
+                        require("lspconfig").verible.setup({
+                            on_attach = function(client, bufnr)
+                                client.server_capabilities.documentDiagnosticProvider = false
+                                lsp_settings.on_attach(client, bufnr)
+                            end,
+                            capabilities = lsp_settings.capabilities,
+                        })
+                    end,
                 },
             })
         end,
@@ -474,7 +475,6 @@ require("lazy").setup({
                 background_colour = "#000000",
             })
 
-            -- nvim-notify の設定（Noiceより先にロードされるように）
             require("notify").setup({
                 stages = "fade_in_slide_out",
                 timeout = 2000,
@@ -489,7 +489,6 @@ require("lazy").setup({
                 },
             })
 
-            -- Noice設定（notifyをviewとして利用）
             require("noice").setup({
                 cmdline = {
                     view = "cmdline_popup",
