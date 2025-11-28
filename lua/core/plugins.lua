@@ -416,6 +416,7 @@ require("lazy").setup({
                 options = {
                     "-pdf",
                     "-lualatex",
+                    "-bibtex",
                     "-synctex=1",
                     "-interaction=nonstopmode",
                     "-e '$latexmk_use_gzip_synctex = 0'",
