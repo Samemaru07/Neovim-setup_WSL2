@@ -75,7 +75,7 @@ return {
             "",
             "\\lstset{",
             "  style=python,",
-            "  numberstyle=\\tiny\\color{linenumbercolor}",
+            "  numberstyle=\\normalsize\\color{linenumbercolor}",
             "}",
             "",
             "\\colorlet{LightGreen}{Green!20}",
