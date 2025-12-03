@@ -687,4 +687,58 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            "rcarriga/nvim-dap-ui",
+            "nvim-neotest/nvim-nio",
+            "theHamsta/nvim-dap-virtual-text",
+            "jay-babu/mason-nvim-dap.nvim",
+        },
+        config = function()
+            local dap = require("dap")
+            local dapui = require("dapui")
+
+            require("mason-nvim-dap").setup({
+                ensure_installed = { "python", "cppdbg", "delve" },
+                automatic_installation = true,
+                handlers = {},
+            })
+
+            dapui.setup()
+            require("nvim-dap-virtual-text").setup()
+
+            dap.listeners.before.attach.dapui_config = function()
+                dapui.open()
+            end
+            dap.listeners.before.launch.dapui_config = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated.dapui_config = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited.dapui_config = function()
+                dapui.close()
+            end
+
+            vim.keymap.set("n", "<Leader>db", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+            vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "DAP Continue" })
+        end,
+    },
+    {
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("neotest").setup({
+                adapters = {
+                    -- 言語ごとのアダプターを追加 (例: neotest-python, neotest-go など)
+                },
+            })
+        end,
+    },
 })
