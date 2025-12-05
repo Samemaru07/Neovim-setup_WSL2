@@ -367,13 +367,19 @@ require("lazy").setup({
             })
         end,
     },
-
     {
         "iamcco/markdown-preview.nvim",
         ft = "markdown",
         build = "cd app && npm install",
         init = function()
-            vim.g.mkdp_auto_start = 1
+            vim.g.mkdp_auto_start = 0
+            vim.g.mkdp_open_to_the_world = 1
+            vim.g.mkdp_browserfunc = "OpenWslBrowser"
+            vim.cmd([[
+            function! OpenWslBrowser(url)
+                execute 'silent !wslview ' . a:url
+            endfunction
+        ]])
         end,
     },
     {
