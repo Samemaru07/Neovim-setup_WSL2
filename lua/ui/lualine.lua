@@ -81,6 +81,9 @@ require("lualine").setup({
                         return ""
                     end
                     local ft = vim.bo.filetype
+                    if ft == "NvimTree" then
+                        return "" -- ここを空文字に変更
+                    end
                     if ft == "alpha" then
                         return ""
                     end
@@ -121,7 +124,6 @@ require("lualine").setup({
             {
                 skkeleton_mode,
                 cond = function()
-                    -- ターミナルでは非表示、それ以外では表示
                     return vim.bo.buftype ~= "terminal" and vim.bo.filetype ~= "alpha"
                 end,
                 color = { fg = "#000000", bg = "#5f676f" },
@@ -155,9 +157,7 @@ require("lualine").setup({
         lualine_c = {
             {
                 function()
-                    if vim.bo.filetype == "NvimTree" then
-                        return "エクスプローラ"
-                    end
+                    -- NvimTreeの場合も空文字を返すように変更
                     return ""
                 end,
             },
