@@ -13,7 +13,7 @@ end
 
 require("lualine").setup({
     options = {
-        theme = "vscode",
+        theme = "auto",
         globalstatus = false,
         disabled_filetypes = { "alpha" },
     },

@@ -178,8 +178,14 @@ require("lazy").setup({
             })
         end,
     },
-    { "Mofiqul/vscode.nvim" },
-
+    -- { "Mofiqul/vscode.nvim" },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
