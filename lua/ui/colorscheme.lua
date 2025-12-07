@@ -31,6 +31,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
       highlight SkkeletonIndicatorHira guifg=#000000 guibg=#f0fff0
       highlight SkkeletonIndicatorKata guifg=#000000 guibg=#e0ffff
       highlight SkkeletonIndicatorHankata guifg=#000000 guibg=#fff8dc
+      highlight SkkeletonHenkan guifg=#fab387 gui=underline
     ]])
         apply_transparency()
     end,

@@ -579,6 +579,7 @@ require("lazy").setup({
         dependencies = {
             "vim-denops/denops.vim",
             "delphinus/skkeleton_indicator.nvim",
+            "NI57721/skkeleton-henkan-highlight",
         },
         config = function()
             vim.cmd([[
@@ -587,6 +588,8 @@ require("lazy").setup({
         \ 'userDictionary': '~/.skkeleton',
         \ 'completionRankFile': '~/.skk/rank.json',
         \ 'eggLikeNewline': v:true,
+        \ 'markerHenkan': '',
+        \ 'markerHenkanSelect': ''
         \ })
         ]])
 
