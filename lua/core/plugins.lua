@@ -751,4 +751,39 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "gen740/SmoothCursor.nvim",
+        config = function()
+            require("smoothcursor").setup({
+                autostart = true,
+                cursor = "",
+                texthl = "SmoothCursor",
+                linehl = nil,
+                type = "default",
+                fancy = {
+                    enable = true,
+                    head = { cursor = "▷", texthl = "SmoothCursor", linehl = nil },
+                    body = {
+                        { cursor = "●", texthl = "SmoothCursorRed" },
+                        { cursor = "●", texthl = "SmoothCursorOrange" },
+                        { cursor = "●", texthl = "SmoothCursorYellow" },
+                        { cursor = "●", texthl = "SmoothCursorGreen" },
+                        { cursor = "•", texthl = "SmoothCursorAqua" },
+                        { cursor = ".", texthl = "SmoothCursorBlue" },
+                        { cursor = ".", texthl = "SmoothCursorPurple" },
+                    },
+                    tail = { cursor = nil, texthl = "SmoothCursor" },
+                },
+                flyin_effect = "bottom",
+                speed = 25,
+                intervals = 35,
+                priority = 10,
+                timeout = 3000,
+                threshold = 3,
+                disable_float_win = false,
+                enabled_filetypes = nil,
+                disabled_filetypes = { "help", "lazy" },
+            })
+        end,
+    },
 })
