@@ -81,9 +81,6 @@ require("lualine").setup({
                         return ""
                     end
                     local ft = vim.bo.filetype
-                    if ft == "NvimTree" then
-                        return "エクスプローラ"
-                    end
                     if ft == "alpha" then
                         return ""
                     end
