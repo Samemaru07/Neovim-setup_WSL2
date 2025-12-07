@@ -40,8 +40,16 @@ require("lazy").setup({
         },
         config = function()
             local lsp_settings = require("lsp.lsp")
-            local on_attach = lsp_settings.on_attach
             local capabilities = lsp_settings.capabilities
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+                callback = function(args)
+                    local bufnr = args.buf
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    require("lsp.lsp").on_attach(client, bufnr)
+                end,
+            })
 
             require("mason-lspconfig").setup({
                 ensure_installed = {
@@ -62,14 +70,12 @@ require("lazy").setup({
                 handlers = {
                     function(server_name)
                         require("lspconfig")[server_name].setup({
-                            on_attach = on_attach,
                             capabilities = capabilities,
                         })
                     end,
 
                     ["lua_ls"] = function()
                         require("lspconfig").lua_ls.setup({
-                            on_attach = on_attach,
                             capabilities = capabilities,
                             settings = {
                                 Lua = {
@@ -80,10 +86,6 @@ require("lazy").setup({
                     end,
                     ["texlab"] = function()
                         require("lspconfig").texlab.setup({
-                            on_attach = function(client, bufnr)
-                                client.server_capabilities.documentFormattingProvider = false
-                                on_attach(client, bufnr)
-                            end,
                             capabilities = capabilities,
                             settings = {
                                 texlab = {
@@ -95,7 +97,6 @@ require("lazy").setup({
                     end,
                     ["harper_ls"] = function()
                         require("lspconfig").harper_ls.setup({
-                            on_attach = on_attach,
                             capabilities = capabilities,
                             filetypes = {
                                 "tex",
@@ -132,17 +133,11 @@ require("lazy").setup({
 
                     ["sqls"] = function()
                         require("lspconfig").sqls.setup({
-                            on_attach = function(client, bufnr)
-                                client.server_capabilities.documentFormattingProvider = false
-                                client.server_capabilities.documentRangeFormattingProvider = false
-                                on_attach(client, bufnr)
-                            end,
                             capabilities = capabilities,
                         })
                     end,
                     ["vhdl_ls"] = function()
                         require("lspconfig").vhdl_ls.setup({
-                            on_attach = on_attach,
                             capabilities = capabilities,
                             cmd = { "vhdl_ls" },
                             filetypes = { "vhdl" },
@@ -151,7 +146,6 @@ require("lazy").setup({
                     end,
                     ["tsserver"] = function()
                         require("lspconfig").tsserver.setup({
-                            on_attach = on_attach,
                             capabilities = capabilities,
                             filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
                             init_options = {
@@ -167,10 +161,6 @@ require("lazy").setup({
                     ["svlangserver"] = function() end,
                     ["verible"] = function()
                         require("lspconfig").verible.setup({
-                            on_attach = function(client, bufnr)
-                                client.server_capabilities.documentDiagnosticProvider = false
-                                lsp_settings.on_attach(client, bufnr)
-                            end,
                             capabilities = lsp_settings.capabilities,
                         })
                     end,
@@ -269,9 +259,15 @@ require("lazy").setup({
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
-            require("telescope").load_extension("fzf")
             require("telescope").setup({
-                defaults = { file_ignore_patterns = { "node_modules", ".git/" } },
+                defaults = {
+                    file_ignore_patterns = { "node_modules", ".git/" },
+                    mappings = {
+                        i = {
+                            ["<C-j>"] = false,
+                        },
+                    },
+                },
             })
             local builtin = require("telescope.builtin")
             local opts = { noremap = true, silent = true }
