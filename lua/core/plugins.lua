@@ -793,4 +793,22 @@ require("lazy").setup({
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = {},
     },
+    {
+        "kylechui/nvim-surround",
+        version = "*",
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                surrounds = {
+                    ["q"] = {
+                        add = { '"', '"' },
+                        find = function()
+                            return require("nvim-surround.config").get_selection({ motion = 'a"' })
+                        end,
+                        delete = '^(")().-(")()$',
+                    },
+                },
+            })
+        end,
+    },
 })
