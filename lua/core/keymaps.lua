@@ -331,8 +331,8 @@ end, opts)
 
 vim.keymap.set("v", "u", "<Esc>u", { noremap = true, silent = true })
 
-vim.keymap.set("n", "y", "<C-r>", { noremap = true, silent = true })
-vim.keymap.set("v", "y", "<Esc><C-r>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "y", "<C-r>", { noremap = true, silent = true })
+-- vim.keymap.set("v", "y", "<Esc><C-r>", { noremap = true, silent = true })
 
 vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-h>", "db", { noremap = true, silent = true })
@@ -391,3 +391,9 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.keymap.set({ "i", "c" }, "<C-j>", [[<Plug>(skkeleton-toggle)]], { noremap = false })
+
+-- nvim-surround
+map("n", "<leader>w", "ysiw", { remap = true, desc = "Surround Word" })
+map("n", "<leader>W", "yss", { remap = true, desc = "Surround Line" })
+map("n", "<leader>dq", "dsq", { remap = true, desc = "Delete Quotes" })
+map("n", "<leader>cq", "csq", { remap = true, desc = "Change Quote to ()" })
