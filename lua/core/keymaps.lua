@@ -331,6 +331,7 @@ end, opts)
 
 vim.keymap.set("v", "u", "<Esc>u", { noremap = true, silent = true })
 
+-- TODO: Redoの操作要検討
 -- vim.keymap.set("n", "y", "<C-r>", { noremap = true, silent = true })
 -- vim.keymap.set("v", "y", "<Esc><C-r>", { noremap = true, silent = true })
 
