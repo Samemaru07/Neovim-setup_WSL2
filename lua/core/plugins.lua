@@ -840,4 +840,9 @@ require("lazy").setup({
             },
         },
     },
+    {
+        "j-hui/fidget.nvim",
+        event = "LspAttach",
+        opts = {},
+    },
 })
