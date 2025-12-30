@@ -431,22 +431,12 @@ require("lazy").setup({
                 options = {
                     "-pdf",
                     "-lualatex",
-                    "-bibtex",
                     "-synctex=1",
                     "-interaction=nonstopmode",
                     "-e '$latexmk_use_gzip_synctex = 0'",
                     "-shell-escape",
                 },
             }
-            vim.g.vimtex_view_zathura_update_view_cb = function(self)
-                vim.fn.system("sleep 0.3")
-                if self.pid and self.pid > 0 then
-                    vim.fn.system("kill -HUP " .. self.pid .. " >/dev/null 2>&1")
-                else
-                    local user = vim.fn.expand("$USER")
-                    vim.fn.system("killall -HUP -u " .. user .. " zathura >/dev/null 2>&1")
-                end
-            end
         end,
     },
 
