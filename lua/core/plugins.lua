@@ -790,6 +790,10 @@ require("lazy").setup({
         event = "VeryLazy",
         config = function()
             require("nvim-surround").setup({
+                keymaps = {
+                    insert = false,
+                    insert_line = false,
+                },
                 surrounds = {
                     ["q"] = {
                         add = { '"', '"' },
