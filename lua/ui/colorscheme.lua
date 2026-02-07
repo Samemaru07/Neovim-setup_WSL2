@@ -37,6 +37,8 @@
 --     end,
 -- })
 
+local colorscheme_group = vim.api.nvim_create_augroup("CustomColorscheme", { clear = true })
+
 require("catppuccin").setup({
     flavour = "frappe",
     transparent_background = true,
@@ -88,37 +90,18 @@ require("catppuccin").setup({
             },
         },
     },
-    custom_highlights = function(colors)
-        return {
-            String = { fg = colors.rosewater },
-            Character = { fg = colors.rosewater },
-            Number = { fg = colors.peach },
-            Boolean = { fg = colors.peach },
-            Float = { fg = colors.peach },
-            Type = { fg = colors.flamingo },
-            Structure = { fg = colors.flamingo },
-            StorageClass = { fg = colors.flamingo },
-            Identifier = { fg = colors.text },
-            Constant = { fg = colors.peach },
-
-            NormalFloat = { bg = colors.mantle },
-            FloatBorder = { bg = colors.mantle, fg = colors.lavender },
-
-            SkkeletonIndicatorEiji = { fg = colors.base, bg = colors.lavender },
-            SkkeletonIndicatorHira = { fg = colors.base, bg = colors.rosewater },
-            SkkeletonIndicatorKata = { fg = colors.base, bg = colors.flamingo },
-            SkkeletonIndicatorHankata = { fg = colors.base, bg = colors.pink },
-            SkkeletonHenkan = { fg = colors.rosewater, underline = true },
-        }
-    end,
 })
 
 vim.cmd.colorscheme("catppuccin")
 
-vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#9399b2", force = true })
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#e5c890", bold = true, force = true })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = colorscheme_group,
+    pattern = "*",
     callback = function()
         local colors = require("catppuccin.palettes").get_palette("frappe")
-
         if colors then
             vim.api.nvim_set_hl(0, "IndentRainbow1", { fg = colors.rosewater, nocombine = true })
             vim.api.nvim_set_hl(0, "IndentRainbow2", { fg = colors.flamingo, nocombine = true })
@@ -127,5 +110,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
             vim.api.nvim_set_hl(0, "IndentRainbow5", { fg = colors.lavender, nocombine = true })
             vim.api.nvim_set_hl(0, "IndentRainbow6", { fg = colors.text, nocombine = true })
         end
+        --念のため再適用
+        vim.api.nvim_set_hl(0, "LineNr", { fg = "#9399b2", force = true })
+        vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#e5c890", bold = true, force = true })
     end,
 })
