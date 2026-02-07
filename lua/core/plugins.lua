@@ -469,7 +469,6 @@ require("lazy").setup({
             })
         end,
     },
-
     {
         "folke/noice.nvim",
         lazy = false,
@@ -480,9 +479,6 @@ require("lazy").setup({
         config = function()
             require("notify").setup({
                 background_colour = "#000000",
-            })
-
-            require("notify").setup({
                 stages = "fade_in_slide_out",
                 timeout = 2000,
                 fps = 60,
@@ -494,6 +490,12 @@ require("lazy").setup({
                     DEBUG = "🐞",
                     TRACE = "🔍",
                 },
+                on_open = function()
+                    vim.fn.jobstart({
+                        "paplay",
+                        "/usr/share/sounds/freedesktop/stereo/complete.oga",
+                    }, { detach = true })
+                end,
             })
 
             require("noice").setup({
