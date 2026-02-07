@@ -1,5 +1,7 @@
 vim.o.number = true
-vim.o.relativenumber = false
+vim.o.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
 vim.o.termguicolors = true
 
 -- インデント設定
