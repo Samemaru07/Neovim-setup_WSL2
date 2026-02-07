@@ -394,6 +394,8 @@ vim.api.nvim_create_autocmd("User", {
         vim.fn["skkeleton#register_keymap"]("input", "q", "katakana")
         vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
         vim.fn["skkeleton#register_keymap"]("input", "<C-j>", "disable")
+        vim.fn["skkeleton#register_keymap"]("input", "<C-g>", "escape")
+        vim.fn["skkeleton#register_keymap"]("henkan", "<C-g>", "escape")
     end,
 })
 
