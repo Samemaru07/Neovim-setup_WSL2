@@ -107,3 +107,16 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.bo.filetype = "verilog"
     end,
 })
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = vim.fn.stdpath("config") .. "/**/*.lua",
+    callback = function()
+        for name, _ in pairs(package.loaded) do
+            if name:match("^core") or name:match("^ui") or name:match("^lsp") or name:match("^cmp") then
+                package.loaded[name] = nil
+            end
+        end
+        dofile(vim.fn.stdpath("config") .. "/init.lua")
+        vim.notify("Neovim Config Auto-Reloaded!", vim.log.levels.INFO, { title = "Config" })
+    end,
+})
