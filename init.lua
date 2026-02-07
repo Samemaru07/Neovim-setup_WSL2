@@ -108,15 +108,48 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     end,
 })
 
+local nvim_reload_group = vim.api.nvim_create_augroup("NvimConfigReload", { clear = true })
+
 vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = vim.fn.stdpath("config") .. "/**/*.lua",
+    group = nvim_reload_group,
+    pattern = {
+        vim.fn.stdpath("config") .. "/*.lua",
+        vim.fn.stdpath("config") .. "/**/*.lua",
+    },
     callback = function()
         for name, _ in pairs(package.loaded) do
-            if name:match("^core") or name:match("^ui") or name:match("^lsp") or name:match("^cmp") then
+            if
+                name ~= "core.plugins"
+                and (
+                    name:match("^core")
+                    or name:match("^ui")
+                    or name:match("^lsp")
+                    or name:match("^cmp")
+                    or name:match("^snippets")
+                    or name == "nvim-web-devicons"
+                    or name == "bufferline"
+                    or name == "lualine"
+                )
+            then
                 package.loaded[name] = nil
             end
         end
-        dofile(vim.fn.stdpath("config") .. "/init.lua")
-        vim.notify("Neovim Config Auto-Reloaded!", vim.log.levels.INFO, { title = "Config" })
+
+        local ok, err = pcall(dofile, vim.fn.stdpath("config") .. "/init.lua")
+
+        if ok then
+            vim.schedule(function()
+                pcall(function()
+                    require("nvim-web-devicons").setup()
+                    vim.api.nvim_command("colorscheme catppuccin")
+                    require("ui.bufferline")
+                    require("ui.lualine")
+                    require("nvim-tree.api").tree.reload()
+                end)
+            end)
+            vim.notify("🚀 設定を自動リロードしました！", vim.log.levels.INFO, { title = "Config" })
+        else
+            vim.notify("❌ リロード失敗: " .. err, vim.log.levels.ERROR, { title = "Config Error" })
+        end
     end,
 })
