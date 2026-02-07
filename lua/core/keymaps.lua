@@ -18,6 +18,7 @@ map("v", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
 map("c", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
 map("s", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
 map("o", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("n", "<C-g>", "<Nop>", { noremap = true, silent = true, nowait = true })
 
 map("t", "<C-Right>", "\x1bf")
 map("t", "<C-Left>", "\x1bb")
