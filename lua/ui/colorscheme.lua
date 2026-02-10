@@ -65,6 +65,7 @@ require("kanagawa").setup({
             -- タブライン全体のベース背景を透明化
             TabLineFill = { bg = "none" },
             TabLine = { bg = "none" },
+            Visual = { bg = "#82827F" },
         }
     end,
 })
@@ -118,6 +119,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = "#abb5ff" })
         vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = "#abb5ff" })
         vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = "#abb5ff", bold = true })
+
+        -- Visualモードの選択範囲を見やすくする
+        vim.api.nvim_set_hl(0, "Visual", { bg = "#82827F", bold = true })
 
         vim.schedule(update_bufferline_bg)
     end,
