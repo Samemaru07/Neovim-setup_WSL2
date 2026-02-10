@@ -141,7 +141,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
             vim.schedule(function()
                 pcall(function()
                     require("nvim-web-devicons").setup()
-                    vim.api.nvim_command("colorscheme catppuccin")
+                    vim.api.nvim_command("colorscheme kanagawa")
                     require("ui.bufferline")
                     require("ui.lualine")
                     require("nvim-tree.api").tree.reload()
@@ -150,6 +150,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
             vim.notify("🚀 設定を自動リロードしました！", vim.log.levels.INFO, { title = "Config" })
         else
             vim.notify("❌ リロード失敗: " .. err, vim.log.levels.ERROR, { title = "Config Error" })
+        end
+    end,
+})
+
+-- Automatically reload tmux config on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = os.getenv("HOME") .. "/.tmux.conf",
+    callback = function()
+        local output = vim.fn.system("tmux source-file " .. os.getenv("HOME") .. "/.tmux.conf")
+        if vim.v.shell_error == 0 then
+            vim.notify("Tmux configuration reloaded!", vim.log.levels.INFO, { title = "Tmux" })
+        else
+            vim.notify("Failed to reload tmux configuration: " .. output, vim.log.levels.ERROR, { title = "Tmux" })
         end
     end,
 })

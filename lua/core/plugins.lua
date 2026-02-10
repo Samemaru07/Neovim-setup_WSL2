@@ -176,6 +176,13 @@ require("lazy").setup({
         priority = 1000,
         opts = {},
     },
+
+    {
+        "rebelot/kanagawa.nvim",
+        priority = 1000,
+        lazy = false,
+        -- config moved to ui/colorscheme.lua
+    },
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
