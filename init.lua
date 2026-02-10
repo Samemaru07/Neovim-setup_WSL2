@@ -107,3 +107,62 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.bo.filetype = "verilog"
     end,
 })
+
+local nvim_reload_group = vim.api.nvim_create_augroup("NvimConfigReload", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group = nvim_reload_group,
+    pattern = {
+        vim.fn.stdpath("config") .. "/*.lua",
+        vim.fn.stdpath("config") .. "/**/*.lua",
+    },
+    callback = function()
+        for name, _ in pairs(package.loaded) do
+            if
+                name ~= "core.plugins"
+                and (
+                    name:match("^core")
+                    or name:match("^ui")
+                    or name:match("^lsp")
+                    or name:match("^cmp")
+                    or name:match("^snippets")
+                    or name == "nvim-web-devicons"
+                    or name == "bufferline"
+                    or name == "lualine"
+                )
+            then
+                package.loaded[name] = nil
+            end
+        end
+
+        local ok, err = pcall(dofile, vim.fn.stdpath("config") .. "/init.lua")
+
+        if ok then
+            vim.schedule(function()
+                pcall(function()
+                    require("nvim-web-devicons").setup()
+                    vim.api.nvim_command("colorscheme kanagawa")
+                    require("ui.bufferline")
+                    require("ui.lualine")
+                    require("nvim-tree.api").tree.reload()
+                end)
+            end)
+            vim.notify("🚀 設定を自動リロードしました！", vim.log.levels.INFO, { title = "Config" })
+        else
+            vim.notify("❌ リロード失敗: " .. err, vim.log.levels.ERROR, { title = "Config Error" })
+        end
+    end,
+})
+
+-- Automatically reload tmux config on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = os.getenv("HOME") .. "/.tmux.conf",
+    callback = function()
+        local output = vim.fn.system("tmux source-file " .. os.getenv("HOME") .. "/.tmux.conf")
+        if vim.v.shell_error == 0 then
+            vim.notify("Tmux configuration reloaded!", vim.log.levels.INFO, { title = "Tmux" })
+        else
+            vim.notify("Failed to reload tmux configuration: " .. output, vim.log.levels.ERROR, { title = "Tmux" })
+        end
+    end,
+})

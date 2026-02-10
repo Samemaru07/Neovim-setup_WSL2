@@ -176,6 +176,13 @@ require("lazy").setup({
         priority = 1000,
         opts = {},
     },
+
+    {
+        "rebelot/kanagawa.nvim",
+        priority = 1000,
+        lazy = false,
+        -- config moved to ui/colorscheme.lua
+    },
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -469,7 +476,6 @@ require("lazy").setup({
             })
         end,
     },
-
     {
         "folke/noice.nvim",
         lazy = false,
@@ -480,9 +486,6 @@ require("lazy").setup({
         config = function()
             require("notify").setup({
                 background_colour = "#000000",
-            })
-
-            require("notify").setup({
                 stages = "fade_in_slide_out",
                 timeout = 2000,
                 fps = 60,
@@ -494,6 +497,12 @@ require("lazy").setup({
                     DEBUG = "🐞",
                     TRACE = "🔍",
                 },
+                on_open = function()
+                    vim.fn.jobstart({
+                        "paplay",
+                        "/usr/share/sounds/freedesktop/stereo/complete.oga",
+                    }, { detach = true })
+                end,
             })
 
             require("noice").setup({
@@ -581,29 +590,30 @@ require("lazy").setup({
         \ 'userDictionary': '~/.skkeleton',
         \ 'completionRankFile': '~/.skk/rank.json',
         \ 'eggLikeNewline': v:true,
-        \ 'markerHenkan': '',
-        \ 'markerHenkanSelect': ''
+        \ 'markerHenkan': '▼',
+        \ 'markerHenkanSelect': '▼'
         \ })
         ]])
-
-            vim.cmd([[
-  highlight SkkeletonIndicatorEiji guifg=#000000 guibg=#fffff0
-  highlight SkkeletonIndicatorHira guifg=#000000 guibg=#f0fff0
-  highlight SkkeletonIndicatorKata guifg=#000000 guibg=#f5fffa
-  highlight SkkeletonIndicatorHankata guifg=#000000 guibg=#f0ffff
-]])
 
             require("skkeleton_indicator").setup({
                 eijiText = "英数",
                 hiraText = "かな",
                 kataText = "カタカナ",
                 hankataText = "半ｶﾀ",
-                hl = {
-                    eiji = { fg = "#000000", bg = "#fffff0" },
-                    hira = { fg = "#000000", bg = "#f0fff0" },
-                    kata = { fg = "#000000", bg = "#e0ffff" },
-                    hankata = { fg = "#000000", bg = "#fff8dc" },
-                },
+            })
+
+            local function set_skk_indicators()
+                vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = "#1e1e2e", bg = "#89b4fa", bold = true })
+                vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = "#1e1e2e", bg = "#a6e3a1", bold = true })
+                vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = "#1e1e2e", bg = "#f9e2af", bold = true })
+                vim.api.nvim_set_hl(0, "SkkeletonIndicatorHankata", { fg = "#1e1e2e", bg = "#cba6f7", bold = true })
+            end
+
+            set_skk_indicators()
+
+            vim.api.nvim_create_autocmd("ColorScheme", {
+                pattern = "*",
+                callback = set_skk_indicators,
             })
         end,
     },
@@ -790,6 +800,10 @@ require("lazy").setup({
         event = "VeryLazy",
         config = function()
             require("nvim-surround").setup({
+                keymaps = {
+                    insert = false,
+                    insert_line = false,
+                },
                 surrounds = {
                     ["q"] = {
                         add = { '"', '"' },

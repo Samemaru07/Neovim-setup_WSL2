@@ -12,7 +12,13 @@ map("t", "<C-h>", "<C-\\><C-n><C-w>h<cmd>checktime<CR>", opts)
 map("t", "<C-j>", "<C-\\><C-n><C-w>j<cmd>checktime<CR>", opts)
 map("t", "<C-k>", "<C-\\><C-n><C-w>k<cmd>checktime<CR>", opts)
 map("t", "<C-l>", "<C-\\><C-n><C-w>l<cmd>checktime<CR>", opts)
-map("t", "<Esc>", "<C-\\><C-n>", opts)
+map("t", "<C-g>", "<C-\\><C-n>", { noremap = true, silent = true, nowait = true })
+map("i", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("v", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("c", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("s", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("o", "<C-g>", "<Esc>", { noremap = true, silent = true, nowait = true })
+map("n", "<C-g>", "<Nop>", { noremap = true, silent = true, nowait = true })
 
 map("t", "<C-Right>", "\x1bf")
 map("t", "<C-Left>", "\x1bb")
@@ -388,6 +394,8 @@ vim.api.nvim_create_autocmd("User", {
         vim.fn["skkeleton#register_keymap"]("input", "q", "katakana")
         vim.fn["skkeleton#register_keymap"]("input", "Q", "hankatakana")
         vim.fn["skkeleton#register_keymap"]("input", "<C-j>", "disable")
+        vim.fn["skkeleton#register_keymap"]("input", "<C-g>", "escape")
+        vim.fn["skkeleton#register_keymap"]("henkan", "<C-g>", "escape")
     end,
 })
 
