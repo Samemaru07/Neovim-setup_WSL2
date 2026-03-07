@@ -413,6 +413,8 @@ require("lazy").setup({
                     bib = { "latexindent" },
                     verilog = { "verible-verilog-format", lsp_fallback = false },
                     go = { "goimports" },
+                    json = { "prettier" },
+                    jsonc = { "prettier" }
                 },
                 formatters = {
                     ["verible-verilog-format"] = {
@@ -423,6 +425,9 @@ require("lazy").setup({
                         command = "latexindent",
                         timeout_ms = 10000,
                     },
+                    prettier = {
+                        prepend_args = { "--trailing-comma", "none", "--tab-width", "4" }
+                    }
                 },
             })
         end,
