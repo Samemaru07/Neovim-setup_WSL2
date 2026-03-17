@@ -34,10 +34,8 @@ cmp.setup({
 		end, { "i", "s", "c" }),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() and cmp.get_selected_entry() then
-				cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-			elseif cmp.visible() then
-				cmp.select_next_item()
+			if cmp.visible() then
+				cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
 			elseif luasnip.expandable() then
 				luasnip.expand()
 			elseif luasnip.expand_or_jumpable() then
