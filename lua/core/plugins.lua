@@ -563,6 +563,10 @@ require("lazy").setup({
 						filter = { event = "msg_show", kind = "diagnostic" },
 						opts = { skip = true },
 					},
+					{
+						filter = { event = "msg_show", kind = "", find = "No formatters available" },
+						opts = { skip = true },
+					},
 				},
 				messages = {
 					view = "notify",
