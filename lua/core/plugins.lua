@@ -429,11 +429,6 @@ require("lazy").setup({
 					prettier = {
 						prepend_args = { "--trailing-comma", "none", "--tab-width", "4" },
 					},
-					qmlformat = {
-						command = "qmlformat",
-						args = { "--indent-width", "4", "-" },
-						stdin = true,
-					},
 				},
 			})
 		end,
