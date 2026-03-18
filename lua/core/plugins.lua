@@ -11,22 +11,23 @@ require("lazy").setup({
 	{
 		"williamboman/mason.nvim",
 		config = function()
-			require("mason").setup({
+			require("mason").setup()
+		end,
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "williamboman/mason.nvim" },
+		config = function()
+			require("mason-tool-installer").setup({
 				ensure_installed = {
-					"texlab",
-					"sqls",
-					"verible-verilog-format",
-					"gopls",
-					"goimports",
 					"prettier",
-					"ruff",
-					"black",
-					"clang_format",
-					"laravel-pint",
 					"stylua",
-					"shfmt",
 					"latexindent",
-					"harper_ls",
+					"cpptools",
+					"debugpy",
+					"delve",
+					"jq",
+					"jsonnetfmt",
 				},
 			})
 		end,
