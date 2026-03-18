@@ -25,9 +25,8 @@ vim.o.ttimeoutlen = 50
 vim.o.timeoutlen = 500
 
 vim.o.scrolloff = 2
-
+vim.o.wrap = false
 vim.o.autoread = true
-
 vim.o.cmdheight = 0
 
 vim.diagnostic.config({
