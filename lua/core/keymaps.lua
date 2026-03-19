@@ -26,12 +26,24 @@ map("t", "<C-Left>", "\x1bb")
 
 local function format_and_save()
     local conform = require("conform")
-
     conform.format({ quiet = true }, function(err)
         if err and not err:find("No formatters available") then
             vim.notify("Conform (Format): " .. err, vim.log.levels.Error)
         end
         vim.cmd("write")
+
+        -- .pdeファイルのときだけ実行
+        if vim.bo.filetype == "processing" then
+            local dir = vim.fn.expand("%:p:h")
+            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run", {
+                detach = true,
+                env = {
+                    DISPLAY = ":0",
+                    WAYLAND_DISPLAY = vim.env.WAYLAND_DISPLAY,
+                    XDG_RUNTIME_DIR = vim.env.XDG_RUNTIME_DIR,
+                },
+            })
+        end
     end)
 end
 
