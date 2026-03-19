@@ -35,7 +35,30 @@ local function format_and_save()
         -- .pdeファイルのときだけ実行
         if vim.bo.filetype == "processing" then
             local dir = vim.fn.expand("%:p:h")
-            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run")
+            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run", {
+                stderr_buffered = true,
+                on_stderr = function(_, data)
+                    if data and #data > 0 then
+                        local items = {}
+                        for _, line in ipairs(data) do
+                            local file, lnum, col, msg = line:match("(.+):(%d+):(%d+):%d+:%d+: (.+)")
+                            if file and lnum then
+                                table.insert(items, {
+                                    filename = file,
+                                    lnum = tonumber(lnum),
+                                    col = tonumber(col),
+                                    text = msg,
+                                    type = "E",
+                                })
+                            end
+                        end
+                        if #items > 0 then
+                            vim.fn.setqflist(items)
+                            vim.cmd("copen")
+                        end
+                    end
+                end,
+            })
         end
     end)
 end
