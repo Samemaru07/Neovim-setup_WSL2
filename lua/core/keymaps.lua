@@ -24,18 +24,25 @@ map("n", "<C-g>", "<Nop>", { noremap = true, silent = true, nowait = true })
 map("t", "<C-Right>", "\x1bf")
 map("t", "<C-Left>", "\x1bb")
 
+local processing_job_id = nil
+
 local function format_and_save()
     local conform = require("conform")
     conform.format({ quiet = true }, function(err)
         if err and not err:find("No formatters available") then
-            vim.notify("Conform (Format): " .. err, vim.log.levels.Error)
+            vim.fn.setqflist({ { text = "Conform: " .. err, type = "E" } })
+            vim.cmd("copen")
         end
         vim.cmd("write")
 
-        -- .pdeファイルのときだけ実行
         if vim.bo.filetype == "processing" then
+            -- 既存のジョブをkill
+            if processing_job_id then
+                vim.fn.jobstop(processing_job_id)
+            end
+
             local dir = vim.fn.expand("%:p:h")
-            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run", {
+            processing_job_id = vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run", {
                 stderr_buffered = true,
                 on_stderr = function(_, data)
                     if data and #data > 0 then
