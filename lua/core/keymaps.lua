@@ -35,14 +35,7 @@ local function format_and_save()
         -- .pdeファイルのときだけ実行
         if vim.bo.filetype == "processing" then
             local dir = vim.fn.expand("%:p:h")
-            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run", {
-                detach = true,
-                env = {
-                    DISPLAY = ":0",
-                    WAYLAND_DISPLAY = vim.env.WAYLAND_DISPLAY,
-                    XDG_RUNTIME_DIR = vim.env.XDG_RUNTIME_DIR,
-                },
-            })
+            vim.fn.jobstart("processing-java --sketch=" .. dir .. " --run")
         end
     end)
 end
