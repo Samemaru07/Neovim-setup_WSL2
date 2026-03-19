@@ -59,6 +59,7 @@ return {
                     json = { "prettier" },
                     jsonc = { "prettier" },
                     qml = { "qmlformat" },
+                    processing = { "clang_format" },
                 },
                 formatters = {
                     ["verible-verilog-format"] = {
